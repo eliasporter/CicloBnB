@@ -1,11 +1,12 @@
 package com.example.ciclobnb.BBDD;
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
 
 
-@Entity(tableName = "word_table")
+
+@Entity(tableName = "Usuari")
 public class Usser {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "IdUser")

@@ -12,8 +12,11 @@ import java.util.List;
 @Dao
 public interface UsserDAO {
 
-    @Query("SELECT * FROM word_table WHERE IdUser = :identificador")
+    @Query("SELECT * FROM usuari WHERE IdUser = :identificador")
     LiveData<Usser> getWord(int identificador);
+
+    @Query("SELECT * FROM usuari WHERE contrasenya= :pass AND login= :login")
+    Usser getLogin(String login,String pass);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Usser user);
@@ -23,7 +26,7 @@ public interface UsserDAO {
 
 
 
-    @Query("DELETE FROM word_table")
+    @Query("DELETE FROM usuari")
     void deleteAll();
 
 }
