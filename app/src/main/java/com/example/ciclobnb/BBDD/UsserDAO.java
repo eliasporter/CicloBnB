@@ -13,16 +13,16 @@ import java.util.List;
 public interface UsserDAO {
 
     @Query("SELECT * FROM usuari WHERE IdUser = :identificador")
-    LiveData<Usser> getWord(int identificador);
+    LiveData<UsserBBDD> getWord(int identificador);
 
     @Query("SELECT * FROM usuari WHERE contrasenya= :pass AND login= :login")
-    Usser getLogin(String login,String pass);
+    UsserBBDD getLogin(String login,String pass);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Usser user);
+    void insert(UsserBBDD user);
 
     @Update
-    void update(Usser user);
+    void update(UsserBBDD user);
 
 
 

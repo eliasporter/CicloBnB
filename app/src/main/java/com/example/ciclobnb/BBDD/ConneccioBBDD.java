@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-@Database(entities = {Usser.class}, version = 2, exportSchema = false)
+@Database(entities = {UsserBBDD.class}, version = 2, exportSchema = false)
 
 abstract class ConneccioBBDD extends RoomDatabase {
         abstract UsserDAO userDao();
@@ -47,7 +47,7 @@ abstract class ConneccioBBDD extends RoomDatabase {
                                 UsserDAO dao = INSTANCE.userDao();
                                 dao.deleteAll();
 
-                                Usser user = new Usser("Norbert","Aguilera","Capdevila","norman","1234","20/08/2003","naca605@gmail.com",true,1);
+                                UsserBBDD user = new UsserBBDD("Norbert","Aguilera","Capdevila","norman","1234","20/08/2003","naca605@gmail.com",true,1);
                                // @NonNull String cognom2, @NonNull String login, @NonNull String contrasenya, @NonNull String dataNaixement, @NonNull String correuElectronic, @NonNull Boolean actiu, int idDireccio
                                 dao.insert(user);
 

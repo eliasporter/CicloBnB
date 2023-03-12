@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 
 @Entity(tableName = "Usuari")
-public class Usser {
+public class UsserBBDD {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "IdUser")
     private int IdUser;
@@ -128,7 +128,7 @@ public class Usser {
         this.idDireccio = idDireccio;
     }
 
-    public Usser( @NonNull String nom, @NonNull String cognom1, @NonNull String cognom2, @NonNull String login, @NonNull String contrasenya, @NonNull String dataNaixement, @NonNull String correuElectronic, @NonNull Boolean actiu, int idDireccio) {
+    public UsserBBDD( @NonNull String nom, @NonNull String cognom1, @NonNull String cognom2, @NonNull String login, @NonNull String contrasenya, @NonNull String dataNaixement, @NonNull String correuElectronic, @NonNull Boolean actiu, int idDireccio) {
         //IdUser = idUser;
         this.nom = nom;
         this.cognom1 = cognom1;
