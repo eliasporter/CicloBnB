@@ -46,7 +46,7 @@
                 android:gravity="center_vertical"
                 >
                 <TextView
-                    android:id="@+id/personaNomCognoms"
+                    android:id="@+id/loginPers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="italic"
@@ -55,21 +55,31 @@
                     android:layout_gravity="center"
                     ></TextView>
                 <TextView
-                    android:id="@+id/personaEmail"
+                    android:id="@+id/tipusBici"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:minHeight="10dp"
-                    android:text="Email"
+                    android:text="Tipus"
+                    android:layout_gravity="center"
+                    ></TextView>
+
+                <TextView
+                    android:id="@+id/descripcioBici"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:minHeight="10dp"
+                    android:text="Descripcio"
                     android:layout_gravity="center"
                     ></TextView>
                 <TextView
-                    android:id="@+id/personaContrasenya"
+                    android:id="@+id/direccioBici"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:minHeight="10dp"
-                    android:text="Contrasenya"
+                    android:text="Direccio"
                     android:layout_gravity="center"
                     ></TextView>
             </LinearLayout>

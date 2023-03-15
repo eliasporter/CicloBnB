@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Perfil_usuari"
+    android:background="@color/blauCel"
+    >
+
+    <TextView
+        android:id="@+id/TittleMevesBicis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="19dp"
+        android:text="Les meves Bicicletes:"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="369dp"
+        android:layout_height="340dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="30dp"
+            android:text="Editar" />
+
+        <TextView
+            android:id="@+id/TitleDades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Dades de l'usuari:"
+            />
+        <TextView
+            android:id="@+id/nomLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="50dp"
+            android:text="Nom_User_Login" />
+        <TextView
+            android:id="@+id/nomCognoms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="75dp"
+            android:text="Nom i Cognoms" />
+        <TextView
+            android:id="@+id/direccioLloger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="100dp"
+            android:text="Direccio lloger" />
+        <TextView
+            android:id="@+id/MostraQuali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="170dp"
+            android:textStyle="bold"
+            android:text="Qualificació:" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="150dp"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Garatge"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="230dp"
+            />
+        <Button
+            android:id="@+id/llogersButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lloguers"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="230dp"
+            />
+        <Button
+            android:id="@+id/xatsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xats"
+            android:layout_marginStart="258dp"
+            android:layout_marginTop="230dp"
+            />
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="363dp"
+        android:layout_height="297dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navigationView"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
