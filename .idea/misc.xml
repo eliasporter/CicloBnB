@@ -13,10 +13,13 @@
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1225" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_bici_per_llogar.xml" value="0.11145833333333334" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_crear_compte.xml" value="0.2" />
-        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_garatge.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_editar_perfil_user.xml" value="0.4" />
+        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_garatge.xml" value="0.1" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_perfil_usuari.xml" value="0.264" />
-        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_primera_pantalla.xml" value="0.4" />
+        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/activity_primera_pantalla.xml" value="0.2962962962962963" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/bici_card.xml" value="0.536" />
+        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/bici_per_garatge.xml" value="0.25" />
+        <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/disponibilitats_text.xml" value="0.10885416666666667" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/layout/login_activity.xml" value="0.2" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/menu/menu_principal.xml" value="0.2" />
         <entry key="..\:/Users/naca6/AndroidStudioProjects/CicloBnB/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.121" />

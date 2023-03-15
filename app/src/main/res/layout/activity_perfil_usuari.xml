@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Perfil_usuari"
+    tools:context=".PerfilUsuari"
     android:background="@color/blauCel"
     >
 
@@ -87,7 +87,7 @@
             android:layout_marginTop="150dp"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/botoGaratge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Garatge"
@@ -125,6 +125,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/navigationView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/bici_card"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

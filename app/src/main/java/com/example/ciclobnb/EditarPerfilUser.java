@@ -3,32 +3,24 @@ package com.example.ciclobnb;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout.LayoutParams;
-
-
-import android.os.Bundle;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class PerfilUsuari extends AppCompatActivity implements View.OnClickListener {
-    Button edita, garatge;
+public class EditarPerfilUser extends AppCompatActivity implements View.OnClickListener {
+    Button guarda,cancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil_usuari);
-        edita=(Button) findViewById(R.id.edit);
-        edita.setOnClickListener(this);
-        garatge=findViewById(R.id.botoGaratge);
-        garatge.setOnClickListener(this);
-       /* LayoutParams params = new LayoutParams(
-                LayoutParams.WRAP_CONTENT, // ancho
-                80 // altura en píxeles
-        );
-        edita.setLayoutParams(params);*/
+        setContentView(R.layout.activity_editar_perfil_user);
+        guarda=(Button) findViewById(R.id.guardaUserEditat);
+        guarda.setOnClickListener(this);
+        cancel=findViewById(R.id.cancelaEditUser);
+        cancel.setOnClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,13 +43,21 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.equals(edita)){
-            Intent i= new Intent(PerfilUsuari.this,EditarPerfilUser.class);
+        if(v.equals(guarda)){
+            Intent i = new Intent(this,PerfilUsuari.class);
+            if(desar()){
+                Toast.makeText(getApplicationContext(), "Desat correctament", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "No s'han pogut desar les noves dades", Toast.LENGTH_SHORT).show();
+            }
             startActivity(i);
-        }else if(v.equals(garatge)){
-            Intent i= new Intent(PerfilUsuari.this,Garatge.class);
+        }else if(v.equals(cancel)){
+            Intent i = new Intent(this,PerfilUsuari.class);
             startActivity(i);
         }
+    }
 
+    public boolean desar() {//aquí guardadem com ho desem, i si sh'a desat o no
+        return true;
     }
 }
