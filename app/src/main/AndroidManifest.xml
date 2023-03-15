@@ -12,6 +12,9 @@
         android:theme="@style/Theme.CicloBnB"
         tools:targetApi="33">
         <activity
+            android:name=".EditarPerfilUser"
+            android:exported="false" />
+        <activity
             android:name=".Garatge"
             android:exported="false" />
         <activity

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditarPerfilUser"
+    android:background="@color/blauCel">
+
+
+    <Button
+        android:id="@+id/guardaUserEditat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="64dp"
+        android:text="Guardar"
+        app:backgroundTint="#FF9800"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarEdit" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="369dp"
+        android:layout_height="540dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <EditText
+            android:id="@+id/editMail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="300dp"
+            android:inputType="textEmailAddress" />
+
+
+        <EditText
+            android:id="@+id/editpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="200dp"
+            android:inputType="textPassword"
+            android:text="" />
+        <EditText
+            android:id="@+id/editpasswordCopia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="250dp"
+            android:inputType="textPassword"
+            android:text=""
+            />
+        <EditText
+            android:id="@+id/editNom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="100dp"
+            android:inputType="textPersonName"
+            android:text="" />
+        <EditText
+            android:id="@+id/editCognom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="150dp"
+            android:inputType="textPersonName"
+            android:text="" />
+        <EditText
+            android:id="@+id/editNomLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="50dp"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/dataNaixement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="350dp"
+            android:inputType="date"
+            android:hint="DD/MM/YYYY"/>
+
+        <EditText
+            android:id="@+id/ibanEdita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="400dp"
+            android:inputType="textPersonName"
+            android:text="" />
+        <EditText
+            android:id="@+id/direccioEdita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="450dp"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="70dp"
+            app:layout_constraintStart_toStartOf="@+id/editNomLogin"
+            android:text="Nom d'usuari:" />
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="120dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Nom:" />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="170dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Cognoms:" />
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="220dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Contrasenya:" />
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="270dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Contrasenya:" />
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="320dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="e-mail:" />
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="370dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Naixement:" />
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="420dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="IBAN:" />
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="470dp"
+            app:layout_constraintStart_toEndOf="@+id/editNom"
+            android:text="Direcció:" />
+
+
+
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <TextView
+        android:id="@+id/mostraQuali"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Qualificació:"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBarEdit"
+        app:layout_constraintTop_toBottomOf="@+id/navigationView" />
+
+    <RatingBar
+        android:id="@+id/ratingBarEdit"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navigationView" />
+
+    <Button
+        android:id="@+id/cancelaEditUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="36dp"
+        android:text="Cancelar"
+        app:backgroundTint="#FF9800"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarEdit" />
+</androidx.constraintlayout.widget.ConstraintLayout>

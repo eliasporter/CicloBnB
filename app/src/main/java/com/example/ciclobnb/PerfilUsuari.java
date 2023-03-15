@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
 
 
@@ -13,13 +14,14 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class PerfilUsuari extends AppCompatActivity {
+public class PerfilUsuari extends AppCompatActivity implements View.OnClickListener {
     Button edita, garatge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuari);
         edita=(Button) findViewById(R.id.edit);
+        edita.setOnClickListener(this);
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho
                 80 // altura en píxeles
@@ -43,5 +45,14 @@ public class PerfilUsuari extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.equals(edita)){
+            Intent i= new Intent(PerfilUsuari.this,EditarPerfilUser.class);
+            startActivity(i);
+        }
+
     }
 }

@@ -14,7 +14,8 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="Direcció"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iban" />
 
@@ -114,7 +115,8 @@
         android:layout_marginTop="21dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="Nom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
@@ -126,7 +128,8 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="Iban"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mail" />
 
@@ -138,7 +141,8 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="example@gmail.com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Edat" />
 
@@ -150,7 +154,8 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="DD/MM/YYYY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cognom2" />
 
@@ -162,7 +167,8 @@
         android:layout_marginTop="212dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="1 Cornom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -174,7 +180,8 @@
         android:layout_marginTop="196dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
+        android:hint="2 Cognom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBox" />
 
@@ -186,7 +193,8 @@
         android:layout_marginTop="31dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text=".Nom d'usuari"
+        android:text=""
+        android:hint="Nom d'usuari"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -230,7 +238,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/loginBox" />
+        app:layout_constraintTop_toBottomOf="@+id/loginBox"
+        android:hint="Contrasenya"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
