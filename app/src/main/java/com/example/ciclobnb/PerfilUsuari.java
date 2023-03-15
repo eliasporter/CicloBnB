@@ -22,6 +22,8 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_perfil_usuari);
         edita=(Button) findViewById(R.id.edit);
         edita.setOnClickListener(this);
+        garatge=findViewById(R.id.botoGaratge);
+        garatge.setOnClickListener(this);
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho
                 80 // altura en píxeles
@@ -51,6 +53,9 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v.equals(edita)){
             Intent i= new Intent(PerfilUsuari.this,EditarPerfilUser.class);
+            startActivity(i);
+        }else if(v.equals(garatge)){
+            Intent i= new Intent(PerfilUsuari.this,Garatge.class);
             startActivity(i);
         }
 

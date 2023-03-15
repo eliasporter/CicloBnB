@@ -38,5 +38,37 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="325dp"
             tools:listitem="@layout/disponibilitats_text" />
+
+        <ImageView
+            android:id="@+id/EditarBiciGaratge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="100dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/botoEditaBiciGaratge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="180dp"
+            android:text="Editar" />
+
+        <TextView
+            android:id="@+id/MarcaModelBiciGaratge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:textStyle="bold"
+            android:text="Marca i model de la Bici" />
+        <TextView
+            android:id="@+id/DescripcioBiciGaratge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="130dp"
+            android:text="La descripció de la bicicleta" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>
