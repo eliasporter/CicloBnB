@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">CicloBnB</string>
     <string name="Nom">Nom</string>
+    <string name="LinkLoginUser"><u>Norbert Aguilera</u></string>
+    <string name="DialegIniciLloger" ><b>Segur que vols iniciar el lloguer?</b></string>
+    <string name="cancelar" color="#BF0D1B">Cancelar</string>
+    <string name="continuar" color="@colors/blauCel">Continuar</string>
+    <string name="atencio" color="@colors/blauCel">Atenció!</string>
+
 </resources>

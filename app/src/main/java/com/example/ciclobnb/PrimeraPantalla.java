@@ -1,6 +1,7 @@
 package com.example.ciclobnb;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -28,8 +29,9 @@ public class PrimeraPantalla extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_pantalla);
         busca();
-        RecyclerView vista=(RecyclerView) findViewById(R.id.vistaReciclada);
-        vista.setAdapter(new AdapterCiclo(ussers,bicis,this));
+        RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
+        vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));
+        vista.setLayoutManager(new LinearLayoutManager(this));
         perfil=findViewById(R.id.editPerfil);
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,7 @@ public class PrimeraPantalla extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
     }
 
 
