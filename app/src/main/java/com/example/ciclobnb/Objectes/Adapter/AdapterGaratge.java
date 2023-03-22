@@ -31,7 +31,7 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
     ArrayList <Bici> bicis =new ArrayList<>();
     Context context;
     boolean mostrarImatge;
-    boolean mostrarContraseny;
+    boolean mostrarContrasenya;
 
     public AdapterGaratge( ArrayList<Bici> bicis, Context context) {
         this.users = users;
