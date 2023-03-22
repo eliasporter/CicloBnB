@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        //todo
+
         inicia= findViewById(R.id.inicia);
         inicia.setOnClickListener(new View.OnClickListener() {
             @Override
