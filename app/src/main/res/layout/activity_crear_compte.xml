@@ -70,7 +70,7 @@
         android:layout_marginTop="40dp"
 
         android:layout_marginEnd="28dp"
-        android:text="2 cognom"
+        android:text="2n cognom"
         app:layout_constraintEnd_toStartOf="@+id/loginBox"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -103,7 +103,7 @@
 
         android:layout_marginTop="40dp"
         android:layout_marginEnd="28dp"
-        android:text="1 cognom:"
+        android:text="1r cognom:"
         app:layout_constraintEnd_toStartOf="@+id/loginBox"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -168,7 +168,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="1 Cornom"
+        android:hint="1r Cognom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -181,7 +181,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="2 Cognom"
+        android:hint="2n Cognom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBox" />
 
@@ -222,7 +222,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="28dp"
 
         android:text="Nom d'usuari:"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_buscar_paises">
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtrar:"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="40dp"
+        android:textSize="20dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="31dp"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="409dp"
+        android:layout_height="653dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="77dp"
+        tools:ignore="MissingConstraints"
+        tools:listitem="@layout/recycler_paises"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
