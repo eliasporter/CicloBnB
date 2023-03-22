@@ -15,10 +15,12 @@ public class Login extends AppCompatActivity {
     Button inicia,pass,creaUser;
     EditText nom,contra;
     Context c=this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        //todo
         inicia= findViewById(R.id.inicia);
         inicia.setOnClickListener(new View.OnClickListener() {
             @Override
