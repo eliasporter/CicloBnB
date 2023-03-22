@@ -9,12 +9,14 @@ public class Bici {
 
     private int IdBicicleta;
     private int idUser;
+    private String marca;
     private String Descripcio;
     private String Tipus;
     private int idDireccio;
+    private double preu;
     private String foto;
 
-    public Bici(int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
+    public Bici(String marca,int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
         this.IdBicicleta = idBicicleta;
         this.Descripcio = descripcio;
         this.Tipus = tipus;
@@ -67,5 +69,9 @@ public class Bici {
     }
     public String getFoto(){
         return this.foto;
+    }
+
+    public String getMarca() {
+        return this.marca;
     }
 }

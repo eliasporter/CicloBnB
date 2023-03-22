@@ -52,10 +52,10 @@ public class PrimeraPantalla extends AppCompatActivity {
         this.ussers.add(new Usser(4, "Ana", "Fernández", "Ruiz", "anafernandez", "efgh", "04/04/2000", "anafernandez@gmail.com", true));
         this.ussers.add(new Usser(5, "Javier", "López", "González", "javierlopez", "ijkl", "05/05/1992", "javierlopez@gmail.com", true));
 
-        this.bicis.add(new Bici(1, 1, "Bicicleta de montaña", "Montaña", 1));
-        this.bicis.add(new Bici(2, 1, "Bicicleta de carretera", "Carretera", 1));
-        this.bicis.add(new Bici(3, 2, "Bicicleta híbrida", "Híbrida", 1));
-        this.bicis.add(new Bici(4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
+        this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
+        this.bicis.add(new Bici("Giant",2, 1, "Bicicleta de carretera", "Carretera", 1));
+        this.bicis.add(new Bici("Giant",3, 2, "Bicicleta híbrida", "Híbrida", 1));
+        this.bicis.add(new Bici("Orbea",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
 
     }
 }
