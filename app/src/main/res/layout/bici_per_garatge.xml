@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blauCel">
+    android:background="@color/blauCel">-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="412dp"
         android:layout_height="474dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/arrodonir"
+        >
 
         <TextView
             android:id="@+id/BiciNom"
@@ -21,7 +33,7 @@
             android:textStyle="bold"
             android:layout_marginStart="20dp"
             android:layout_marginTop="43dp"
-            android:text="Bici 1" />
+            android:text="Bici" />
 
         <TextView
             android:id="@+id/dispo1"
@@ -41,7 +53,7 @@
             tools:listitem="@layout/disponibilitats_text" />
 
         <ImageView
-            android:id="@+id/EditarBiciGaratge"
+            android:id="@+id/fotoBiciGaratge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
@@ -52,8 +64,8 @@
             android:id="@+id/botoEditaBiciGaratge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="240dp"
             android:text="Editar" />
 
         <TextView
@@ -66,10 +78,26 @@
             android:text="Marca i model de la Bici" />
         <TextView
             android:id="@+id/DescripcioBiciGaratge"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="250dp"
+            android:text="La descripció de la bicicleta" />
+        <TextView
+            android:id="@+id/DireccioBicicleta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+
             android:layout_marginTop="130dp"
             android:text="La descripció de la bicicleta" />
+        <TextView
+            android:id="@+id/DirBiciTitol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="220dp"
+            android:textStyle="bold"
+            android:text="Direcció :" />
     </com.google.android.material.navigation.NavigationView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

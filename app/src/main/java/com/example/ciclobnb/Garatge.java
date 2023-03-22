@@ -2,6 +2,7 @@ package com.example.ciclobnb;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -14,15 +15,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ciclobnb.Objectes.Adapter.AdapterGaratge;
+import com.example.ciclobnb.Objectes.Bici;
+
+import java.util.ArrayList;
+
 public class Garatge extends AppCompatActivity {
     Button afegir;
     RecyclerView bicis;
+    ArrayList<Bici>bicisUser=new ArrayList<Bici>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cercarBicis();
         setContentView(R.layout.activity_garatge);
         afegir=findViewById(R.id.AfegirBiciBoto);
         bicis=findViewById(R.id.ReciclerBicis);
+        bicis.setAdapter(new AdapterGaratge(bicisUser,this));
+        bicis.setLayoutManager(new LinearLayoutManager(this));
         afegir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,5 +70,11 @@ public class Garatge extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void cercarBicis(){
+        this.bicisUser.add(new Bici(1, 1, "Bicicleta de montaña que va molt bé", "Montaña", 1));
+        this.bicisUser.add(new Bici(2, 1, "Bicicleta de carretera li falla una mica el ferno de davant ", "Carretera", 1));
+        this.bicisUser.add(new Bici(3, 2, "Bicicleta híbrida", "Híbrida", 1));
+        this.bicisUser.add(new Bici(4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
     }
 }
