@@ -16,7 +16,7 @@ public class Bici {
     private double preu;
     private String foto;
 
-    public Bici(int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
+    public Bici(String marca,int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
         this.IdBicicleta = idBicicleta;
         this.Descripcio = descripcio;
         this.Tipus = tipus;

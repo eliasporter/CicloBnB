@@ -72,9 +72,9 @@ public class Garatge extends AppCompatActivity {
         }
     }
     private void cercarBicis(){
-        this.bicisUser.add(new Bici(1, 1, "Bicicleta de montaña que va molt bé", "Montaña", 1));
-        this.bicisUser.add(new Bici(2, 1, "Bicicleta de carretera li falla una mica el ferno de davant ", "Carretera", 1));
-        this.bicisUser.add(new Bici(3, 2, "Bicicleta híbrida", "Híbrida", 1));
-        this.bicisUser.add(new Bici(4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
+        this.bicisUser.add(new Bici("Orbea",1, 1, "Bicicleta de montaña que va molt bé", "Montaña", 1));
+        this.bicisUser.add(new Bici("Giant",2, 1, "Bicicleta de carretera li falla una mica el ferno de davant ", "Carretera", 1));
+        this.bicisUser.add(new Bici("Orbea",3, 2, "Bicicleta híbrida", "Híbrida", 1));
+        this.bicisUser.add(new Bici("Giant",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
     }
 }
