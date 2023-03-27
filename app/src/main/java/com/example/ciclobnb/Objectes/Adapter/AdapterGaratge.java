@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ciclobnb.Bici_per_llogar;
@@ -21,6 +22,7 @@ import com.example.ciclobnb.Objectes.Bici;
 import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.R;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHolder> {
@@ -44,6 +46,7 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
         TextView descripcio;
         Button editar;
         TextView tDireccio;
+        RecyclerView dispo;
         ImageView tFoto;
 
         public ViewHolder(View view) {
@@ -53,10 +56,11 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
             editar = view.findViewById(R.id.botoEditaBiciGaratge);
             tDireccio = view.findViewById(R.id.direccioBici);
             tFoto = view.findViewById(R.id.fotoBiciGaratge);
+            dispo=view.findViewById(R.id.disponibilitatsGaratge);
 
         }
 
-        public void bind(Integer position) {
+        public void bind(Integer position) throws ParseException {
 
             marca.setText(bicis.get(position).getMarca());
             editar.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +78,9 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
                     });
                 }
             });
-
-            if (mostrarImatge) {
-                Integer imatge = getImage(bicis.get(position).getFoto(), this.itemView);
-
-            }
+            //per cada una de les bicis mostrem una ReciclerView amb les seves disponibilitats
+            dispo.setAdapter(new AdapterDisponibilitats(bicis.get(position).getDisponibilitats(),context));
+            dispo.setLayoutManager(new LinearLayoutManager(context));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -101,7 +103,11 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(position);
+        try {
+            holder.bind(position);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 

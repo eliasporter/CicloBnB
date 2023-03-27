@@ -1,9 +1,13 @@
 package com.example.ciclobnb.Objectes;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class Bici {
 
@@ -15,6 +19,7 @@ public class Bici {
     private int idDireccio;
     private double preu;
     private String foto;
+    private ArrayList<Disponibilitat> disponibilitats = new ArrayList<>();
 
     public Bici(String marca,int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
         this.IdBicicleta = idBicicleta;
@@ -69,6 +74,24 @@ public class Bici {
     }
     public String getFoto(){
         return this.foto;
+    }
+
+    public ArrayList<Disponibilitat> getDisponibilitats() {
+        try {
+            String sDate1="31-12-1998";
+            String sDate2="11-12-1999";
+            Date inici=new SimpleDateFormat("dd-MM-yyyy").parse(sDate1);
+            Date fi=new SimpleDateFormat("dd-MM-yyyy").parse(sDate2);
+            Disponibilitat temp = new Disponibilitat(inici,fi,12.32);
+            Log.d("dispoooo", temp.toString());
+            disponibilitats.add(temp);
+            //disponibilitats.add(new Disponibilitat(inici,fi,12.32));
+
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        return disponibilitats;
     }
 
     public String getMarca() {

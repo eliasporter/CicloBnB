@@ -3,16 +3,40 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+    >
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/DiaInici"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
 
-            android:text="TextView"
-            />
-    </LinearLayout>
+            android:text="21/05/2009" />
+
+        <TextView
+            android:id="@+id/DiaFi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+
+            android:text="07/06/2009" />
+
+        <TextView
+            android:id="@+id/Preu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+
+            android:text="12.00€" />
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
 
