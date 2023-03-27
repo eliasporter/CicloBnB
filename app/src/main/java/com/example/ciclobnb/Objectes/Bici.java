@@ -3,6 +3,10 @@ package com.example.ciclobnb.Objectes;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.example.ciclobnb.BBDD.ConnectBBdd;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +24,8 @@ public class Bici {
     private double preu;
     private String foto;
     private ArrayList<Disponibilitat> disponibilitats = new ArrayList<>();
+    private ConnectBBdd conexio = new ConnectBBdd();
+    private Connection cn =null;
 
     public Bici(String marca,int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
         this.IdBicicleta = idBicicleta;
@@ -28,6 +34,14 @@ public class Bici {
         this.idDireccio = idDireccio;
         this.idUser= idUser;
         this.foto="bici_foto.png";
+        try {
+            conectarBD();
+        }catch (Exception e){
+
+        }
+    }
+    private void conectarBD() throws SQLException {
+        cn =conexio.conectar();
     }
 
     public int getIdBicicleta() {
@@ -78,10 +92,10 @@ public class Bici {
 
     public ArrayList<Disponibilitat> getDisponibilitats() {
         try {
-            String sDate1="31-12-1998";
-            String sDate2="11-12-1999";
+            String sDate1="1998-12-31";
+            String sDate2="1999-11-12-";
             Date inici=new SimpleDateFormat("dd-MM-yyyy").parse(sDate1);
-            Date fi=new SimpleDateFormat("dd-MM-yyyy").parse(sDate2);
+            Date fi=new SimpleDateFormat("yyyy-MM-dd").parse(sDate2);
             Disponibilitat temp = new Disponibilitat(inici,fi,12.32);
             Log.d("dispoooo", temp.toString());
             disponibilitats.add(temp);
@@ -97,4 +111,5 @@ public class Bici {
     public String getMarca() {
         return this.marca;
     }
+
 }

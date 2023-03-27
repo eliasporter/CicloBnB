@@ -13,8 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ciclobnb.Objectes.Usser;
+
 public class CrearCompte extends AppCompatActivity implements View.OnClickListener {
     EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEdat, textEmail,textIban,textDireccio;
+    String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
     Button cancela,crea;
     Context c=this;
     @Override
@@ -35,9 +38,14 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(c,PrimeraPantalla.class);
-                if(comprovar())
-                    startActivity(i);
-                else
+                if(comprovar()) {
+                    Usser temp = new Usser(nom,cognom1,cognom2,login,password,edat,email,true);
+                    if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
+                        startActivity(i);
+                    }else
+                        Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
+
+                }else
                     Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
 
             }
