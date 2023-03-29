@@ -22,7 +22,7 @@ public class ConnectBBdd {
     public Connection conectar() throws SQLException {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(URL, "root", "");
+            connection = DriverManager.getConnection(URL, "nor", "123");
         } catch (SQLException e) {
             Log.e("ConnectBBdd", "Error connecting to database", e);
             throw e;

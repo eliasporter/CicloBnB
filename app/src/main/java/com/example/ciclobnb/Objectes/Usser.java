@@ -24,7 +24,7 @@ public class Usser {
     private String correuElectronic;
     private Boolean actiu;
     private ConnectBBdd conexio = new ConnectBBdd();
-    private Connection cn =conexio.conectar();
+    private Connection cn =null;
 
     public Usser(String nom, String cognom1, String cognom2, String login, String contrasenya, String dataNaixement, String correuElectronic, Boolean actiu) {
         this.nom = nom;
@@ -35,6 +35,14 @@ public class Usser {
         this.dataNaixement = dataNaixement;
         this.correuElectronic = correuElectronic;
         this.actiu = actiu;
+        try {
+            conectar();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void conectar() throws SQLException {
+        cn=conexio.conectar();
     }
 
     public int getIdUser() {
