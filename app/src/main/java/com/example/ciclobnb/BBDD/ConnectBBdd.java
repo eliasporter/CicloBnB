@@ -23,7 +23,7 @@ public class ConnectBBdd {
     public Connection conectar() throws SQLException {
         Connection connection = null;
         try {
-            //fil per a conectar a la base de dades
+
             StrictMode.ThreadPolicy fil = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(fil);
             connection = DriverManager.getConnection(URL, "nor", "123");
