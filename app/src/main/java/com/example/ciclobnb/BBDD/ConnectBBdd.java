@@ -1,5 +1,6 @@
 package com.example.ciclobnb.BBDD;
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.sql.Connection;
@@ -22,6 +23,8 @@ public class ConnectBBdd {
     public Connection conectar() throws SQLException {
         Connection connection = null;
         try {
+            StrictMode.ThreadPolicy fil = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(fil);
             connection = DriverManager.getConnection(URL, "nor", "123");
         } catch (SQLException e) {
             Log.e("ConnectBBdd", "Error connecting to database", e);
