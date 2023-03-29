@@ -46,11 +46,11 @@ public class PrimeraPantalla extends AppCompatActivity {
 
     private void busca(){
 
-        this.ussers.add(new Usser(1, "Juan", "Pérez", "García", "juanperez", "1234", "01/01/1990", "juanperez@gmail.com", true));
-        this.ussers.add(new Usser(2, "María", "Gómez", "García", "mariagomez", "5678", "02/02/1995", "mariagomez@gmail.com", true));
-        this.ussers.add(new Usser(3, "Pedro", "García", "Fernández", "pedrogarcia", "abcd", "03/03/1985", "pedrogarcia@gmail.com", true));
-        this.ussers.add(new Usser(4, "Ana", "Fernández", "Ruiz", "anafernandez", "efgh", "04/04/2000", "anafernandez@gmail.com", true));
-        this.ussers.add(new Usser(5, "Javier", "López", "González", "javierlopez", "ijkl", "05/05/1992", "javierlopez@gmail.com", true));
+        this.ussers.add(new Usser("Juan", "Pérez", "García", "juanperez", "1234", "01/01/1990", "juanperez@gmail.com", true));
+        this.ussers.add(new Usser( "María", "Gómez", "García", "mariagomez", "5678", "02/02/1995", "mariagomez@gmail.com", true));
+        this.ussers.add(new Usser( "Pedro", "García", "Fernández", "pedrogarcia", "abcd", "03/03/1985", "pedrogarcia@gmail.com", true));
+        this.ussers.add(new Usser( "Ana", "Fernández", "Ruiz", "anafernandez", "efgh", "04/04/2000", "anafernandez@gmail.com", true));
+        this.ussers.add(new Usser( "Javier", "López", "González", "javierlopez", "ijkl", "05/05/1992", "javierlopez@gmail.com", true));
 
         this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
         this.bicis.add(new Bici("Giant",2, 1, "Bicicleta de carretera", "Carretera", 1));
