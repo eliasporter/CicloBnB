@@ -46,7 +46,7 @@ public class EditarPerfilUser extends AppCompatActivity implements View.OnClickL
         if(v.equals(guarda)){
             Intent i = new Intent(this,PerfilUsuari.class);
             if(desar()){
-                Toast.makeText(getApplicationContext(), "Desat correctament", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Dades desades correctament.", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(getApplicationContext(), "No s'han pogut desar les noves dades", Toast.LENGTH_SHORT).show();
             }

@@ -12,14 +12,6 @@
         android:theme="@style/Theme.CicloBnB"
         tools:targetApi="33">
         <activity
-            android:name=".activity_buscar_paises"
-            android:exported="false" />
-        <activity
-            android:name=".activity_crear_compte_scroll"
-            android:exported="false"
-            android:label="@string/title_activity_crear_compte_scroll"
-            android:theme="@style/Theme.CicloBnB.NoActionBar" />
-        <activity
             android:name=".EditarPerfilUser"
             android:exported="false" />
         <activity
