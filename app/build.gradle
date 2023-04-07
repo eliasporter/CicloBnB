@@ -47,8 +47,8 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
     //Conectar bbdd JDBC
-    implementation 'mysql:mysql-connector-java:8.0.26'
-
+    implementation 'mysql:mysql-connector-java:8.0.23'
+    
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycleVersion"

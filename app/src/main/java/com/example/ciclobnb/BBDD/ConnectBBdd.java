@@ -1,5 +1,6 @@
 package com.example.ciclobnb.BBDD;
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.sql.Connection;
@@ -8,7 +9,8 @@ import java.sql.SQLException;
 
 public class ConnectBBdd {
     private static final String CONTROLADOR = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://192.168.137.1:3306/ciclobnbnou";
+   // private static final String URL = "jdbc:mysql://192.168.8.101:3306/ciclobnbnou";
+   private static final String URL = "jdbc:mysql://webapps.insjoanbrudieu.cat:25230/";
 
     static {
         try {
@@ -22,7 +24,9 @@ public class ConnectBBdd {
     public Connection conectar() throws SQLException {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(URL, "root", "");
+            StrictMode.ThreadPolicy fil = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(fil);
+            connection = DriverManager.getConnection(URL, "ciclobnb", "JuElNo--!!18736");
         } catch (SQLException e) {
             Log.e("ConnectBBdd", "Error connecting to database", e);
             throw e;

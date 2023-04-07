@@ -12,8 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.ciclobnb.Objectes.Usser;
+
 public class Bici_per_llogar extends AppCompatActivity implements View.OnClickListener{
     Button llogar,xat;
+    Usser usuari;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         switch (item.getItemId()) {
             case R.id.home :
                 Intent i=new Intent(this,PrimeraPantalla.class);
+                i.putExtra("id",usuari.getIdUser());
                 startActivity(i);
                 return true;
             default:
@@ -56,6 +60,8 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
                     // User cancelled the dialog
                 }
             });
+
+        }else if(v==xat){
 
         }
     }
