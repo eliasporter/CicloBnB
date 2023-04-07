@@ -11,16 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ciclobnb.Objectes.Usser;
+
 public class Login extends AppCompatActivity {
-    Button inicia,pass,creaUser;
+    Button inicia,noContra,creaUser;
     EditText nom,contra;
     Context c=this;
-
+    Usser usuari=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        noContra=findViewById(R.id.NoPass);
+        noContra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
         inicia= findViewById(R.id.inicia);
         inicia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,6 +37,7 @@ public class Login extends AppCompatActivity {
                 contra=(EditText) findViewById(R.id.editTextTextPassword);
                 if(cercaUser()) {
                     Intent intent = new Intent(c, PrimeraPantalla.class);
+                    intent.putExtra("id",usuari.getIdUser());
                     startActivity(intent);
                 }else{
                     ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
@@ -48,8 +57,11 @@ public class Login extends AppCompatActivity {
         });
     }
     public boolean cercaUser(){
-        if(nom.getText().toString().equals("Admin")&&contra.getText().toString().equals("123"))
-        return true;
+        //Cridem la funcio que te Usser per a buscar l'usuari
+        usuari=new Usser().Login(nom.getText().toString(),contra.getText().toString());
+
+        if(usuari!=null)
+            return true;
         return false;
     }
 }

@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
 import com.example.ciclobnb.Objectes.Bici;
@@ -22,6 +20,8 @@ import java.util.ArrayList;
 public class PrimeraPantalla extends AppCompatActivity {
     ArrayList <Bici> bicis=new ArrayList<>();
     ArrayList <Usser> ussers=new ArrayList<>();
+    TextView loginText,nomCognomsText,guanysText;
+    Usser usuari;
     Button perfil;
     Context c=this;
     @Override
@@ -29,6 +29,9 @@ public class PrimeraPantalla extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_pantalla);
         busca();
+        Bundle b =getIntent().getExtras();
+        usuari=new Usser().getUserPerId(b.getInt("id"));
+        iniciarTextView();
         RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
         vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));
         vista.setLayoutManager(new LinearLayoutManager(this));
@@ -36,14 +39,24 @@ public class PrimeraPantalla extends AppCompatActivity {
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(c,PerfilUsuari.class);
-                startActivity(i);
+                Intent intent = new Intent(c, PerfilUsuari.class);
+                intent.putExtra("id",usuari.getIdUser());
+                startActivity(intent);
             }
         });
 
     }
 
+    private void iniciarTextView() {
+        loginText=findViewById(R.id.textPerfil);
+        loginText.setText(usuari.getLogin());
 
+        nomCognomsText=findViewById(R.id.nomCognomsPrimera);
+        nomCognomsText.setText(usuari.getNom()+" "+usuari.getCognom1()+" "+usuari.getCognom2());
+
+        guanysText=findViewById(R.id.guanysPerfilUsuari);
+        guanysText.setText("55.05"+" €");
+    }
     private void busca(){
 
         this.ussers.add(new Usser("Juan", "Pérez", "García", "juanperez", "1234", "01/01/1990", "juanperez@gmail.com", true));

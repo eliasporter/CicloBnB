@@ -15,6 +15,9 @@
         android:theme="@style/Theme.CicloBnB"
         tools:targetApi="33">
         <activity
+            android:name=".Missatges"
+            android:exported="false" />
+        <activity
             android:name=".XatsAmbPersones"
             android:exported="false" />
         <activity

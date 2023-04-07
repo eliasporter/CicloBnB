@@ -34,11 +34,11 @@ public class Bici {
         this.idDireccio = idDireccio;
         this.idUser= idUser;
         this.foto="bici_foto.png";
-        try {
+        /*try {
             conectarBD();
         }catch (Exception e){
 
-        }
+        }*/
     }
     private void conectarBD() throws SQLException {
         cn =conexio.conectar();
