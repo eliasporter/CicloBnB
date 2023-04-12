@@ -43,17 +43,17 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                     if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
                         startActivity(i);
                     }else
-                        Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
 
                 }else
                     Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
 
             }
         });
-        textLogin.setOnClickListener(this);
+        /*textLogin.setOnClickListener(this);
         textPass.setOnClickListener(this);
         textNom.setOnClickListener(this);
-        textCognom1.setOnClickListener(this);
+        textCognom1.setOnClickListener(this);*/
     }
     @Override
     public void onClick(View v) {

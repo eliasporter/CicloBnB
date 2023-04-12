@@ -42,6 +42,9 @@ public class Bici {
 
         }*/
     }
+    public Bici(){
+
+    }
     private void conectarBD() throws SQLException {
         cn =conexio.conectar();
     }
