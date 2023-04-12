@@ -62,7 +62,7 @@ public class Usser {
 
 
     public void conectar() throws SQLException, ClassNotFoundException {
-        cn=conexio.conectar();
+        cn= (Connection) conexio.execute();
     }
 
     public int getIdUser() {
@@ -186,7 +186,7 @@ public class Usser {
         ResultSet rs = null;
         try {
             String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+contrasenya+"';";
-            cn=conexio.conectar();
+            cn= (Connection) conexio.execute();
             stm = cn.createStatement();
             rs=stm.executeQuery(sql);
             id=rs.getInt(1);
@@ -214,7 +214,7 @@ public class Usser {
 
         try {
             String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+creaHash(contrasenya)+"';";
-            cn=conexio.conectar();
+            cn= (Connection) conexio.execute();
             stm = cn.createStatement();
             rs=stm.executeQuery(sql);
             id=rs.getInt(1);
@@ -247,7 +247,7 @@ public class Usser {
             String sql = "INSERT INTO `usuaris` (`IdUsuari`, `Login`, `Contrasenya`, `Nom`, `Cognom1`, `Cognom2`, `DataNaixement`," +
                     " `CorreuElectronic`, `CompteActiu`, `IdDireccio`) VALUES " +
                     "(NULL, '" + login + "', '" + contrasenya + "', '" + nom + "', '" + cognom1 + "', '" + cognom2 + "', '" + dataNaixement + "', '" + correuElectronic + "', b'0', '1');";
-            cn=conexio.conectar();
+            cn= (Connection) conexio.execute();
             stm = cn.createStatement();
             int i = stm.executeUpdate(sql);
             if (i > 0) {
@@ -262,7 +262,7 @@ public class Usser {
                 return true;
             }
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.out.println(e);
         } finally {
             try {

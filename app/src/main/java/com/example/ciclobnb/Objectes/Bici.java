@@ -46,7 +46,7 @@ public class Bici {
 
     }
     private void conectarBD() throws SQLException, ClassNotFoundException {
-        cn =conexio.conectar();
+        cn = (Connection) conexio.execute();
     }
 
     public int getIdBicicleta() {
@@ -131,7 +131,7 @@ public class Bici {
 
         try {
             String sql= "SELECT * from `bicicletes` ";
-            cn=conexio.conectar();
+            cn= (Connection) conexio.execute();
             stm = cn.createStatement();
             rs=stm.executeQuery(sql);
             while (rs.next()){

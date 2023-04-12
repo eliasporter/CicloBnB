@@ -1,40 +1,85 @@
 package com.example.ciclobnb.BBDD;
-
-import android.os.StrictMode;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class ConnectBBdd {
-    private static final String CONTROLADOR = "com.mysql.jdbc.Driver";
-   // private static final String URL = "jdbc:mysql://192.168.8.101:3306/ciclobnbnou";
-   //private static final String URL = "jdbc:mysql://webapps.insjoanbrudieu.cat/ciclobnbDB:25230/";
+public class ConnectBBdd extends AsyncTask<Void, Void, Void> {
 
-    public Connection conectar() throws SQLException, ClassNotFoundException {
-        Connection connection = null;
+    private static final String TAG = "ConexionMySQL";
+
+    private static final String url = "jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB";
+    private static final String usuario = "ciclobnb";
+    private static final String password = "JuElNo--!!18736";
+
+    @Override
+    protected Void doInBackground(Void... voids) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
         try {
-                Class.forName(CONTROLADOR);
-            /*StrictMode.ThreadPolicy fil = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(fil);*/
-            //jdbc:mysql://192.168.1.150:25230/ciclobnbDB
-            //connection = DriverManager.getConnection("jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB"
-            connection = DriverManager.getConnection("jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB", "ciclobnb", "JuElNo--!!18736");
-        } catch (SQLException | ClassNotFoundException e) {
-            Log.e("ConnectBBdd", "Error connecting to database", e);
-            throw e;
-        }
-        return connection;
-    }
+            // Registrar el driver MySQL
+            Class.forName("com.mysql.jdbc.Driver");
 
-    public void desconectar(Connection connection) {
-        try {
-            if (connection != null) {
-                connection.close();
+            // Establecer la conexión
+            conn = DriverManager.getConnection(url, usuario, password);
+
+            if (conn != null) {
+                Log.d(TAG, "Conexión exitosa a MySQL");
+
+                // Crear una declaración (Statement) para la consulta
+                stmt = conn.createStatement();
+
+                // Ejecutar la consulta SELECT
+                String query = "SELECT * FROM codipostal";
+                rs = stmt.executeQuery(query);
+
+                // Procesar los resultados de la consulta
+                while (rs.next()) {
+                    // Obtener los valores de cada columna por nombre o por índice
+                    int id = rs.getInt("idCodiPostal");
+                    String nombre = rs.getString("codiPostal");
+
+                    // Imprimir los valores obtenidos
+                    Log.d(TAG, "ID: " + id + ", Codigo postal: " + nombre);
+                }
+            } else {
+                Log.d(TAG, "Fallo en la conexión a MySQL");
             }
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Error al cargar el driver MySQL: " + e.getMessage());
         } catch (SQLException e) {
-            Log.e("ConnectBBdd", "Error closing database connection", e);
+            Log.e(TAG, "Error de SQL: " + e.getMessage());
+        } finally {
+            // Cerrar los objetos ResultSet, Statement y Connection
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    Log.e(TAG, "Error al cerrar el ResultSet: " + e.getMessage());
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    Log.e(TAG, "Error al cerrar el Statement: " + e.getMessage());
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Log.e(TAG, "Error al cerrar la conexión: " + e.getMessage());
+                }
+            }
         }
+
+        return null;
     }
 }
