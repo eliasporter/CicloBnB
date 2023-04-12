@@ -26,7 +26,7 @@ public class ConnectBBdd {
         try {
             StrictMode.ThreadPolicy fil = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(fil);
-            connection = DriverManager.getConnection(URL, "ciclobnb", "JuElNo--!!18736");
+            connection = DriverManager.getConnection("jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB", "ciclobnb", "JuElNo--!!18736");
         } catch (SQLException e) {
             Log.e("ConnectBBdd", "Error connecting to database", e);
             throw e;

@@ -180,6 +180,30 @@ public class Usser {
         }
         return "";
     }
+    public Usser propietariBici(int id){
+        Usser u= null;
+        java.sql.Statement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+contrasenya+"';";
+            cn=conexio.conectar();
+            stm = cn.createStatement();
+            rs=stm.executeQuery(sql);
+            id=rs.getInt(1);
+            login=rs.getString(2);
+            nom=rs.getString(4);
+            cognom1=rs.getString(5);
+            cognom2=rs.getString(6);
+            dataNaixement=rs.getString(7);
+            correuElectronic=rs.getString(8);
+            actiu=rs.getBoolean(9);
+            u = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
+            Log.d("userLlegit", u.getNom());
+        }catch (Exception e){
+
+        }
+        return u;
+    }
     public Usser Login(String login, String contrasenya){
         java.sql.Statement stm = null;
         ResultSet rs = null;
@@ -264,7 +288,9 @@ public class Usser {
     public void crearXat(){
 
     }
-
+    public int getUserPerBici(int idBici){
+        return 0;
+    }
     public ArrayList<Xat> getXats() {
         java.sql.Statement stm = null;
         ResultSet rs = null;

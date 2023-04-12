@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.ciclobnb.BBDD.ConnectBBdd;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class Bici {
         this.idDireccio = idDireccio;
         this.idUser= idUser;
         this.foto="bici_foto.png";
+        this.marca=marca;
         /*try {
             conectarBD();
         }catch (Exception e){
@@ -110,6 +112,40 @@ public class Bici {
 
     public String getMarca() {
         return this.marca;
+    }
+
+    public ArrayList<Bici> bicisPrimeraPag(){
+        ArrayList<Bici>bicis=new ArrayList<>();
+        java.sql.Statement stm = null;
+        ResultSet rs = null;
+        int idBicicleta;
+        String marca;
+        int idBici;
+        int idUser;
+        String descripcio;
+        String tipus;
+        int idDireccio;
+
+        try {
+            String sql= "SELECT * from `bicicletes` ";
+            cn=conexio.conectar();
+            stm = cn.createStatement();
+            rs=stm.executeQuery(sql);
+            while (rs.next()){
+                marca=rs.getString(5);
+                idBici=rs.getInt(1);
+                idUser=new Usser().getUserPerBici(idBici);//Todo
+                descripcio=rs.getString(2);
+                tipus=rs.getString(3);
+                idDireccio=rs.getInt(4);
+                bicis.add(new Bici(marca,idBici, idUser,  descripcio,  tipus, idDireccio));
+            }
+
+            Log.d("TotalBicis", ""+bicis.size());
+        }catch (Exception e){
+
+        }
+        return bicis;
     }
 
 }
