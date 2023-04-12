@@ -41,6 +41,8 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 if(comprovar()) {
                     Usser temp = new Usser(nom,cognom1,cognom2,login,password,edat,email,true);
                     if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
+                        temp=temp.Login(login,password);
+                        i.putExtra("id",temp.getIdUser());
                         startActivity(i);
                     }else
                         Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
