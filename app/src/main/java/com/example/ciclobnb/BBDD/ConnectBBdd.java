@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ConnectBBdd {
     private static final String CONTROLADOR = "com.mysql.cj.jdbc.Driver";
    // private static final String URL = "jdbc:mysql://192.168.8.101:3306/ciclobnbnou";
-   private static final String URL = "jdbc:mysql://webapps.insjoanbrudieu.cat:25230/";
+   private static final String URL = "jdbc:mysql://webapps.insjoanbrudieu.cat/ciclobnbDB:25230/";
 
     static {
         try {

@@ -24,7 +24,7 @@ public class XatsAmbPersones extends AppCompatActivity {
         usuari=new Usser().getUserPerId(b.getInt("id"));
         xats=usuari.getXats();
         RecyclerView vista=(RecyclerView) findViewById(R.id.XatsRecicler);
-        vista.setAdapter(new AdapterXat(xats,this));
+        vista.setAdapter(new AdapterXat(xats,this,usuari));
         vista.setLayoutManager(new LinearLayoutManager(this));
     }
 }

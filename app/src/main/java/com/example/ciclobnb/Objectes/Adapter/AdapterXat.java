@@ -26,10 +26,12 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
 
         ArrayList<Xat> xat =new ArrayList<>();
         Context context;
+        Usser usuari;
 
-    public AdapterXat(ArrayList<Xat> dispo, Context context) {
+    public AdapterXat(ArrayList<Xat> dispo, Context context,Usser usuari) {
             this.xat = dispo;
             this.context = context;
+            this.usuari=usuari;
         }
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView user2;
@@ -52,7 +54,7 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
                     public void onClick(View view) {
                         Intent intent=new Intent(context, Missatges.class);
                         intent.putExtra("idXat",xat.get(position).getIdXat());
-
+                        intent.putExtra("id",usuari.getIdUser());
                         context.startActivity(intent);
                     }
                 });

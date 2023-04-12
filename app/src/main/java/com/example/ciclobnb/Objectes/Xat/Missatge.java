@@ -6,9 +6,10 @@ public class Missatge {
     int idMissatge;
     int idXat;
     String missatge;
-    Usser emisor;
+    int emisor;
     String timeStamp;
-    public  Missatge(String missatge,Usser emisor,String timeStamp){
+    public  Missatge( String missatge,int emisor,String timeStamp){
+
         this.missatge=missatge;
         this.emisor=emisor;
         this.timeStamp=timeStamp;
@@ -22,11 +23,11 @@ public class Missatge {
         this.missatge = missatge;
     }
 
-    public Usser getEmisor() {
+    public int getEmisor() {
         return emisor;
     }
 
-    public void setEmisor(Usser emisor) {
+    public void setEmisor(int emisor) {
         this.emisor = emisor;
     }
 
