@@ -85,7 +85,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="360dp"
-        android:layout_height="62dp"
+        android:layout_height="78dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="20dp"
@@ -93,7 +93,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cercaBicis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigationView2" >
+        app:layout_constraintTop_toBottomOf="@+id/navigationView2">
 
         <Button
             android:id="@+id/filtrar"
@@ -101,6 +101,53 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="260dp"
             android:layout_marginTop="7dp"
-            android:text="Filtrar" />
+            android:text="Filtrar"
+            app:backgroundTint="#FF9800" />
+
+        <Button
+            android:id="@+id/filtreDia"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:text="Dia" />
+
+        <Button
+            android:id="@+id/filtreDireccio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="7dp"
+            android:text="Direccio" />
+
+        <Button
+            android:id="@+id/filtrePreu"
+            android:layout_width="75"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="7dp"
+            android:text="Preu" />
+
+        <TextView
+            android:id="@+id/textFiltrePreu"
+            android:layout_marginStart="185dp"
+            android:layout_marginTop="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00€" />
+        <TextView
+            android:id="@+id/textFiltreDireccio"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+        <TextView
+            android:id="@+id/textFiltreDia"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>

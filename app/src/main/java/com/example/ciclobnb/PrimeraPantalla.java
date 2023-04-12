@@ -22,7 +22,7 @@ public class PrimeraPantalla extends AppCompatActivity {
     ArrayList <Usser> ussers=new ArrayList<>();
     TextView loginText,nomCognomsText,guanysText;
     Usser usuari;
-    Button perfil;
+    Button perfil,filtrar;
     Context c=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class PrimeraPantalla extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        filtrar=findViewById(R.id.filtrar);
     }
 
     private void iniciarTextView() {
