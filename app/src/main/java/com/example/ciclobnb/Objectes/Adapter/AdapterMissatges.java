@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ciclobnb.Missatges;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 
 public class AdapterMissatges extends RecyclerView.Adapter<AdapterMissatges.ViewHolder> {
 
-    ArrayList<Missatge> missatges =new ArrayList<>();
+    ArrayList<Missatge> missatges ;
     Context context;
     Usser loguejat;
 
@@ -31,20 +33,24 @@ public class AdapterMissatges extends RecyclerView.Adapter<AdapterMissatges.View
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textMissatge;
-
+        CardView carta;
 
         public ViewHolder(View view) {
             super(view);
-            textMissatge=view.findViewById(R.id.NomPersonaXat);
+            textMissatge=view.findViewById(R.id.MisatgeXat);
+            carta=view.findViewById(R.id.cartaMissatge);
         }
 
         public void bind(Integer position) {
             textMissatge.setText(missatges.get(position).getMissatge());
-            if (loguejat.getIdUser()==missatges.get(position).getEmisor().getIdUser()){
+            if (loguejat.getIdUser()==missatges.get(position).getEmisor()){
                 //si el missatge es del usuari qu ha iniciat sesió els missatges estaràn a la dreta
-                ViewGroup.MarginLayoutParams parametres = (ViewGroup.MarginLayoutParams) textMissatge.getLayoutParams();
-                parametres.setMarginEnd(10);
-                textMissatge.setLayoutParams(parametres);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(900, 5,0, 0); // establece el margen derecho en 10dp
+                carta.setLayoutParams(params);
             }
         }
     }
