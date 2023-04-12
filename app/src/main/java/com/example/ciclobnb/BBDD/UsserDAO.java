@@ -25,7 +25,6 @@ public interface UsserDAO {
     void update(UsserBBDD user);
 
 
-
     @Query("DELETE FROM usuari")
     void deleteAll();
 

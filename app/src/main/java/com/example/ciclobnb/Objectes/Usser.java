@@ -61,7 +61,7 @@ public class Usser {
 
 
 
-    public void conectar() throws SQLException {
+    public void conectar() throws SQLException, ClassNotFoundException {
         cn=conexio.conectar();
     }
 
@@ -211,9 +211,9 @@ public class Usser {
         int id;
         boolean actiu;
         Usser u=null;
-        /*
+
         try {
-            String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+contrasenya+"';";
+            String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+creaHash(contrasenya)+"';";
             cn=conexio.conectar();
             stm = cn.createStatement();
             rs=stm.executeQuery(sql);
@@ -229,14 +229,14 @@ public class Usser {
             Log.d("userLlegit", u.getNom());
         }catch (Exception e){
 
-        }*/
-        Usser j=new Usser(1,"Juan","Avila","Vega","juanse","123","2002-01-01","juan@gmail.com",true);
+        }
+        /*Usser j=new Usser(1,"Juan","Avila","Vega","juanse","123","2002-01-01","juan@gmail.com",true);
         Usser n=new Usser(2,"Norbert","Aguilera","CApdevila","nor","123","2003-02-25","naca605@gmail.com",true);
 
         if(login.equals("juanse")&&contrasenya.equals("123"))
             u=j;
         else if(login.equals("nor")&&contrasenya.equals("123"))
-            u=n;
+            u=n;*/
         return u;
     }
 
@@ -262,7 +262,7 @@ public class Usser {
                 return true;
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e);
         } finally {
             try {
@@ -276,7 +276,7 @@ public class Usser {
                     cn.close();
                 }
             } catch (Exception e2) {
-                // TODO: handle exception
+                e2.printStackTrace();
             }
         }
         return true;
