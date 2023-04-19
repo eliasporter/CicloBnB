@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.ciclobnb.Objectes.Usser;
 
+import java.sql.SQLException;
+
 public class EditarPerfilUser extends AppCompatActivity implements View.OnClickListener {
     Button guarda,cancel;
     Usser usuari;
@@ -27,7 +29,11 @@ public class EditarPerfilUser extends AppCompatActivity implements View.OnClickL
         guarda=(Button) findViewById(R.id.guardaUserEditat);
         guarda.setOnClickListener(this);
         Bundle b=getIntent().getExtras();
-        usuari=new Usser().getUserPerId(b.getInt("id"));
+        try {
+            usuari=new Usser().getUserPerId(b.getInt("id"));
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
         cancel=findViewById(R.id.cancelaEditUser);
         cancel.setOnClickListener(this);
         iniciar();

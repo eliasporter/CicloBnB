@@ -12,6 +12,7 @@ import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.Objectes.Xat.Missatge;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Missatges extends AppCompatActivity {
@@ -25,7 +26,11 @@ public class Missatges extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missatges);
         Bundle b = getIntent().getExtras();
-        user=new Usser().getUserPerId(b.getInt("id"));
+        try {
+            user=new Usser().getUserPerId(b.getInt("id"));
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
         xat=new Xat().getXAtPerId(b.getInt("idXat"));
         missatges=xat.getMissatges();
         new Thread(new Runnable() {

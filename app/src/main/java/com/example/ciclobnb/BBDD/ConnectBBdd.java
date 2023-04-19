@@ -2,84 +2,49 @@ package com.example.ciclobnb.BBDD;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.ciclobnb.Objectes.Usser;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
-public class ConnectBBdd extends AsyncTask<Void, Void, Void> {
+public class ConnectBBdd extends AsyncTask<Void, Void, Connection> {
 
     private static final String TAG = "ConexionMySQL";
 
     private static final String url = "jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB";
-    private static final String usuario = "ciclobnb";
+    private static final String usuari = "ciclobnb";
     private static final String password = "JuElNo--!!18736";
 
+    public ConnectBBdd() {
+    }
+
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Connection doInBackground(Void... voids) {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-
+        Properties props = new Properties();
+        props.setProperty("user", usuari);
+        props.setProperty("password", password);
+        props.setProperty("connectTimeout", "5000");
         try {
             // Registrar el driver MySQL
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establecer la conexión
-            conn = DriverManager.getConnection(url, usuario, password);
+            conn = DriverManager.getConnection(url, props);
 
-            if (conn != null) {
-                Log.d(TAG, "Conexión exitosa a MySQL");
 
-                // Crear una declaración (Statement) para la consulta
-                stmt = conn.createStatement();
-
-                // Ejecutar la consulta SELECT
-                String query = "SELECT * FROM codipostal";
-                rs = stmt.executeQuery(query);
-
-                // Procesar los resultados de la consulta
-                while (rs.next()) {
-                    // Obtener los valores de cada columna por nombre o por índice
-                    int id = rs.getInt("idCodiPostal");
-                    String nombre = rs.getString("codiPostal");
-
-                    // Imprimir los valores obtenidos
-                    Log.d(TAG, "ID: " + id + ", Codigo postal: " + nombre);
-                }
-            } else {
-                Log.d(TAG, "Fallo en la conexión a MySQL");
-            }
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "Error al cargar el driver MySQL: " + e.getMessage());
         } catch (SQLException e) {
-            Log.e(TAG, "Error de SQL: " + e.getMessage());
-        } finally {
-            // Cerrar los objetos ResultSet, Statement y Connection
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    Log.e(TAG, "Error al cerrar el ResultSet: " + e.getMessage());
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    Log.e(TAG, "Error al cerrar el Statement: " + e.getMessage());
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Log.e(TAG, "Error al cerrar la conexión: " + e.getMessage());
-                }
-            }
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return null;
+        return conn;
     }
 }

@@ -12,6 +12,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/PaisosLinear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -247,6 +248,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LinearPaisos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -269,6 +271,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/CiutatsLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -290,6 +293,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LinealCodisPostals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

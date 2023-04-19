@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.ciclobnb.Objectes.Usser;
 
+import java.sql.SQLException;
+
 public class Login extends AppCompatActivity {
     Button inicia,noContra,creaUser;
     EditText nom,contra;
@@ -58,7 +60,12 @@ public class Login extends AppCompatActivity {
     }
     public boolean cercaUser(){
         //Cridem la funcio que te Usser per a buscar l'usuari
-        usuari=new Usser().Login(nom.getText().toString(),contra.getText().toString());
+        try {
+            usuari=new Usser().Login(nom.getText().toString(),contra.getText().toString());
+
+        }catch (SQLException | InterruptedException e){
+            e.printStackTrace();
+        }
 
         if(usuari!=null)
             return true;

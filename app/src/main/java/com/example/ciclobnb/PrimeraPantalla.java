@@ -15,12 +15,14 @@ import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
 import com.example.ciclobnb.Objectes.Bici;
 import com.example.ciclobnb.Objectes.Usser;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PrimeraPantalla extends AppCompatActivity {
+public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickListener{
     ArrayList <Bici> bicis=new ArrayList<>();
     ArrayList <Usser> ussers=new ArrayList<>();
     TextView loginText,nomCognomsText,guanysText;
+    Button filtreDia,filtrePreu,filtreDireccio;
     Usser usuari;
     Button perfil;
     Context c=this;
@@ -29,8 +31,20 @@ public class PrimeraPantalla extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_pantalla);
         busca();
+        filtreDia=findViewById(R.id.filtreDia);
+        filtreDireccio=findViewById(R.id.filtreDireccio);
+        filtrePreu=findViewById(R.id.filtrePreu);
+        filtreDireccio.setOnClickListener(this);
+        filtrePreu.setOnClickListener(this);
+        filtreDia.setOnClickListener(this);
         Bundle b =getIntent().getExtras();
-        usuari=new Usser().getUserPerId(b.getInt("id"));
+        try {
+            int id=b.getInt("id");
+            Usser temp=new Usser();
+            usuari=temp.getUserPerId(id);
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
         iniciarTextView();
         RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
         vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));
@@ -59,16 +73,22 @@ public class PrimeraPantalla extends AppCompatActivity {
     }
     private void busca(){
 
-        this.ussers.add(new Usser("Juan", "Pérez", "García", "juanperez", "1234", "01/01/1990", "juanperez@gmail.com", true));
-        this.ussers.add(new Usser( "María", "Gómez", "García", "mariagomez", "5678", "02/02/1995", "mariagomez@gmail.com", true));
-        this.ussers.add(new Usser( "Pedro", "García", "Fernández", "pedrogarcia", "abcd", "03/03/1985", "pedrogarcia@gmail.com", true));
-        this.ussers.add(new Usser( "Ana", "Fernández", "Ruiz", "anafernandez", "efgh", "04/04/2000", "anafernandez@gmail.com", true));
-        this.ussers.add(new Usser( "Javier", "López", "González", "javierlopez", "ijkl", "05/05/1992", "javierlopez@gmail.com", true));
 
         this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
         this.bicis.add(new Bici("Giant",2, 1, "Bicicleta de carretera", "Carretera", 1));
         this.bicis.add(new Bici("Giant",3, 2, "Bicicleta híbrida", "Híbrida", 1));
         this.bicis.add(new Bici("Orbea",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==filtreDia){
+
+        }else if(v==filtreDireccio){
+
+        }else if(v==filtrePreu){
+
+        }
     }
 }

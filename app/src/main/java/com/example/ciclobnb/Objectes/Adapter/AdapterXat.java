@@ -18,6 +18,7 @@ import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 import com.example.ciclobnb.R;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
 
             }
 
-            public void bind(Integer position) {
+            public void bind(Integer position) throws SQLException, InterruptedException {
                 Usser u=new Usser().getUserPerId(xat.get(position).getUser2());
                 user2.setText(u.getLogin());
                 ultimMissatge.setText(xat.get(position).getUltimMissatge());
@@ -73,7 +74,11 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AdapterXat.ViewHolder holder, int position) {
-        holder.bind(position);
+        try {
+            holder.bind(position);
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

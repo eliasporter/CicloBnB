@@ -122,7 +122,7 @@
 
         <Button
             android:id="@+id/filtrePreu"
-            android:layout_width="75"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="180dp"
             android:layout_marginTop="7dp"
@@ -130,25 +130,25 @@
 
         <TextView
             android:id="@+id/textFiltrePreu"
-            android:layout_marginStart="185dp"
-            android:layout_marginTop="52dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00€" />
+            android:layout_marginStart="185dp"
+            android:layout_marginTop="52dp" />
+
         <TextView
             android:id="@+id/textFiltreDireccio"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="52dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="52dp" />
+
         <TextView
             android:id="@+id/textFiltreDia"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="52dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="52dp"
 
-            android:text="TextView" />
+            />
     </com.google.android.material.navigation.NavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>
