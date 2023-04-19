@@ -9,15 +9,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ciclobnb.Objectes.Usser;
 
+import org.w3c.dom.Text;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class CrearCompte extends AppCompatActivity implements View.OnClickListener {
     EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEdat, textEmail,textIban,textDireccio;
     String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
+    Spinner paisos;
     Button cancela,crea;
     Context c=this;
     @Override
@@ -33,19 +43,38 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 startActivity(i);
             }
         });
+
+        paisos = findViewById(R.id.spinner_paises);
+
+        try {
+            emplenarLinears();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         crea=(Button)findViewById(R.id.crea);
         crea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(c,PrimeraPantalla.class);
                 if(comprovar()) {
-                    Usser temp = new Usser(nom,cognom1,cognom2,login,password,edat,email,true);
-                    if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
-                        temp=temp.Login(login,password);
-                        i.putExtra("id",temp.getIdUser());
-                        startActivity(i);
-                    }else
-                        Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
+                    Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
+                            textLogin.getText().toString(),textPass.getText().toString(),textEdat.getText().toString(),
+                            textEmail.getText().toString(),true);
+
+                    try {
+                        if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
+                            try {
+                                temp=temp.Login(textLogin.getText().toString(),textPass.getText().toString());
+                            } catch (SQLException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            i.putExtra("id",temp.getIdUser());
+                            startActivity(i);
+                        }else
+                            Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                 }else
                     Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
@@ -57,6 +86,13 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textNom.setOnClickListener(this);
         textCognom1.setOnClickListener(this);*/
     }
+
+    private void emplenarLinears() throws SQLException {
+        ArrayList<String>paisos=new Usser().BuscarPaisos(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paisos);
+        this.paisos.setAdapter(adapter);
+    }
+
     @Override
     public void onClick(View v) {
         if(v instanceof EditText){
@@ -81,4 +117,5 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
         return true;
     }
+
 }

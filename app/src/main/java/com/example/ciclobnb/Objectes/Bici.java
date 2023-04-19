@@ -119,6 +119,8 @@ public class Bici {
 
     public ArrayList<Bici> bicisPrimeraPag(){
         ArrayList<Bici>bicis=new ArrayList<>();
+        Thread fil = new Thread();
+
         java.sql.Statement stm = null;
         ResultSet rs = null;
         int idBicicleta;

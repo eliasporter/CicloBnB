@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.example.ciclobnb.Objectes.Usser;
 
+import java.sql.SQLException;
+
 public class PerfilUsuari extends AppCompatActivity implements View.OnClickListener {
     Button edita, garatge,xatButton;
     TextView loginText,nomCognomsText,direccioLlogerText;
@@ -26,7 +28,11 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuari);
         Bundle b =getIntent().getExtras();
-        usuari=new Usser().getUserPerId(b.getInt("id"));
+        try {
+            usuari=new Usser().getUserPerId(b.getInt("id"));
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
         iniciarTextView();
         xatButton=findViewById(R.id.xatsButton);
         xatButton.setOnClickListener(new View.OnClickListener() {
