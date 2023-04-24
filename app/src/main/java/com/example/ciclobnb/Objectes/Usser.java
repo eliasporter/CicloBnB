@@ -155,7 +155,7 @@ public class Usser {
                 boolean actiu;
 
                 try {
-                    String sql= "SELECT * from `usuaris` WHERE idUsuari='5';";
+                    String sql= "SELECT * from `usuaris` WHERE idUsuari='"+id+"';";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
@@ -167,7 +167,7 @@ public class Usser {
                     dataNaixement=rs.getString(7);
                     correuElectronic=rs.getString(8);
                     actiu=rs.getBoolean(9);
-                    u[0] = new Usser(nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
+                    u[0] = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
                     Log.d("userLlegit", u[0].getNom());
                 }catch (Exception e){
                     e.printStackTrace();
@@ -345,6 +345,12 @@ public class Usser {
 
     }
     public int getUserPerBici(int idBici){
+        Thread fil=new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         return 0;
     }
 
@@ -386,36 +392,160 @@ public class Usser {
         }*/
         return xats;
     }
-    public ArrayList<String> BuscarPaisos(Context context) throws SQLException {
+    public ArrayList<String> BuscarPaisos(Context context) throws SQLException, InterruptedException {
         ArrayList<String>paisos=new ArrayList<>();
-        java.sql.Statement stm = null;
-        ResultSet rs = null;
-        int idXat,idUser1,idUser2;
-        boolean actiu;
-        try {
-            String sql= "SELECT * from `paisos` ;";
-            conexio.execute();
-            cn=conexio.get();
-            stm = cn.createStatement();
-            rs=stm.executeQuery(sql);
-            while(rs.next()){
-                String pais=rs.getString(1);
-                paisos.add(pais);
-            }
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            if (rs != null) {
-                rs.close();
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idXat,idUser1,idUser2;
+                boolean actiu;
+                try {
+                    String sql= "SELECT * from `pais` ;";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    while(rs.next()){
+                        String pais=rs.getString(2);
+                        paisos.add(pais);
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
-            if (stm != null) {
-                stm.close();
-            }
-            if (cn != null) {
-                cn.close();
-            }
-        }
+        });
+        fil.start();
+        fil.join();
         return paisos;
+    }
+    public ArrayList<String> BuscarCiutats(Context context,int pais) throws SQLException, InterruptedException {
+        ArrayList<String>paisos=new ArrayList<>();
+
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idXat,idUser1,idUser2;
+                boolean actiu;
+                try {
+                    String sql= "SELECT * from `ciutat` WHERE IdPais='"+pais+"';";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    while(rs.next()){
+                        String pais=rs.getString(1);
+                        paisos.add(pais);
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+        return paisos;
+    }
+    public ArrayList<String> BuscarCP(Context context,int ciutat) throws SQLException, InterruptedException {
+        ArrayList<String>codisPostals=new ArrayList<>();
+
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idXat,idUser1,idUser2;
+                boolean actiu;
+                try {
+                    String sql= "SELECT * from `pcciutat` WHERE IdCiutat='"+ciutat+"';";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    while(rs.next()){
+                        String pais=new Direccio().buscarCP(rs.getString(2));
+                        codisPostals.add(pais);
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+        return codisPostals;
     }
 }

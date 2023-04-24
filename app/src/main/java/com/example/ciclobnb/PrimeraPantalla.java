@@ -54,7 +54,8 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(c, PerfilUsuari.class);
-                intent.putExtra("id",usuari.getIdUser());
+                int id= usuari.getIdUser();
+                intent.putExtra("id",id);
                 startActivity(intent);
             }
         });
