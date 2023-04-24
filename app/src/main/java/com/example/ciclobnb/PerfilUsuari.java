@@ -28,8 +28,11 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuari);
         Bundle b =getIntent().getExtras();
+
         try {
-            usuari=new Usser().getUserPerId(b.getInt("id"));
+            int id=b.getInt("id");
+            Usser temp=new Usser();
+            usuari=temp.getUserPerId(id);
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
         }

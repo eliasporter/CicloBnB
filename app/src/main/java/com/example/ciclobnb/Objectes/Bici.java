@@ -117,39 +117,52 @@ public class Bici {
         return this.marca;
     }
 
-    public ArrayList<Bici> bicisPrimeraPag(){
+    public ArrayList<Bici> bicisPrimeraPag(String filtres){
+
         ArrayList<Bici>bicis=new ArrayList<>();
-        Thread fil = new Thread();
-
-        java.sql.Statement stm = null;
-        ResultSet rs = null;
-        int idBicicleta;
-        String marca;
-        int idBici;
-        int idUser;
-        String descripcio;
-        String tipus;
-        int idDireccio;
-
-        try {
-            String sql= "SELECT * from `bicicletes` ";
-            cn= (Connection) conexio.execute();
-            stm = cn.createStatement();
-            rs=stm.executeQuery(sql);
-            while (rs.next()){
-                marca=rs.getString(5);
-                idBici=rs.getInt(1);
-                idUser=new Usser().getUserPerBici(idBici);//Todo
-                descripcio=rs.getString(2);
-                tipus=rs.getString(3);
-                idDireccio=rs.getInt(4);
-                bicis.add(new Bici(marca,idBici, idUser,  descripcio,  tipus, idDireccio));
-            }
-
-            Log.d("TotalBicis", ""+bicis.size());
-        }catch (Exception e){
+        String sql="";
+        //"null,null,null"
+        if(filtres.equals("null,null,null")){
+            sql= "SELECT * from `bicicletes` ";
+        }else if(filtres.equals("d")){
 
         }
+        String finalSql = sql;
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idBicicleta;
+                String marca;
+                int idBici;
+                int idUser;
+                String descripcio;
+                String tipus;
+                int idDireccio;
+
+                try {
+                    cn= (Connection) conexio.execute();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(finalSql);
+                    while (rs.next()){
+                        marca=rs.getString(5);
+                        idBici=rs.getInt(1);
+                        idUser=new Usser().getUserPerBici(idBici);//Todo
+                        descripcio=rs.getString(2);
+                        tipus=rs.getString(3);
+                        idDireccio=rs.getInt(4);
+                        bicis.add(new Bici(marca,idBici, idUser,  descripcio,  tipus, idDireccio));
+                    }
+
+                    Log.d("TotalBicis", ""+bicis.size());
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
         return bicis;
     }
 
