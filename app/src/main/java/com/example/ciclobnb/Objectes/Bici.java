@@ -117,7 +117,7 @@ public class Bici {
         return this.marca;
     }
 
-    public ArrayList<Bici> bicisPrimeraPag(String filtres){
+    public ArrayList<Bici> bicisPrimeraPag(String filtres) throws InterruptedException {
 
         ArrayList<Bici>bicis=new ArrayList<>();
         String sql="";
@@ -162,6 +162,8 @@ public class Bici {
 
             }
         });
+        fil.start();
+        fil.join();
 
         return bicis;
     }

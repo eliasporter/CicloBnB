@@ -30,7 +30,11 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_pantalla);
-        busca();
+        try {
+            busca();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         filtreDia=findViewById(R.id.filtreDia);
         filtreDireccio=findViewById(R.id.filtreDireccio);
         filtrePreu=findViewById(R.id.filtrePreu);
@@ -72,13 +76,14 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         guanysText=findViewById(R.id.guanysPerfilUsuari);
         guanysText.setText("55.05"+" €");
     }
-    private void busca(){
-
-
-        this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
+    private void busca() throws InterruptedException {
+        //recollim els filtres
+        String filtre="null,null,null";
+        this.bicis=new Bici().bicisPrimeraPag(filtre);
+        /*this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
         this.bicis.add(new Bici("Giant",2, 1, "Bicicleta de carretera", "Carretera", 1));
         this.bicis.add(new Bici("Giant",3, 2, "Bicicleta híbrida", "Híbrida", 1));
-        this.bicis.add(new Bici("Orbea",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
+        this.bicis.add(new Bici("Orbea",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));*/
 
     }
 
