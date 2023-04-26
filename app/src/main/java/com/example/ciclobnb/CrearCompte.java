@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEdat, textEmail,textIban,textDireccio;
     String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
     Spinner paisos,ciutats,codiPostal;
+    String pais, ciutat,cp;
     Button cancela,crea;
     Context c=this;
     @Override
@@ -159,7 +161,65 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     }
 
     private Boolean comprovar(){//comprovem que els camps del formulari estan ben escrits
+        boolean be=true;
+        if(!comprovaNom()) {
+            be= false;
+        }
+        if(!comprovaLogin()) {
 
+            be =false;
+        }
+        if (!comprovaCognoms()){
+            be = false;
+        }
+        if (!comprovaPass()){
+            be = false;
+        }
+        return be;
+    }
+    private Boolean comprovaNom() {
+        if(textNom.getText().toString().equals("")){
+            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
+            textNom.setBackgroundTintList(color);
+            return false;
+        }
+        return true;
+    }
+    private Boolean comprovaLogin(){
+        if(textLogin.getText().toString().equals("")){
+            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
+            textLogin.setBackgroundTintList(color);
+            return false;
+        }
+        return true;
+    }
+    private Boolean comprovaCognoms (){
+        if(textCognom1.getText().toString().equals("")){
+            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
+            textCognom1.setBackgroundTintList(color);
+            return false;
+        }
+        return true;
+    }
+    private Boolean comprovaPass(){
+        if(textPass.getText().toString().equals("")){
+            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
+            textPass.setBackgroundTintList(color);
+            return false;
+        }
+        return true ;
+    }
+    private Boolean comprovaEdat(){
+        try{
+            textPass.getText().toString();
+        }catch (Exception e){
+            return false;
+        }
+        if(true){
+            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
+            textPass.setBackgroundTintList(color);
+            return false;
+        }
         return true;
     }
 
