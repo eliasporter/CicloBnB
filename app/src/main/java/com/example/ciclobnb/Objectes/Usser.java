@@ -354,42 +354,45 @@ public class Usser {
         return 0;
     }
 
-    public ArrayList<Xat> getXats() throws SQLException {
-        java.sql.Statement stm = null;
-        ResultSet rs = null;
-        int idXat,idUser1,idUser2;
-        boolean actiu;
-        ArrayList<Xat>xats=new ArrayList<>();
-        Usser u;
-        try {
-            String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+getIdUser()+"' OR 'IdUsuariLlogador'='"+getIdUser()+"';";
-            cn=conexio.execute().get();
-            stm = cn.createStatement();
-            rs=stm.executeQuery(sql);
-            while(rs.next()){
-                idXat=rs.getInt(0);
-                idUser1=rs.getInt(1);
-                idUser2=rs.getInt(2);
-                xats.add(new Xat(idXat,idUser1,idUser2));
-            }
-            Log.d("userLlegit", ""+xats.size());
-        }catch (Exception e){
+    public ArrayList<Xat> getXats() throws SQLException, InterruptedException {
 
-        }finally {
-            cn.close();
-        }
-        /*if(this.IdUser==1){
-            xats.add(new Xat(1,1,2));
-            xats.add(new Xat(2,1,3));
-        }else if(this.IdUser==2){
-            xats.add(new Xat(1,2,1));
-            xats.add(new Xat(2,2,3));
-        }else {
-            xats.add(new Xat(1,2,1));
-            xats.add(new Xat(2,2,3));
-            xats.add(new Xat(1,1,2));
-            xats.add(new Xat(2,1,3));
-        }*/
+        ArrayList<Xat>xats=new ArrayList<>();
+
+        Thread fil=new Thread(new Runnable() {
+            java.sql.Statement stm = null;
+            ResultSet rs = null;
+            int idXat,idUser1,idUser2;
+            boolean actiu;
+            Usser u;
+            @Override
+            public void run() {
+                try {
+
+                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+getIdUser()+"' OR 'IdUsuariLlogador'='"+getIdUser()+"';";
+                    cn=conexio.execute().get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    while(rs.next()){
+                        idXat=rs.getInt(0);
+                        idUser1=rs.getInt(1);
+                        idUser2=rs.getInt(2);
+                        xats.add(new Xat(idXat,idUser1,idUser2));
+                    }
+                    Log.d("userLlegit", ""+xats.size());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        cn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        Log.d("XatError", e.getMessage());
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
         return xats;
     }
     public ArrayList<String> BuscarPaisos(Context context) throws SQLException, InterruptedException {
