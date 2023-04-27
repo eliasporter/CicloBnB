@@ -235,15 +235,13 @@
                     android:layout_marginRight="50dp"
                     android:text="Direcció:" />
 
-
-                <EditText
+                <Button
                     android:id="@+id/Direccio"
-                    android:layout_width="wrap_content"
+
+                    android:layout_width="224dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:ems="10"
-                    android:hint="Direcció"
-                    android:inputType="textPersonName" />
+                    android:text="Direccio" />
+
 
             </LinearLayout>
 
