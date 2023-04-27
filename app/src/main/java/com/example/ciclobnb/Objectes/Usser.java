@@ -9,6 +9,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
+import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
@@ -516,7 +517,7 @@ public class Usser {
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     while(rs.next()){
-                        String pais=new Direccio().buscarCP(rs.getString(2));
+                        String pais=new ConnexioDireccio().buscarCP(rs.getString(2));
                         codisPostals.add(pais);
                     }
 
