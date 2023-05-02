@@ -42,13 +42,8 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         filtrePreu.setOnClickListener(this);
         filtreDia.setOnClickListener(this);
         Bundle b =getIntent().getExtras();
-        try {
-            int id=b.getInt("id");
-            Usser temp=new Usser();
-            usuari=temp.getUserPerId(id);
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        usuari=b.getParcelable("User");
         iniciarTextView();
         RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
         vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));

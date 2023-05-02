@@ -51,7 +51,7 @@ public class EditarPerfilUser extends AppCompatActivity implements View.OnClickL
         correu=findViewById(R.id.editMail);
         correu.setText(usuari.getCorreuElectronic());
         naixement=findViewById(R.id.dataNaixement);
-        naixement.setText(usuari.getDataNaixement());
+        naixement.setText(usuari.getDataNaixement().toString());
         iban=findViewById(R.id.ibanEdita);
         iban.setText("H555543432");
         cuali=findViewById(R.id.ratingBarEdit);
