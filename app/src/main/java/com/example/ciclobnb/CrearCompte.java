@@ -24,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
+import com.example.ciclobnb.BBDD.Connexions.FillSpinners;
 import com.example.ciclobnb.Objectes.Direccio;
+import com.example.ciclobnb.Objectes.HashMapAdapter;
 import com.example.ciclobnb.Objectes.Usser;
 
 import org.w3c.dom.Text;
@@ -107,21 +109,22 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     }
 
     private void emplenarLinears() throws SQLException, InterruptedException {
-        ArrayList<String>paisos=new Usser().BuscarPaisos(this);
-        ArrayAdapter<String> adapterPais = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paisos);
-        this.paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        FillSpinners fillSpinners = new FillSpinners();
+        HashMapAdapter countriesAdapter = new HashMapAdapter(this, android.R.layout.simple_spinner_item, fillSpinners.countries);
+        paisos.setAdapter(countriesAdapter);
 
+        //ArrayList<String>paisos=new Usser().BuscarPaisos(this);
+        //ArrayAdapter<String> adapterPais = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paisos);
+        this.paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String>ciutats= null;
+                ArrayList<String>ciutats = null;
                 try {
-                    ciutats = new Usser().BuscarCiutats(CrearCompte.this,position+1);//agafarà el paìs amb l'id
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                    ciutats = new Usser().BuscarCiutats(CrearCompte.this,3+1);//agafarà el paìs amb l'id
+                } catch (SQLException | InterruptedException e) {
                     e.printStackTrace();
                 }
-                ArrayAdapter<String>  adapterCiutats = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, ciutats);
+                ArrayAdapter<String> adapterCiutats = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, ciutats);
                 CrearCompte.this.ciutats.setAdapter(adapterCiutats);
             }
             @Override
@@ -129,15 +132,13 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
             }
         });
-        this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        /*this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<String>cp= null;
                 try {
                     cp = new Usser().BuscarCP(CrearCompte.this,new ConnexioDireccio().buscarCiutatPerNom(CrearCompte.this.ciutats.getSelectedItem().toString()));//agafarà el paìs amb l'id
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (SQLException | InterruptedException e) {
                     e.printStackTrace();
                 }
                 ArrayAdapter<String>  adapterCP = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, cp);
@@ -150,7 +151,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         });
         //Emplenem Spinners
 
-        this.paisos.setAdapter(adapterPais);
+        this.paisos.setAdapter(adapterPais);*/
     }
 
     @Override
@@ -195,7 +196,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        guardarDir(textCarrer,textTipusVia,textPis,textnumero);
+                        //guardarDir(textCarrer,textTipusVia,textPis,textnumero);
 
                     }
                 });

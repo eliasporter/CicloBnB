@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 public class Usser {
@@ -396,6 +397,31 @@ public class Usser {
         fil.join();
         return xats;
     }
+
+    public HashMap<Integer, String> Buscador(String query, Integer columnID, Integer columnName) {
+        HashMap<Integer, String> result = new HashMap<>();
+
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                try {
+                    cn = conexio.execute().get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(query);
+                    while(rs.next()){
+                        Integer id=rs.getInt(columnID);
+                        String name=rs.getString(columnName);
+                        result.put(id, name);
+                    }
+                    cn.close();
+                    rs.close();
+                    stm.close();
+                    return result;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+        return result;
+    }
+
     public ArrayList<String> BuscarPaisos(Context context) throws SQLException, InterruptedException {
         ArrayList<String>paisos=new ArrayList<>();
 
@@ -416,36 +442,16 @@ public class Usser {
                         String pais=rs.getString(2);
                         paisos.add(pais);
                     }
-
+                    cn.close();
+                    rs.close();
+                    stm.close();
                 }catch (Exception e){
                     e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
         });
         fil.start();
-        fil.join();
+        //fil.join();
         return paisos;
     }
     public ArrayList<String> BuscarCiutats(Context context,int pais) throws SQLException, InterruptedException {
@@ -471,38 +477,15 @@ public class Usser {
 
                 }catch (Exception e){
                     e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
         });
         fil.start();
-        fil.join();
+        //fil.join();
         return paisos;
     }
     public ArrayList<String> BuscarCP(Context context,int ciutat) throws SQLException, InterruptedException {
         ArrayList<String>codisPostals=new ArrayList<>();
-
         Thread fil = new Thread(new Runnable() {
             @Override
             public void run() {
