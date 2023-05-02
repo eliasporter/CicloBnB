@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -110,48 +111,44 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
     private void emplenarLinears() throws SQLException, InterruptedException {
         FillSpinners fillSpinners = new FillSpinners();
-        HashMapAdapter countriesAdapter = new HashMapAdapter(this, android.R.layout.simple_spinner_item, fillSpinners.countries);
+        fillSpinners.FillCountries();
+        Log.d("CitiesLoading", "Countries");
+        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fillSpinners.countries);
         paisos.setAdapter(countriesAdapter);
 
-        //ArrayList<String>paisos=new Usser().BuscarPaisos(this);
-        //ArrayAdapter<String> adapterPais = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paisos);
-        this.paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String>ciutats = null;
                 try {
-                    ciutats = new Usser().BuscarCiutats(CrearCompte.this,3+1);//agafarà el paìs amb l'id
-                } catch (SQLException | InterruptedException e) {
-                    e.printStackTrace();
+                    Log.d("CitiesLoading", "Cities");
+                    fillSpinners.FillCities(fillSpinners.countries.get(position));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                ArrayAdapter<String> adapterCiutats = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, ciutats);
-                CrearCompte.this.ciutats.setAdapter(adapterCiutats);
+                ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, fillSpinners.cities);
+                ciutats.setAdapter(citiesAdapter);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
-            }
-        });
-        /*this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String>cp= null;
-                try {
-                    cp = new Usser().BuscarCP(CrearCompte.this,new ConnexioDireccio().buscarCiutatPerNom(CrearCompte.this.ciutats.getSelectedItem().toString()));//agafarà el paìs amb l'id
-                } catch (SQLException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                ArrayAdapter<String>  adapterCP = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, cp);
-                CrearCompte.this.codiPostal.setAdapter(adapterCP);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
-            }
-        });
-        //Emplenem Spinners
 
-        this.paisos.setAdapter(adapterPais);*/
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    Log.d("CitiesLoading", "Postal Code");
+                    fillSpinners.FillCP(fillSpinners.cities.get(position));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                ArrayAdapter<String> postalAdapter = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, fillSpinners.cp);
+                CrearCompte.this.codiPostal.setAdapter(postalAdapter);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     @Override
