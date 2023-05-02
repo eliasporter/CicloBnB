@@ -13,9 +13,7 @@ public class ConnexioDireccio {
     ResultSet rs;
     private final ConnectBBdd conexio = new ConnectBBdd();
     public ConnexioDireccio(){}
-
     private Connection cn =null;
-
     public int BuscarID(int idCP) throws InterruptedException {
         final int[] id = new int[1];
         Thread thread = new Thread(new Runnable() {
@@ -61,7 +59,6 @@ public class ConnexioDireccio {
         thread.join();
         return id[0];
     }
-
     public boolean Actualizar(Direccio direccio) throws InterruptedException {
         final boolean[] hecho = {false};
         Thread thread = new Thread(new Runnable() {
@@ -108,7 +105,6 @@ public class ConnexioDireccio {
         thread.join();
         return hecho[0];
     }
-
     public boolean SubirDireccion(Direccio direccio) throws InterruptedException {
         final boolean[] hecho = {false};
         Thread thread = new Thread(new Runnable() {
