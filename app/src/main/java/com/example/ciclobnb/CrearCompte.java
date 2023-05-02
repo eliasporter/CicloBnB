@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -40,7 +41,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CrearCompte extends AppCompatActivity implements View.OnClickListener {
-    EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEdat, textEmail,textIban;
+    EditText textLogin,textPass,textNom,textCognom1,textCognom2, textEmail,textIban;
+    DatePicker textEdat;
     Button textDireccio;
     String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
     Spinner paisos,ciutats,codiPostal;
@@ -79,7 +81,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 if(comprovar()) {
                     Direccio tempD=new Direccio();
                     Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
-                            textLogin.getText().toString(),textPass.getText().toString(),textEdat.getText().toString(),
+                            textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
                             textEmail.getText().toString(),true);
 
                     try {
@@ -115,7 +117,6 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         Log.d("CitiesLoading", "Countries");
         ArrayAdapter<String> countriesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fillSpinners.countries);
         paisos.setAdapter(countriesAdapter);
-
         paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -165,7 +166,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textNom=(EditText) findViewById(R.id.nom);
         textCognom1=(EditText) findViewById(R.id.cognom1);
         textCognom2=(EditText) findViewById(R.id.cognom2);
-        textEdat=(EditText) findViewById(R.id.Edat);
+        textEdat=(DatePicker) findViewById(R.id.Edat);
         textEmail=(EditText) findViewById(R.id.mail);
         textIban = (EditText) findViewById(R.id.iban);
         textDireccio = findViewById(R.id.Direccio);
@@ -282,13 +283,12 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     private Boolean comprovaEdat(){
         Date data=null;
         try{
-            data= new SimpleDateFormat("YYYY-MM-DD").parse(textEdat.getText().toString());
+            data= new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth());
 
         }catch (Exception e){
             e.printStackTrace();
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
-            textEdat.setText("");
             return false;
         }
         Period edat= Period.between(LocalDate.ofEpochDay(data.getTime()), LocalDate.now());
