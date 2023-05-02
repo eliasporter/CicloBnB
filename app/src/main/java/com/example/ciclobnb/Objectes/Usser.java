@@ -9,7 +9,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
-import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
@@ -398,27 +397,33 @@ public class Usser {
         return xats;
     }
 
-    public HashMap<Integer, String> Buscador(String query, Integer columnID, Integer columnName) {
-        HashMap<Integer, String> result = new HashMap<>();
+    public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
+        ArrayList<String> result = new ArrayList<>();
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    cn = conexio.execute().get();
+                    conexio.execute();
+                    cn = conexio.get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(query);
                     while(rs.next()){
-                        Integer id=rs.getInt(columnID);
                         String name=rs.getString(columnName);
-                        result.put(id, name);
+                        result.add(name);
                     }
                     cn.close();
                     rs.close();
                     stm.close();
-                    return result;
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+            }
+        });
+        thread.start();
+
         return result;
     }
 
@@ -484,7 +489,7 @@ public class Usser {
         //fil.join();
         return paisos;
     }
-    public ArrayList<String> BuscarCP(Context context,int ciutat) throws SQLException, InterruptedException {
+    /*public ArrayList<String> BuscarCP(Context context,int ciutat) throws SQLException, InterruptedException {
         ArrayList<String>codisPostals=new ArrayList<>();
         Thread fil = new Thread(new Runnable() {
             @Override
@@ -500,7 +505,7 @@ public class Usser {
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     while(rs.next()){
-                        String pais=new ConnexioDireccio().buscarCP(rs.getString(2));
+                        String pais=new Direccio().buscarCP(rs.getString(2));
                         codisPostals.add(pais);
                     }
 
@@ -534,5 +539,5 @@ public class Usser {
         fil.start();
         fil.join();
         return codisPostals;
-    }
+    }*/
 }

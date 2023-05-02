@@ -15,23 +15,32 @@ import java.util.Map;
 import java.util.Objects;
 
 public class FillSpinners {
-    public HashMap<Integer, String>countries;
-    public HashMap<Integer, String>cities;
-    public HashMap<Integer, String>cp;
-    private Usser command;
+    public ArrayList<String>countries;
+    public ArrayList<String>cities;
+    public ArrayList<String>cp;
+    private final Usser command;
 
-    public void FillCountries(){
-        countries = command.Buscador("SELECT * FROM pais", 1, 2);
+    public void FillCountries() throws InterruptedException {
+        countries = command.Buscador("SELECT Nom FROM pais;",  1);
     }
 
-    public void FillCities(String name) {
-        cities = command.Buscador("SELECT * from ciutat WHERE Nom='"+name+"';", 3, 1);
+    public void FillCities(String pais) throws InterruptedException {
+        cities = command.Buscador("SELECT ciutat.Nom FROM ciutat " +
+                "INNER JOIN pais ON pais.IdPais = ciutat.IdPais " +
+                "WHERE pais.Nom = '"+pais+"';",  1);
+    }
+
+    public void FillCP(String ciutat) throws InterruptedException {
+        cp = command.Buscador("SELECT codipostal.idCodiPostal, codipostal.codiPostal FROM codipostal " +
+                "INNER JOIN pcciutat ON pcciutat.IdCodiPostal = codipostal.idCodiPostal " +
+                "INNER JOIN ciutat ON ciutat.IdCiutat = pcciutat.IdCiutat " +
+                "WHERE ciutat.Nom = '"+ciutat+"';",  1);
     }
 
     public FillSpinners(){
-        countries = new HashMap<>();
-        cities = new HashMap<>();
-        cp = new HashMap<>();
+        countries = new ArrayList<>();
+        cities = new ArrayList<>();
+        cp = new ArrayList<>();
         command = new Usser();
     }
 }
