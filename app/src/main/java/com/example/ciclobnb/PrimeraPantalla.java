@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ciclobnb.BBDD.Connexions.GestioLloguersConnection;
 import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
 import com.example.ciclobnb.Objectes.Bici;
 import com.example.ciclobnb.Objectes.Usser;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickListener{
@@ -23,7 +24,7 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
     ArrayList <Usser> ussers=new ArrayList<>();
     TextView loginText,nomCognomsText,guanysText;
     Button filtreDia,filtrePreu,filtreDireccio;
-    Usser usuari;
+    Usser user;
     Button perfil;
     Context c=this;
     @Override
@@ -41,9 +42,10 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         filtreDireccio.setOnClickListener(this);
         filtrePreu.setOnClickListener(this);
         filtreDia.setOnClickListener(this);
-        Bundle b =getIntent().getExtras();
 
-        usuari=b.getParcelable("User");
+        Bundle b =getIntent().getExtras();
+        user = b.getParcelable("User");
+
         iniciarTextView();
         RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
         vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));
@@ -53,7 +55,7 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(c, PerfilUsuari.class);
-                int id= usuari.getIdUser();
+                int id= user.getIdUser();
                 intent.putExtra("id",id);
                 startActivity(intent);
             }
@@ -61,15 +63,17 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void iniciarTextView() {
         loginText=findViewById(R.id.textPerfil);
-        loginText.setText(usuari.getLogin());
+        loginText.setText(user.getLogin());
 
         nomCognomsText=findViewById(R.id.nomCognomsPrimera);
-        nomCognomsText.setText(usuari.getNom()+" "+usuari.getCognom1()+" "+usuari.getCognom2());
+        nomCognomsText.setText(user.getNom()+" "+ user.getCognom1()+" "+ user.getCognom2());
 
         guanysText=findViewById(R.id.guanysPerfilUsuari);
-        guanysText.setText("55.05"+" €");
+        GestioLloguersConnection gestioLloguersConnection = new GestioLloguersConnection();
+        guanysText.setText(gestioLloguersConnection.GetByUserID(user.getIdUser())+" €");
     }
     private void busca() throws InterruptedException {
         //recollim els filtres

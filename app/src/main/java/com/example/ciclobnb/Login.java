@@ -19,7 +19,7 @@ public class Login extends AppCompatActivity {
     Button login, passForgotten, newUser;
     EditText nom,contra;
     Context c=this;
-    Usser usuari=null;
+    Usser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
                    contra=(EditText) findViewById(R.id.editTextTextPassword);
                    if(cercaUser()) {
                        Intent intent = new Intent(c, PrimeraPantalla.class);
-                       intent.putExtra("User", usuari);
+                       intent.putExtra("User", user);
                        startActivity(intent);
                    }else{
                        ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
@@ -59,11 +59,10 @@ public class Login extends AppCompatActivity {
     public boolean cercaUser(){
         //Cridem la funcio que te Usser per a buscar l'usuari
         try {
-            usuari=new Usser().Login(nom.getText().toString(),contra.getText().toString());
+            user =new Usser().Login(nom.getText().toString(),contra.getText().toString());
         }catch (SQLException | InterruptedException e){
             e.printStackTrace();
         }
-
-        return usuari != null;
+        return user != null;
     }
 }
