@@ -67,7 +67,7 @@ public class ConnexioDireccio {
                 stm = null;
                 rs = null;
                 try {
-                    String sql= "UPDATE direccio SET TipusVia = '"+direccio.tipus+"', " +
+                    String sql= "UPDATE direccio SET TipusVia = '"+direccio.tipusVia+"', " +
                             "NomCarrer = '"+direccio.nomCarrer+"', Numero = '"+direccio.numero+"', " +
                             "Pis = '" + direccio.pis+"', IdCP = '"+direccio.idCP+"' WHERE IdDireccio = " +
                             ""+direccio.idDireccion+";";
@@ -114,7 +114,7 @@ public class ConnexioDireccio {
                 rs = null;
                 try {
                     String sql= "INSERT INTO direccio (TipusVia, NomCarrer, Numero, Pis, IdCP) VALUES (" +
-                            "'"+direccio.tipus+"', '"+direccio.nomCarrer+"', '"+direccio.numero+"', '" +
+                            "'"+direccio.tipusVia+"', '"+direccio.nomCarrer+"', '"+direccio.numero+"', '" +
                             direccio.pis+"', '"+direccio.idCP+"');";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();

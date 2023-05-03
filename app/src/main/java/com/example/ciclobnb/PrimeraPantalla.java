@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ciclobnb.BBDD.Connexions.BicicletesConnection;
 import com.example.ciclobnb.BBDD.Connexions.GestioLloguersConnection;
 import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
 import com.example.ciclobnb.Objectes.Bici;
@@ -31,40 +32,32 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_pantalla);
-        try {
-            busca();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        filtreDia=findViewById(R.id.filtreDia);
-        filtreDireccio=findViewById(R.id.filtreDireccio);
-        filtrePreu=findViewById(R.id.filtrePreu);
-        filtreDireccio.setOnClickListener(this);
-        filtrePreu.setOnClickListener(this);
-        filtreDia.setOnClickListener(this);
 
+        //Recibir usuario
         Bundle b =getIntent().getExtras();
         user = b.getParcelable("User");
 
-        iniciarTextView();
-        RecyclerView vista=(RecyclerView) findViewById(R.id.cercaBicis);
-        vista.setAdapter(new AdapterCiclo(ussers,bicis,PrimeraPantalla.this));
+        OpenTextView();
+        OpenButton();
+        LoadBikes();
+        RecyclerView vista = findViewById(R.id.cercaBicis);
+        vista.setAdapter(new AdapterCiclo(ussers,bicis,c));
         vista.setLayoutManager(new LinearLayoutManager(this));
-        perfil=findViewById(R.id.editPerfil);
-        perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(c, PerfilUsuari.class);
-                int id= user.getIdUser();
-                intent.putExtra("id",id);
-                startActivity(intent);
-            }
-        });
+    }
 
+    private void OpenButton(){
+        filtreDia=findViewById(R.id.filtreDia);
+        filtreDireccio=findViewById(R.id.filtreDireccio);
+        filtrePreu=findViewById(R.id.filtrePreu);
+        perfil=findViewById(R.id.editPerfil);
+        filtreDireccio.setOnClickListener(this);
+        filtrePreu.setOnClickListener(this);
+        filtreDia.setOnClickListener(this);
+        perfil.setOnClickListener(this);
     }
 
     @SuppressLint("SetTextI18n")
-    private void iniciarTextView() {
+    private void OpenTextView() {
         loginText=findViewById(R.id.textPerfil);
         loginText.setText(user.getLogin());
 
@@ -75,15 +68,9 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         GestioLloguersConnection gestioLloguersConnection = new GestioLloguersConnection();
         guanysText.setText(gestioLloguersConnection.GetByUserID(user.getIdUser())+" €");
     }
-    private void busca() throws InterruptedException {
-        //recollim els filtres
-        String filtre="null,null,null";
-        this.bicis=new Bici().bicisPrimeraPag(filtre);
-        /*this.bicis.add(new Bici("Orbea",1, 1, "Bicicleta de montaña", "Montaña", 1));
-        this.bicis.add(new Bici("Giant",2, 1, "Bicicleta de carretera", "Carretera", 1));
-        this.bicis.add(new Bici("Giant",3, 2, "Bicicleta híbrida", "Híbrida", 1));
-        this.bicis.add(new Bici("Orbea",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));*/
-
+    private void LoadBikes() {
+        BicicletesConnection bicicletesConnection = new BicicletesConnection();
+        bicis = bicicletesConnection.SearchForBike(user.getIdUser());
     }
 
     @Override
@@ -94,6 +81,10 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
 
         }else if(v==filtrePreu){
 
+        }else if(v==perfil){
+            Intent intent = new Intent(c, PerfilUsuari.class);
+            intent.putExtra("User", user);
+            startActivity(intent);
         }
     }
 }

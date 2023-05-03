@@ -20,11 +20,8 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> {
-
-    /*TreeSet<Bici> bicis = new TreeSet<>();
-    TreeSet<Usser> users = new TreeSet<>();*/
-    ArrayList <Usser> users=new ArrayList<>();
-    ArrayList <Bici> bicis =new ArrayList<>();
+    ArrayList <Usser> users;
+    ArrayList <Bici> bicis;
     Context context;
     boolean mostrarImatge;
     boolean mostrarContrasenya;
@@ -49,24 +46,22 @@ public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> 
             tDescripcio = view.findViewById(R.id.descripcioBici);
             tDireccio = view.findViewById(R.id.direccioBici);
             tFoto = view.findViewById(R.id.personaImatge);
-
         }
 
         public void bind(Integer position) {
 
+            tUserLogin.setText("");
             tTipusBici.setText(bicis.get(position).getTipus());
             tDescripcio.setText(bicis.get(position).getDescripcio());
 
-            if (mostrarImatge) {
+            /*if (mostrarImatge) {
                 Integer imatge = getImage(bicis.get(position).getFoto(), this.itemView);
-
-            }
+            }*/
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, Bici_per_llogar.class);
-                    intent.putExtra("identificador",bicis.get(position).getIdBicicleta());
-
+                    intent.putExtra("Bike", bicis.get(position));
                     context.startActivity(intent);
                 }
             });

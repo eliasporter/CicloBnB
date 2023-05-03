@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         passForgotten=findViewById(R.id.NoPass);
         login= findViewById(R.id.inicia);
-        newUser=(Button)  findViewById(R.id.creaCompte);
+        newUser=(Button) findViewById(R.id.creaCompte);
 
         login.setOnClickListener(onClickListener());
         newUser.setOnClickListener(onClickListener());
