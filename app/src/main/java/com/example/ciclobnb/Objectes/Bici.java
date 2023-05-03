@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Date;
 
 public class Bici implements Parcelable {
-
     private int IdBicicleta;
     private String Descripcio;
     private String Tipus;
@@ -27,8 +26,8 @@ public class Bici implements Parcelable {
     private String marca;
     private String modelo;
     private String suspension;
-    private Direccio direccio;
-    public Bici(){ }
+    public Direccio direccio;
+    public Bici(){ NewDireccio(); }
     public Bici(int IdBicicleta, String Descripcio, String Tipus, int IdDireccio, String marca, String modelo, String suspension) {
         this.IdBicicleta = IdBicicleta;
         this.Descripcio = Descripcio;
@@ -37,6 +36,7 @@ public class Bici implements Parcelable {
         this.marca=marca;
         this.modelo = modelo;
         this.suspension = suspension;
+        NewDireccio();
     }
     public Bici(String Descripcio, String Tipus, int IdDireccio, String marca, String modelo, String suspension) {
         this.Descripcio = Descripcio;
@@ -45,8 +45,9 @@ public class Bici implements Parcelable {
         this.marca=marca;
         this.modelo = modelo;
         this.suspension = suspension;
+        NewDireccio();
     }
-
+    private void NewDireccio(){this.direccio = new Direccio();}
     protected Bici(Parcel in) {
         IdBicicleta = in.readInt();
         Descripcio = in.readString();
@@ -56,7 +57,6 @@ public class Bici implements Parcelable {
         modelo = in.readString();
         suspension = in.readString();
     }
-
     public static final Creator<Bici> CREATOR = new Creator<Bici>() {
         @Override
         public Bici createFromParcel(Parcel in) {
@@ -68,7 +68,6 @@ public class Bici implements Parcelable {
             return new Bici[size];
         }
     };
-
     public int getIdBicicleta() {
         return IdBicicleta;
     }
@@ -113,12 +112,10 @@ public class Bici implements Parcelable {
     }
     public Direccio getDireccio(){return direccio;}
     public void setDireccio(Direccio direccio){this.direccio = direccio;}
-
     @Override
     public int describeContents() {
         return 0;
     }
-
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(IdBicicleta);
