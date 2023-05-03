@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
                    nom=(EditText) findViewById(R.id.editTextTextPersonName);
                    contra=(EditText) findViewById(R.id.editTextTextPassword);
                    if(cercaUser()) {
+                       Log.d("LOGOfereix", "Sesion Iniciada");
                        Intent intent = new Intent(c, PrimeraPantalla.class);
                        intent.putExtra("User", user);
                        startActivity(intent);

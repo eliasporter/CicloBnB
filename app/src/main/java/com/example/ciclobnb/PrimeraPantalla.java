@@ -14,15 +14,16 @@ import android.widget.TextView;
 
 import com.example.ciclobnb.BBDD.Connexions.BicicletesConnection;
 import com.example.ciclobnb.BBDD.Connexions.GestioLloguersConnection;
+import com.example.ciclobnb.BBDD.Connexions.OfereixConnection;
 import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
 import com.example.ciclobnb.Objectes.Bici;
+import com.example.ciclobnb.Objectes.Ofereix;
 import com.example.ciclobnb.Objectes.Usser;
 
 import java.util.ArrayList;
 
 public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickListener{
-    ArrayList <Bici> bicis=new ArrayList<>();
-    ArrayList <Usser> ussers=new ArrayList<>();
+    ArrayList<Ofereix> ofereixes =  new ArrayList<>();
     TextView loginText,nomCognomsText,guanysText;
     Button filtreDia,filtrePreu,filtreDireccio;
     Usser user;
@@ -41,7 +42,7 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         OpenButton();
         LoadBikes();
         RecyclerView vista = findViewById(R.id.cercaBicis);
-        vista.setAdapter(new AdapterCiclo(ussers,bicis,c));
+        vista.setAdapter(new AdapterCiclo(ofereixes,c));
         vista.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -69,8 +70,8 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         guanysText.setText(gestioLloguersConnection.GetByUserID(user.getIdUser())+" €");
     }
     private void LoadBikes() {
-        BicicletesConnection bicicletesConnection = new BicicletesConnection();
-        bicis = bicicletesConnection.SearchForBike(user.getIdUser());
+        OfereixConnection ofereixConnection = new OfereixConnection();
+        ofereixes = ofereixConnection.SearchFor(user.getIdUser());
     }
 
     @Override

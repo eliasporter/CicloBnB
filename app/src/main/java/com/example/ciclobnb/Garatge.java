@@ -27,7 +27,7 @@ public class Garatge extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cercarBicis();
+        //cercarBicis();
         setContentView(R.layout.activity_garatge);
         afegir=findViewById(R.id.AfegirBiciBoto);
         bicis=findViewById(R.id.ReciclerBicis);
@@ -70,7 +70,5 @@ public class Garatge extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    private void cercarBicis(){
     }
 }
