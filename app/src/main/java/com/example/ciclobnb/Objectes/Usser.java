@@ -231,9 +231,6 @@ public class Usser implements Parcelable {
                 try {
                     java.sql.Statement stm = null;
                     ResultSet rs = null;
-                    String nom,login, cognom1, cognom2,dataNaixement,correuElectronic;
-                    int id;
-                    boolean actiu;
                     cn= new ConnectBBdd().execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery("SELECT * FROM usuaris WHERE Login='"+user+"' AND Contrasenya='"+Hash(password)+"';");
