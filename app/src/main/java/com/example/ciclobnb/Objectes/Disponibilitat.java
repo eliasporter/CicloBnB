@@ -1,8 +1,13 @@
 package com.example.ciclobnb.Objectes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
-public class Disponibilitat {
+public class Disponibilitat implements Parcelable {
     private Integer idDisponibilitat;
     private Date dataInici;
     private Date dataFi;
@@ -19,6 +24,28 @@ public class Disponibilitat {
         this.dataFi = dataFi;
         this.preu = preu;
     }
+
+    protected Disponibilitat(Parcel in) {
+        if (in.readByte() == 0) {
+            idDisponibilitat = null;
+        } else {
+            idDisponibilitat = in.readInt();
+        }
+        preu = in.readDouble();
+    }
+
+    public static final Creator<Disponibilitat> CREATOR = new Creator<Disponibilitat>() {
+        @Override
+        public Disponibilitat createFromParcel(Parcel in) {
+            return new Disponibilitat(in);
+        }
+
+        @Override
+        public Disponibilitat[] newArray(int size) {
+            return new Disponibilitat[size];
+        }
+    };
+
     public Date getDataInici() {
         return dataInici;
     }
@@ -42,5 +69,21 @@ public class Disponibilitat {
     }
     public void setIdDisponibilitat(Integer idDisponibilitat) {
         this.idDisponibilitat = idDisponibilitat;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (idDisponibilitat == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(idDisponibilitat);
+        }
+        dest.writeDouble(preu);
     }
 }

@@ -37,6 +37,7 @@ public class Ofereix implements Parcelable {
         } else {
             idDispo = in.readInt();
         }
+        disponibilitats = in.createTypedArrayList(Disponibilitat.CREATOR);
         bicis = in.createTypedArrayList(Bici.CREATOR);
         ussers = in.createTypedArrayList(Usser.CREATOR);
     }
@@ -128,6 +129,7 @@ public class Ofereix implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(idDispo);
         }
+        dest.writeTypedList(disponibilitats);
         dest.writeTypedList(bicis);
         dest.writeTypedList(ussers);
     }
