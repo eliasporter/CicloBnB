@@ -1,5 +1,6 @@
 package com.example.ciclobnb.Objectes.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,11 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AdapterDisponibilitats extends RecyclerView.Adapter<AdapterDisponibilitats.ViewHolder> {
-
-    /*TreeSet<Bici> bicis = new TreeSet<>();
-    TreeSet<Usser> users = new TreeSet<>();*/
-    ArrayList <Disponibilitat> dispo =new ArrayList<>();
+    ArrayList <Disponibilitat> dispo;
     Context context;
+    @SuppressLint("SimpleDateFormat")
+    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public AdapterDisponibilitats( ArrayList<Disponibilitat> dispo, Context context) {
         this.dispo = dispo;
@@ -40,7 +40,6 @@ public class AdapterDisponibilitats extends RecyclerView.Adapter<AdapterDisponib
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView dataInici;
         TextView dataFi;
-
         TextView preu;
 
         public ViewHolder(View view) {
@@ -48,14 +47,13 @@ public class AdapterDisponibilitats extends RecyclerView.Adapter<AdapterDisponib
             dataInici=view.findViewById(R.id.DiaInici);
             dataFi=view.findViewById(R.id.DiaFi);
             preu=view.findViewById(R.id.Preu);
-
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(Integer position) {
-            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-            dataInici.setText(dateFormat.format(dispo.get(position).getDataInici()));
-            dataFi.setText(dateFormat.format(dispo.get(position).getDataFi()));
-            preu.setText(String.valueOf(dispo.get(position).getPreu()));
+            dataInici.setText("Des de: "+dispo.get(position).getDataInici());
+            dataFi.setText("Fins: "+dispo.get(position).getDataFi());
+            //preu.setText(String.valueOf(dispo.get(position).getPreu()));
         }
     }
     @Override

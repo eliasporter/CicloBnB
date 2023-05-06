@@ -14,7 +14,9 @@ import java.util.Properties;
 public class ConnectBBdd extends AsyncTask<Void, Void, Connection> {
 
     private static final String TAG = "ConexionMySQL";
-    private static final String url = "jdbc:mysql://192.168.1.150:25230/ciclobnbDB";
+    //"jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB"
+    //"jdbc:mysql://192.168.1.150:25230/ciclobnbDB"
+    private static final String url = "jdbc:mysql://webapps.insjoanbrudieu.cat:25230/ciclobnbDB";
     private static final String usuari = "ciclobnb";
     private static final String password = "JuElNo--!!18736";
 

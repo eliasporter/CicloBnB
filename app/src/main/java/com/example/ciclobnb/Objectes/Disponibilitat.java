@@ -1,17 +1,24 @@
 package com.example.ciclobnb.Objectes;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Disponibilitat implements Parcelable {
     private Integer idDisponibilitat;
     private Date dataInici;
     private Date dataFi;
     private double preu;
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat  dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     public Disponibilitat(){}
     public Disponibilitat(Date dataInici,Date dataFi,double preu){
         this.dataInici=dataInici;
@@ -31,6 +38,10 @@ public class Disponibilitat implements Parcelable {
         } else {
             idDisponibilitat = in.readInt();
         }
+        try {
+            dataInici = dateFormat.parse(in.readString());
+            dataFi = dateFormat.parse(in.readString());
+        } catch (ParseException e) {e.printStackTrace();}
         preu = in.readDouble();
     }
 
@@ -46,14 +57,16 @@ public class Disponibilitat implements Parcelable {
         }
     };
 
-    public Date getDataInici() {
-        return dataInici;
+    public String getDataInici() {
+        dateFormat.applyPattern("yyyy-MM-dd");
+        return dateFormat.format(dataInici);
     }
     public void setDataInici(Date dataInici) {
         this.dataInici = dataInici;
     }
-    public Date getDataFi() {
-        return dataFi;
+    public String getDataFi() {
+        dateFormat.applyPattern("yyyy-MM-dd");
+        return dateFormat.format(dataFi);
     }
     public void setDataFi(Date dataFi) {
         this.dataFi = dataFi;
@@ -84,6 +97,9 @@ public class Disponibilitat implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(idDisponibilitat);
         }
+        dest.writeString(dateFormat.format(dataInici));
+        String f = dateFormat.format(dataInici);
+        dest.writeString(dateFormat.format(dataFi));
         dest.writeDouble(preu);
     }
 }
