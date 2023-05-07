@@ -295,7 +295,7 @@ public class Usser {
                 try {
                     String sql = "INSERT INTO `ciclobnbDB`.`usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
-                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, 1);";
+                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima();
                     cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);
@@ -517,8 +517,8 @@ public class Usser {
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     while(rs.next()){
-                        String pais=new ConnexioDireccio().buscarCP(rs.getString(2));
-                        codisPostals.add(pais);
+                        String cp=new ConnexioDireccio().buscarCP(rs.getString(2));
+                        codisPostals.add(cp);
                     }
 
                 }catch (Exception e){

@@ -38,7 +38,11 @@ public class Direccio {
         connexioDireccio.Actualizar(direccio);
     }
 
-    public int BuscarID() throws InterruptedException {
-        return connexioDireccio.BuscarID(idCP);
+    public int BuscarID(String cp) throws InterruptedException {
+        return connexioDireccio.BuscarID(Integer.parseInt(cp));
+    }
+
+    public String AgafaUltima() throws InterruptedException {
+        return connexioDireccio.agafaUltima();
     }
 }

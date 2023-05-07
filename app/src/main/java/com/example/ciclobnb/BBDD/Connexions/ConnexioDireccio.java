@@ -15,7 +15,7 @@ public class ConnexioDireccio {
     public ConnexioDireccio(){}
 
     private Connection cn =null;
-
+/*
     public int BuscarID(int idCP) throws InterruptedException {
         final int[] id = new int[1];
         Thread thread = new Thread(new Runnable() {
@@ -60,7 +60,7 @@ public class ConnexioDireccio {
         thread.run();
         thread.join();
         return id[0];
-    }
+    }*/
 
     public boolean Actualizar(Direccio direccio) throws InterruptedException {
         final boolean[] hecho = {false};
@@ -252,5 +252,102 @@ public class ConnexioDireccio {
         fil.start();
         fil.join();
         return idPais[0];
+    }
+
+    public int BuscarID(int id) throws InterruptedException {
+        final int[] idCp = new int[1];
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idXat,idUser1,idUser2;
+                boolean actiu;
+                try {
+                    String sql= "SELECT * FROM `ciclobnbDB`.`codipostal` WHERE codipostal= '"+id+"';";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    rs.next();
+                    idCp[0] =rs.getInt(1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+        return idCp[0];
+    }
+
+    public String agafaUltima() throws InterruptedException {
+        //
+        final String[] id = new String[1];
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                try {
+                    String sql= "SELECT MAX(idCodiPostal) FROM codipostal;";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    rs.next();
+                    id[0] =rs.getString(1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+        return id[0];
     }
 }
