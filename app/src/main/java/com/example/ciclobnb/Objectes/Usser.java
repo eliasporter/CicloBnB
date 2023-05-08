@@ -293,9 +293,9 @@ public class Usser {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    String sql = "INSERT INTO `ciclobnbDB`.`usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
+                    String sql = "INSERT INTO `usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
-                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima();
+                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
                     cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);

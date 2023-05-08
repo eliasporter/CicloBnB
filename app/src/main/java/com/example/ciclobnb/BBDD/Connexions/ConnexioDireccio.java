@@ -150,7 +150,7 @@ public class ConnexioDireccio {
                 }
             }
         });
-        thread.run();
+        thread.start();
         thread.join();
         return hecho[0];
     }
@@ -254,7 +254,7 @@ public class ConnexioDireccio {
         return idPais[0];
     }
 
-    public int BuscarID(int id) throws InterruptedException {
+    public int BuscarID(String id) throws InterruptedException {
         final int[] idCp = new int[1];
         Thread fil = new Thread(new Runnable() {
             @Override
@@ -265,8 +265,8 @@ public class ConnexioDireccio {
                 boolean actiu;
                 try {
                     String sql= "SELECT * FROM `ciclobnbDB`.`codipostal` WHERE codipostal= '"+id+"';";
-                    conexio.execute();
-                    cn=conexio.get();
+
+                    cn=conexio.execute().get();;
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
@@ -312,7 +312,7 @@ public class ConnexioDireccio {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    String sql= "SELECT MAX(idCodiPostal) FROM codipostal;";
+                    String sql= "SELECT * FROM `direccio` ORDER BY `IdDireccio` DESC LIMIT 1;";
                     conexio.execute();
                     cn=conexio.get();
                     stm = cn.createStatement();

@@ -17,7 +17,7 @@ public class Direccio {
     public String numero;
     public String pis;
     public int idCP;
-    private ConnexioDireccio connexioDireccio;
+    private ConnexioDireccio connexioDireccio=new ConnexioDireccio();
     public Direccio(int idDireccion, String tipus, String nomCarrer, String numero, String pis, int idCP){
         this.idDireccion = idDireccion; this.tipus = tipus; this.nomCarrer = nomCarrer; this.numero = numero; this.pis = pis; this.idCP = idCP;
         connexioDireccio = new ConnexioDireccio();
@@ -39,7 +39,7 @@ public class Direccio {
     }
 
     public int BuscarID(String cp) throws InterruptedException {
-        return connexioDireccio.BuscarID(Integer.parseInt(cp));
+        return connexioDireccio.BuscarID(cp);
     }
 
     public String AgafaUltima() throws InterruptedException {

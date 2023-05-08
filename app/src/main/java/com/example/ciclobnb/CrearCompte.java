@@ -35,6 +35,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -86,7 +88,8 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Direccio tempD=new Direccio();
+
+                    //String tipus, String nomCarrer, String numero, String pis, int idCP
                     Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
                             textLogin.getText().toString(),textPass.getText().toString(),textEdat.getText().toString(),
                             textEmail.getText().toString(),true);
@@ -205,6 +208,10 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                         String text = textCarrer.getText().toString();
                         be[0] = comprovaDireccio(textCarrer, textTipusVia, textPis, textnumero);
                         //dir.setCancelable(be[0]);
+                        tipusVia=textTipusVia.getText().toString();
+                        nomCarrer=textCarrer.getText().toString();
+                        pis=textPis.getText().toString();
+                        numero=textnumero.getText().toString();
                     }
                 });
                 dir.setCancelable(be[0]);
@@ -234,18 +241,18 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         });
     }
     private void emplenarDialeg(){
-        if(textCarrer!=null)
-            textCarrer.setText(textCarrer.getText().toString());
-        if(textPis!=null)
-            textPis.setText(textPis.getText().toString());
-        if(textnumero!=null)
-            textnumero.setText(textnumero.getText().toString());
-        if(textTipusVia!=null)
-            textTipusVia.setText(textTipusVia.getText().toString());
+        if(nomCarrer!=null)//&&!nomCarrer.equals(""))
+            textCarrer.setText(nomCarrer);
+        if(pis!=null)//&&!pis.equals(""))
+            textPis.setText(pis);
+        if(numero!=null)//&&!numero.equals(""))
+            textnumero.setText(numero);
+        if(tipusVia!=null)//&&!tipusVia.equals(""))
+            textTipusVia.setText(tipusVia);
     }
     private void guardarDir(EditText textCarrer, EditText textTipus,EditText textPis,EditText textNumero) throws InterruptedException {
         //agafel l'id del CP
-        int cp= new Direccio().BuscarID(codiPostal.toString());
+        int cp= new Direccio().BuscarID(codiPostal.getSelectedItem().toString());
         Direccio temp=new Direccio(textTipus.getText().toString(),textCarrer.getText().toString(),textNumero.getText().toString(),textPis.getText().toString(),cp);
         new Direccio().InsertarNuevo(temp);
 
@@ -309,24 +316,30 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         return true ;
     }
     private Boolean comprovaEdat(){
-        Date data=null;
-        try{
-            data= new SimpleDateFormat("YYYY-MM-DD").parse(textEdat.getText().toString());
-
-        }catch (Exception e){
+        LocalDate fechaNacimiento = null;
+        try {
+            fechaNacimiento = LocalDate.parse(textEdat.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
             e.printStackTrace();
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
             textEdat.setText("");
             return false;
         }
-        Period edat= Period.between(LocalDate.ofEpochDay(data.getTime()), LocalDate.now());
-        if(edat.getYears()<18){
+
+        LocalDate fechaActual = LocalDate.now();
+        int edad = Period.between(fechaNacimiento, fechaActual).getYears();
+
+        if (edad >= 18) {
+            return true;
+        } else {
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
+            textEdat.setText("");
             return false;
         }
-        return true;
+
+
     }
     private Boolean comprovaMail(){
         if(textEmail.getText().toString().equals("")||!textEmail.getText().toString().contains("@")){
