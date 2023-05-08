@@ -41,6 +41,7 @@ public class Usser implements Parcelable {
     private Date dataNaixement;
     private String correuElectronic;
     private Boolean actiu;
+    public Direccio direccio;
     private final ConnectBBdd conexio = new ConnectBBdd();
     private Connection cn =null;
 
