@@ -235,14 +235,15 @@ public class Usser implements Parcelable {
                     ResultSet rs = null;
                     cn= new ConnectBBdd().execute().get();
                     stm = cn.createStatement();
-                    rs=stm.executeQuery("SELECT * FROM usuaris u" +
-                            "INNER JOIN direccio d ON u.IdDireccio = d.IdDireccio " +
-                            "WHERE Login='"+user+"' AND Contrasenya='"+Hash(password)+"';");
+                    rs=stm.executeQuery("SELECT * FROM usuaris u " +
+                            "INNER JOIN direccio d ON d.IdDireccio = u.IdDireccio " +
+                            "WHERE u.Login='"+user+"' AND u.Contrasenya='"+Hash(password)+"';");
                     rs.next();
                     u[0] = new Usser(rs.getInt("IdUsuari"),rs.getString("Nom"), rs.getString("Cognom1"),  rs.getString("Cognom2"), user, Hash(password), rs.getDate("DataNaixement"), rs.getString("CorreuElectronic"), rs.getBoolean("CompteActiu"));
                     u[0].direccio = new Direccio(rs.getInt("IdDireccio"),rs.getString("TipusVia"),rs.getString("NomCarrer"),rs.getString("Numero"),rs.getString("Pis"),rs.getInt("IdCP"));
                     Log.d("userLlegit", u[0].getNom());
-                }catch (Exception e){ e.printStackTrace();}
+                }catch (Exception e){
+                    e.printStackTrace();}
             }
         });
         fil.start();

@@ -22,9 +22,6 @@
             android:name=".XatsAmbPersones"
             android:exported="false" />
         <activity
-            android:name=".EditarPerfilUser"
-            android:exported="false" />
-        <activity
             android:name=".Garatge"
             android:exported="false" />
         <activity
