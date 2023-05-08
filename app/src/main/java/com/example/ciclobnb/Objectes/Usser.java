@@ -12,6 +12,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
+import com.example.ciclobnb.BBDD.Connexions.UserConnection;
+import com.example.ciclobnb.BBDD.UsserBBDD;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
@@ -39,7 +41,6 @@ public class Usser implements Parcelable {
     private Date dataNaixement;
     private String correuElectronic;
     private Boolean actiu;
-    public Direccio direccio;
     private final ConnectBBdd conexio = new ConnectBBdd();
     private Connection cn =null;
 
@@ -174,45 +175,7 @@ public class Usser implements Parcelable {
     }
 
     public Usser getUserPerId(int id) throws SQLException, InterruptedException {
-        final Usser[] u = {null};
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                String nom, cognom1, cognom2,correuElectronic;
-                Date dataNaixement;
-                boolean actiu;
-
-                try {
-                    String sql= "SELECT * from `usuaris` WHERE idUsuari='"+id+"';";
-                    cn=conexio.execute().get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    rs.next();
-                    login=rs.getString(2);
-                    nom=rs.getString(4);
-                    cognom1=rs.getString(5);
-                    cognom2=rs.getString(6);
-                    dataNaixement=rs.getDate(7);
-                    correuElectronic=rs.getString(8);
-                    actiu=rs.getBoolean(9);
-                    u[0] = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
-                    Log.d("userLlegit", u[0].getNom());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-        return u[0];
+        return new UserConnection().getUserPerId(id);
     }
 
     public String Hash(String contrasenya){
@@ -226,68 +189,13 @@ public class Usser implements Parcelable {
         return "";
     }
     public Usser Login(String user, String password) throws SQLException, InterruptedException {
-        final Usser[] u = {null};
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    java.sql.Statement stm = null;
-                    ResultSet rs = null;
-                    cn= new ConnectBBdd().execute().get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery("SELECT * FROM usuaris u " +
-                            "INNER JOIN direccio d ON d.IdDireccio = u.IdDireccio " +
-                            "WHERE u.Login='"+user+"' AND u.Contrasenya='"+Hash(password)+"';");
-                    rs.next();
-                    u[0] = new Usser(rs.getInt("IdUsuari"),rs.getString("Nom"), rs.getString("Cognom1"),  rs.getString("Cognom2"), user, Hash(password), rs.getDate("DataNaixement"), rs.getString("CorreuElectronic"), rs.getBoolean("CompteActiu"));
-                    u[0].direccio = new Direccio(rs.getInt("IdDireccio"),rs.getString("TipusVia"),rs.getString("NomCarrer"),rs.getString("Numero"),rs.getString("Pis"),rs.getInt("IdCP"));
-                    Log.d("userLlegit", u[0].getNom());
-                }catch (Exception e){
-                    e.printStackTrace();}
-            }
-        });
-        fil.start();
-        fil.join();
-        return u[0];
+        return new UserConnection().Login(user,password);
     }
 
     public boolean insertUser() throws InterruptedException {
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                try {
-                    String sql = "INSERT INTO `usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
-                            "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
-                            "VALUES ('"+login+"', '"+Hash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
-
-                    cn= conexio.execute().get();
-                    stm = cn.createStatement();
-                    int i = stm.executeUpdate(sql);
-                    if (i > 0) {
-                        Log.d("SsQL", "insertat ");
-
-                    } else {
-
-                        Log.d("SsQL", "No insertat ");
-                        rs.close();
-                        stm.close();
-                        cn.close();
-                    }
-
-                } catch (SQLException | ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-
-        return true;
+        return new UserConnection().insertUser(this);
     }
     public boolean comprovarExisteixXat(){
-
         return true;
     }
     public void crearXat(){
@@ -304,75 +212,13 @@ public class Usser implements Parcelable {
     }
 
     public ArrayList<Xat> getXats() throws SQLException, InterruptedException {
-
-        ArrayList<Xat>xats=new ArrayList<>();
-
-        Thread fil=new Thread(new Runnable() {
-            java.sql.Statement stm = null;
-            ResultSet rs = null;
-            int idXat,idUser1,idUser2;
-            boolean actiu;
-            Usser u;
-            @Override
-            public void run() {
-                try {
-
-                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+getIdUser()+"' OR 'IdUsuariLlogador'='"+getIdUser()+"';";
-                    cn=conexio.execute().get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    while(rs.next()){
-                        idXat=rs.getInt(0);
-                        idUser1=rs.getInt(1);
-                        idUser2=rs.getInt(2);
-                        xats.add(new Xat(idXat,idUser1,idUser2));
-                    }
-                    Log.d("userLlegit", ""+xats.size());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Log.d("XatError", e.getMessage());
-                    }
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-        return xats;
+        return new UserConnection().getXats(this);
     }
 
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
-        ArrayList<String> result = new ArrayList<>();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                try {
-                    conexio.execute();
-                    cn = conexio.get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(query);
-                    while(rs.next()){
-                        String name=rs.getString(columnName);
-                        result.add(name);
-                    }
-                    cn.close();
-                    rs.close();
-                    stm.close();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        return result;
+        return new UserConnection().Buscador(query,columnName);
     }
+    /*
     public ArrayList<String> getCiutat(int ciutat){
         ArrayList<String>codisPostals = new ArrayList<>();
         Thread fil = new Thread(new Runnable() {
@@ -405,7 +251,7 @@ public class Usser implements Parcelable {
             }
         });
         return codisPostals;
-    }
+    }*/
 
 
     @Override
