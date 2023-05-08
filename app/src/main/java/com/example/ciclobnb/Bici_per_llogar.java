@@ -138,39 +138,47 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void BiciAlquilada(){
+        AlertDialog.Builder a = new AlertDialog.Builder(context);
+        a.setMessage("El teu lloguer ha sigut tramitat amb exit!");
+        a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(context, PrimeraPantalla.class);
+                //i.putExtra("User", );
+                startActivity(i);
+            }
+        });a.show();
+    }
+
+    private void AlquilarBici(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setMessage(R.string.DialegIniciLloger);
+        builder.setPositiveButton(R.string.continuar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                GestioLloguersConnection gestioLloguersConnection = new GestioLloguersConnection();
+                if (gestioLloguersConnection.InsertNew(new GestioLloguers(ofereix.disponibilitats.get(0).getPreu(), ofereix.getIdUsuari(), new Date(System.currentTimeMillis())))){
+                    BicisLlogaterConnection bicisLlogaterConnection = new BicisLlogaterConnection();
+                    try {
+                        if (bicisLlogaterConnection.InsertNew(ofereix.getIdUsuari(), new BicisLlogater(ofereix.getIdBici(), 0, date.parse(lblDesde.getText()+""), date.parse(lblFins.getText()+""), Double.parseDouble(preu.getText().toString().split(" ")[0])))){
+                            BiciAlquilada();
+                        }
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) { }
+        });
+        builder.show();
+    }
+
     @Override
     public void onClick(View v) {
         if(v==llogar){//dialeg a mostrar per a veurer si l'usuari està segur de si vol iniciar el lloguer
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setMessage(R.string.DialegIniciLloger);
-            builder.setPositiveButton(R.string.continuar, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    GestioLloguersConnection gestioLloguersConnection = new GestioLloguersConnection();
-                    if (gestioLloguersConnection.InsertNew(new GestioLloguers(ofereix.disponibilitats.get(0).getPreu(), ofereix.getIdUsuari(), new Date(System.currentTimeMillis())))){
-                        BicisLlogaterConnection bicisLlogaterConnection = new BicisLlogaterConnection();
-                        try {
-                            if (bicisLlogaterConnection.InsertNew(ofereix.getIdUsuari(), new BicisLlogater(ofereix.getIdBici(), 0, date.parse(lblDesde.getText()+""), date.parse(lblFins.getText()+""), Double.parseDouble(preu.getText().toString().split(" ")[0])))){
-                                AlertDialog.Builder a = new AlertDialog.Builder(context);
-                                a.setMessage("El teu lloguer ha sigut tramitat amb exit!");
-                                a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent i = new Intent(context, PrimeraPantalla.class);
-                                        //i.putExtra("User", );
-                                        startActivity(i);
-                                    }
-                                });a.show();
-                            }
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) { }
-            });
-            builder.show();
+            AlquilarBici();
         }else if(v==xat){
 
         }else if(v==btnDesde){
