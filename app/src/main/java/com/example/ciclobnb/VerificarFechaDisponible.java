@@ -21,4 +21,12 @@ public class VerificarFechaDisponible {
         }
         return false;
     }
+
+    public boolean VerificarFecha(Date inicio, Date fin){
+        return fin.getTime() >= inicio.getTime();
+    }
+
+    public boolean VerificarDosFechas(Date inicio, Date fin){
+        return (ImportantDays(inicio) && ImportantDays(fin));
+    }
 }
