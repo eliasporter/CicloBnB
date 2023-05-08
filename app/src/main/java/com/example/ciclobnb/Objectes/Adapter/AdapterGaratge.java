@@ -79,7 +79,7 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
                 }
             });
             //per cada una de les bicis mostrem una ReciclerView amb les seves disponibilitats
-            dispo.setAdapter(new AdapterDisponibilitats(bicis.get(position).getDisponibilitats(),context));
+            //dispo.setAdapter(new AdapterDisponibilitats(bicis.get(position).getDisponibilitats(),context));
             dispo.setLayoutManager(new LinearLayoutManager(context));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

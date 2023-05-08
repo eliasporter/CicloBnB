@@ -1,7 +1,11 @@
 package com.example.ciclobnb.Objectes;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
 
@@ -14,158 +18,112 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class Bici {
-
+public class Bici implements Parcelable {
     private int IdBicicleta;
-    private int idUser;
-    private String marca;
     private String Descripcio;
     private String Tipus;
     private int idDireccio;
-    private double preu;
-    private String foto;
-    private ArrayList<Disponibilitat> disponibilitats = new ArrayList<>();
-    private ConnectBBdd conexio = new ConnectBBdd();
-    private Connection cn =null;
-
-    public Bici(String marca,int idBicicleta, int idUser, String descripcio, String tipus, int idDireccio) {
-        this.IdBicicleta = idBicicleta;
-        this.Descripcio = descripcio;
-        this.Tipus = tipus;
-        this.idDireccio = idDireccio;
-        this.idUser= idUser;
-        this.foto="bici_foto.png";
+    private String marca;
+    private String modelo;
+    private String suspension;
+    public Direccio direccio;
+    public Bici(){ NewDireccio(); }
+    public Bici(int IdBicicleta, String Descripcio, String Tipus, int IdDireccio, String marca, String modelo, String suspension) {
+        this.IdBicicleta = IdBicicleta;
+        this.Descripcio = Descripcio;
+        this.Tipus = Tipus;
+        this.idDireccio = IdDireccio;
         this.marca=marca;
-        /*try {
-            conectarBD();
-        }catch (Exception e){
-
-        }*/
+        this.modelo = modelo;
+        this.suspension = suspension;
+        NewDireccio();
     }
-    public Bici(){
-
+    public Bici(String Descripcio, String Tipus, int IdDireccio, String marca, String modelo, String suspension) {
+        this.Descripcio = Descripcio;
+        this.Tipus = Tipus;
+        this.idDireccio = IdDireccio;
+        this.marca=marca;
+        this.modelo = modelo;
+        this.suspension = suspension;
+        NewDireccio();
     }
-    private void conectarBD() throws SQLException, ClassNotFoundException {
-        cn = (Connection) conexio.execute();
+    private void NewDireccio(){this.direccio = new Direccio();}
+    protected Bici(Parcel in) {
+        IdBicicleta = in.readInt();
+        Descripcio = in.readString();
+        Tipus = in.readString();
+        idDireccio = in.readInt();
+        marca = in.readString();
+        modelo = in.readString();
+        suspension = in.readString();
     }
+    public static final Creator<Bici> CREATOR = new Creator<Bici>() {
+        @Override
+        public Bici createFromParcel(Parcel in) {
+            return new Bici(in);
+        }
 
+        @Override
+        public Bici[] newArray(int size) {
+            return new Bici[size];
+        }
+    };
     public int getIdBicicleta() {
         return IdBicicleta;
     }
-
     public void setIdBicicleta(int idBicicleta) {
         IdBicicleta = idBicicleta;
     }
-
     public String getDescripcio() {
         return Descripcio;
     }
-
     public void setDescripcio(String descripcio) {
         Descripcio = descripcio;
     }
-
     public String getTipus() {
         return Tipus;
     }
-
     public void setTipus(String tipus) {
         Tipus = tipus;
     }
-
     public int getIdDireccio() {
         return idDireccio;
     }
-
     public void setIdDireccio(int idDireccio) {
         this.idDireccio = idDireccio;
     }
-    public String getUserNom(Collection<Usser> users){
-        if(users instanceof ArrayList) {
-            for (Usser u : users) {
-                if(u.getIdUser()==idUser){
-                    return u.getLogin();
-                }
-            }
-
-        }
-        return null;
-    }
-    public String getFoto(){
-        return this.foto;
-    }
-
-    public ArrayList<Disponibilitat> getDisponibilitats() {
-        try {
-            String sDate1="1998-12-31";
-            String sDate2="1999-11-12-";
-            Date inici=new SimpleDateFormat("dd-MM-yyyy").parse(sDate1);
-            Date fi=new SimpleDateFormat("yyyy-MM-dd").parse(sDate2);
-            Disponibilitat temp = new Disponibilitat(inici,fi,12.32);
-            Log.d("dispoooo", temp.toString());
-            disponibilitats.add(temp);
-            //disponibilitats.add(new Disponibilitat(inici,fi,12.32));
-
-        }catch (ParseException e){
-            e.printStackTrace();
-        }
-
-        return disponibilitats;
-    }
-
     public String getMarca() {
-        return this.marca;
+        return marca;
     }
-
-    public ArrayList<Bici> bicisPrimeraPag(String filtres) throws InterruptedException {
-
-        ArrayList<Bici>bicis=new ArrayList<>();
-        String sql="";
-        //"null,null,null"
-        if(filtres.equals("null,null,null")){
-            sql= "SELECT * from `bicicletes` ";
-        }else if(filtres.equals("d")){
-
-        }
-        String finalSql = sql;
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                int idBicicleta;
-                String marca;
-                int idBici;
-                int idUser;
-                String descripcio;
-                String tipus;
-                int idDireccio;
-
-                try {
-                    cn= (Connection) conexio.execute();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(finalSql);
-                    while (rs.next()){
-                        marca=rs.getString(5);
-                        idBici=rs.getInt(1);
-                        idUser=new Usser().getUserPerBici(idBici);//Todo
-                        descripcio=rs.getString(2);
-                        tipus=rs.getString(3);
-                        idDireccio=rs.getInt(4);
-                        bicis.add(new Bici(marca,idBici, idUser,  descripcio,  tipus, idDireccio));
-                    }
-
-                    Log.d("TotalBicis", ""+bicis.size());
-                }catch (Exception e){
-
-                }
-
-            }
-        });
-        fil.start();
-        fil.join();
-
-        return bicis;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
-
+    public String getModelo() {
+        return modelo;
+    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+    public String getSuspension() {
+        return suspension;
+    }
+    public void setSuspension(String suspension) {
+        this.suspension = suspension;
+    }
+    public Direccio getDireccio(){return direccio;}
+    public void setDireccio(Direccio direccio){this.direccio = direccio;}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(IdBicicleta);
+        dest.writeString(Descripcio);
+        dest.writeString(Tipus);
+        dest.writeInt(idDireccio);
+        dest.writeString(marca);
+        dest.writeString(modelo);
+        dest.writeString(suspension);
+    }
 }

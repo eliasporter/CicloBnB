@@ -1,8 +1,10 @@
 package com.example.ciclobnb.Objectes.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ciclobnb.Bici_per_llogar;
 import com.example.ciclobnb.Objectes.Bici;
+import com.example.ciclobnb.Objectes.Ofereix;
 import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.R;
 
@@ -20,18 +23,13 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> {
-
-    /*TreeSet<Bici> bicis = new TreeSet<>();
-    TreeSet<Usser> users = new TreeSet<>();*/
-    ArrayList <Usser> users=new ArrayList<>();
-    ArrayList <Bici> bicis =new ArrayList<>();
+    ArrayList<Ofereix> ofereixes;
     Context context;
     boolean mostrarImatge;
     boolean mostrarContrasenya;
 
-    public AdapterCiclo(ArrayList<Usser> users, ArrayList<Bici> bicis, Context context) {
-        this.users = users;
-        this.bicis = bicis;
+    public AdapterCiclo(ArrayList<Ofereix> ofereixes, Context context) {
+        this.ofereixes = ofereixes;
         this.context = context;
     }
 
@@ -49,24 +47,26 @@ public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> 
             tDescripcio = view.findViewById(R.id.descripcioBici);
             tDireccio = view.findViewById(R.id.direccioBici);
             tFoto = view.findViewById(R.id.personaImatge);
-
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(Integer position) {
 
-            tTipusBici.setText(bicis.get(position).getTipus());
-            tDescripcio.setText(bicis.get(position).getDescripcio());
+            Log.d("LOGOfereix", "BuscandoBicis");
+            tUserLogin.setText(ofereixes.get(position).ussers.get(0).getLogin());
+            tTipusBici.setText(ofereixes.get(position).bicis.get(0).getTipus());
+            tDescripcio.setText(ofereixes.get(position).bicis.get(0).getDescripcio());
+            tDireccio.setText(ofereixes.get(position).bicis.get(0).direccio.tipusVia + " " + ofereixes.get(position).bicis.get(0).direccio.nomCarrer);
 
-            if (mostrarImatge) {
+            Log.d("LOGOfereix", "BiciEncontrada");
+            /*if (mostrarImatge) {
                 Integer imatge = getImage(bicis.get(position).getFoto(), this.itemView);
-
-            }
+            }*/
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, Bici_per_llogar.class);
-                    intent.putExtra("identificador",bicis.get(position).getIdBicicleta());
-
+                    intent.putExtra("Bike", ofereixes.get(position));
                     context.startActivity(intent);
                 }
             });
@@ -88,7 +88,7 @@ public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return bicis.size();
+        return ofereixes.size();
     }
 
     public Integer getImage(String imatge, View v) {

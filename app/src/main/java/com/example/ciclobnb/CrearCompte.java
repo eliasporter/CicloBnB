@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.TypedValue;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -26,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
+import com.example.ciclobnb.BBDD.Connexions.FillSpinners;
 import com.example.ciclobnb.Objectes.Direccio;
+import com.example.ciclobnb.Objectes.HashMapAdapter;
 import com.example.ciclobnb.Objectes.Usser;
 
 import org.w3c.dom.Text;
@@ -41,7 +45,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CrearCompte extends AppCompatActivity implements View.OnClickListener {
-    EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEdat, textEmail,textIban;
+    EditText textLogin,textPass,textNom,textCognom1,textCognom2, textEmail,textIban;
+    DatePicker textEdat;
     Button textDireccio;
     String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
     Spinner paisos,ciutats,codiPostal;
@@ -91,7 +96,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
                     //String tipus, String nomCarrer, String numero, String pis, int idCP
                     Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
-                            textLogin.getText().toString(),textPass.getText().toString(),textEdat.getText().toString(),
+                            textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
                             textEmail.getText().toString(),true);
 
                     try {
@@ -122,51 +127,47 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     }
 
     private void emplenarLinears() throws SQLException, InterruptedException {
-        ArrayList<String>paisos=new Usser().BuscarPaisos(this);
-        ArrayAdapter<String> adapterPais = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paisos);
-        this.paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+        FillSpinners fillSpinners = new FillSpinners();
+        fillSpinners.FillCountries();
+        Log.d("CitiesLoading", "Countries");
+        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fillSpinners.countries);
+        paisos.setAdapter(countriesAdapter);
+        paisos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String>ciutats= null;
                 try {
-                    ciutats = new Usser().BuscarCiutats(CrearCompte.this,position+1);//agafarà el paìs amb l'id
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    Log.d("CitiesLoading", "Cities");
+                    fillSpinners.FillCities(fillSpinners.countries.get(position));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                ArrayAdapter<String>  adapterCiutats = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, ciutats);
-                CrearCompte.this.ciutats.setAdapter(adapterCiutats);
+                ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, fillSpinners.cities);
+                ciutats.setAdapter(citiesAdapter);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
+
             }
         });
         this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String>cp= null;
                 try {
-                    cp = new Usser().BuscarCP(CrearCompte.this,new ConnexioDireccio().buscarCiutatPerNom(CrearCompte.this.ciutats.getSelectedItem().toString()));//agafarà el paìs amb l'id
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    Log.d("CitiesLoading", "Postal Code");
+                    fillSpinners.FillCP(fillSpinners.cities.get(position));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                ArrayAdapter<String>  adapterCP = new ArrayAdapter<String>(CrearCompte.this, android.R.layout.simple_spinner_item, cp);
-                CrearCompte.this.codiPostal.setAdapter(adapterCP);
+                ArrayAdapter<String> postalAdapter = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, fillSpinners.cp);
+                CrearCompte.this.codiPostal.setAdapter(postalAdapter);
             }
             @Override
+
             public void onNothingSelected(AdapterView<?> parent) {
                 //todo
                 // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
             }
-        });
-        //Emplenem Spinners
-
-        this.paisos.setAdapter(adapterPais);
     }
 
     @Override
@@ -183,7 +184,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textNom=(EditText) findViewById(R.id.nom);
         textCognom1=(EditText) findViewById(R.id.cognom1);
         textCognom2=(EditText) findViewById(R.id.cognom2);
-        textEdat=(EditText) findViewById(R.id.Edat);
+        textEdat=(DatePicker) findViewById(R.id.Edat);
         textEmail=(EditText) findViewById(R.id.mail);
         textIban = (EditText) findViewById(R.id.iban);
         textDireccio = findViewById(R.id.Direccio);
@@ -212,6 +213,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                         nomCarrer=textCarrer.getText().toString();
                         pis=textPis.getText().toString();
                         numero=textnumero.getText().toString();
+
                     }
                 });
                 dir.setCancelable(be[0]);
@@ -316,14 +318,15 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         return true ;
     }
     private Boolean comprovaEdat(){
+
         LocalDate fechaNacimiento = null;
         try {
             fechaNacimiento = LocalDate.parse(textEdat.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (DateTimeParseException e) {
+
             e.printStackTrace();
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
-            textEdat.setText("");
             return false;
         }
 

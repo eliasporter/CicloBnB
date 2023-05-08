@@ -1,6 +1,8 @@
 package com.example.ciclobnb.Objectes;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -9,7 +11,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
-import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
@@ -22,9 +23,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-public class Usser {
+public class Usser implements Parcelable {
 
     private int IdUser;
     private String nom;
@@ -32,7 +35,7 @@ public class Usser {
     private String cognom2;
     private String login;
     private String contrasenya;
-    private String dataNaixement;
+    private Date dataNaixement;
     private String correuElectronic;
     private Boolean actiu;
     private final ConnectBBdd conexio = new ConnectBBdd();
@@ -40,7 +43,7 @@ public class Usser {
 
     public Usser(){}
     //Per a crear un nou usu no caldrà ficar cap id
-    public Usser(String nom, String cognom1, String cognom2, String login, String contrasenya, String dataNaixement, String correuElectronic, boolean actiu) {
+    public Usser(String nom, String cognom1, String cognom2, String login, String contrasenya, Date dataNaixement, String correuElectronic, boolean actiu) {
         this.nom = nom;
         this.cognom1 = cognom1;
         this.cognom2 = cognom2;
@@ -50,7 +53,7 @@ public class Usser {
         this.correuElectronic = correuElectronic;
         this.actiu = actiu;
     }
-    public Usser(int idUser,String nom, String cognom1, String cognom2, String login, String contrasenya, String dataNaixement, String correuElectronic, Boolean actiu) {
+    public Usser(int idUser,String nom, String cognom1, String cognom2, String login, String contrasenya, Date dataNaixement, String correuElectronic, Boolean actiu) {
         this.IdUser=idUser;
         this.nom = nom;
         this.cognom1 = cognom1;
@@ -68,6 +71,29 @@ public class Usser {
     }
 
 
+    protected Usser(Parcel in) {
+        IdUser = in.readInt();
+        nom = in.readString();
+        cognom1 = in.readString();
+        cognom2 = in.readString();
+        login = in.readString();
+        contrasenya = in.readString();
+        correuElectronic = in.readString();
+        byte tmpActiu = in.readByte();
+        actiu = tmpActiu == 0 ? null : tmpActiu == 1;
+    }
+
+    public static final Creator<Usser> CREATOR = new Creator<Usser>() {
+        @Override
+        public Usser createFromParcel(Parcel in) {
+            return new Usser(in);
+        }
+
+        @Override
+        public Usser[] newArray(int size) {
+            return new Usser[size];
+        }
+    };
 
     public void conectar() throws SQLException, ClassNotFoundException, ExecutionException, InterruptedException {
         cn=  conexio.execute().get();
@@ -121,11 +147,11 @@ public class Usser {
         this.contrasenya = contrasenya;
     }
 
-    public String getDataNaixement() {
+    public Date getDataNaixement() {
         return dataNaixement;
     }
 
-    public void setDataNaixement(String dataNaixement) {
+    public void setDataNaixement(Date dataNaixement) {
         this.dataNaixement = dataNaixement;
     }
 
@@ -152,7 +178,8 @@ public class Usser {
             public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
-                String nom, cognom1, cognom2,dataNaixement,correuElectronic;
+                String nom, cognom1, cognom2,correuElectronic;
+                Date dataNaixement;
                 boolean actiu;
 
                 try {
@@ -165,7 +192,7 @@ public class Usser {
                     nom=rs.getString(4);
                     cognom1=rs.getString(5);
                     cognom2=rs.getString(6);
-                    dataNaixement=rs.getString(7);
+                    dataNaixement=rs.getDate(7);
                     correuElectronic=rs.getString(8);
                     actiu=rs.getBoolean(9);
                     u[0] = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
@@ -183,106 +210,38 @@ public class Usser {
         });
         fil.start();
         fil.join();
-
-        /*Usser j=new Usser(1,"Juan","Avila","Vega","juanse","123","2002-01-01","juan@gmail.com",true);
-        Usser n=new Usser(2,"Norbert","Aguilera","CApdevila","nor","123","2003-02-25","naca605@gmail.com",true);
-        //u=(id==1)?j:n;
-        if(id==1)u=j;
-        else if(id==2)u=n;
-        else if(id==3)u=new Usser(1,"Admin","Avila","Vega","Admin","123","2002-01-01","juan@gmail.com",true);
-        */
         return u[0];
     }
 
-    public String creaHash(String contrasenya){
-
+    public String Hash(String contrasenya){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(contrasenya.getBytes(StandardCharsets.UTF_8));
-            String hex = String.format("%064x", new BigInteger(1, hash));
-            return hex;
+            return String.format("%064x", new BigInteger(1, hash));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
         return "";
     }
-    public Usser propietariBici(int id) throws SQLException {
-        ConnectBBdd conexio = new ConnectBBdd();
-        Connection cn =null;
-        Usser u= null;
-        java.sql.Statement stm = null;
-        ResultSet rs = null;
-        try {
-            String sql= "SELECT * from `usuaris` WHERE login='"+login+"' AND Contrasenya='"+creaHash(contrasenya)+"';";
-            cn= conexio.execute().get();
-            stm = cn.createStatement();
-            rs=stm.executeQuery(sql);
-            id=rs.getInt(1);
-            login=rs.getString(2);
-            nom=rs.getString(4);
-            cognom1=rs.getString(5);
-            cognom2=rs.getString(6);
-            dataNaixement=rs.getString(7);
-            correuElectronic=rs.getString(8);
-            actiu=rs.getBoolean(9);
-            u = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
-            Log.d("userLlegit", u.getNom());
-        }catch (Exception e){
-
-        }finally {
-            cn.close();
-        }
-        return u;
-    }
-    public Usser Login(String nomSesio, String contrasenya) throws SQLException, InterruptedException {
+    public Usser Login(String user, String password) throws SQLException, InterruptedException {
         final Usser[] u = {null};
-        Thread fil= new Thread(new Runnable() {
+        Thread fil = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     java.sql.Statement stm = null;
                     ResultSet rs = null;
-                    String nom,login, cognom1, cognom2,dataNaixement,correuElectronic;
-                    int id;
-                    boolean actiu;
-                    String sql= "SELECT * from `usuaris` WHERE login='"+nomSesio+"' AND Contrasenya='"+creaHash(contrasenya)+"';";
                     cn= new ConnectBBdd().execute().get();
                     stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
+                    rs=stm.executeQuery("SELECT * FROM usuaris WHERE Login='"+user+"' AND Contrasenya='"+Hash(password)+"';");
                     rs.next();
-                    id=rs.getInt(1);
-                    login=rs.getString(2);
-                    nom=rs.getString(4);
-                    cognom1=rs.getString(5);
-                    cognom2=rs.getString(6);
-                    dataNaixement=rs.getString(7);
-                    correuElectronic=rs.getString(8);
-                    actiu=rs.getBoolean(9);
-                    u[0] = new Usser(id,nom, cognom1,  cognom2, login, contrasenya, dataNaixement, correuElectronic, actiu);
+                    u[0] = new Usser(rs.getInt("IdUsuari"),rs.getString("Nom"), rs.getString("Cognom1"),  rs.getString("Cognom2"), user, Hash(password), rs.getDate("DataNaixement"), rs.getString("CorreuElectronic"), rs.getBoolean("CompteActiu"));
                     Log.d("userLlegit", u[0].getNom());
-                }catch (Exception e){
-
-                }
-                finally {
-                    try {
-                        cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                }catch (Exception e){ e.printStackTrace();}
             }
         });
         fil.start();
         fil.join();
-
-        /*Usser j=new Usser(1,"Juan","Avila","Vega","juanse","123","2002-01-01","juan@gmail.com",true);
-        Usser n=new Usser(2,"Norbert","Aguilera","CApdevila","nor","123","2003-02-25","naca605@gmail.com",true);
-
-        if(login.equals("juanse")&&contrasenya.equals("123"))
-            u=j;
-        else if(login.equals("nor")&&contrasenya.equals("123"))
-            u=n;*/
         return u[0];
     }
 
@@ -296,6 +255,7 @@ public class Usser {
                     String sql = "INSERT INTO `usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
                             "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
+
                     cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);
@@ -310,26 +270,8 @@ public class Usser {
                         cn.close();
                     }
 
-                } catch (SQLException e) {
-                    System.out.println(e);
-                } catch (ExecutionException e) {
+                } catch (SQLException | ExecutionException | InterruptedException e) {
                     e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (rs != null) {
-                            rs.close();
-                        }
-                        if (stm != null) {
-                            stm.close();
-                        }
-                        if (cn != null) {
-                            cn.close();
-                        }
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
                 }
             }
         });
@@ -396,112 +338,35 @@ public class Usser {
         fil.join();
         return xats;
     }
-    public ArrayList<String> BuscarPaisos(Context context) throws SQLException, InterruptedException {
-        ArrayList<String>paisos=new ArrayList<>();
 
-        Thread fil = new Thread(new Runnable() {
+    public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
+        ArrayList<String> result = new ArrayList<>();
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
-                int idXat,idUser1,idUser2;
-                boolean actiu;
                 try {
-                    String sql= "SELECT * from `pais` ;";
                     conexio.execute();
-                    cn=conexio.get();
+                    cn = conexio.get();
                     stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
+                    rs=stm.executeQuery(query);
                     while(rs.next()){
-                        String pais=rs.getString(2);
-                        paisos.add(pais);
+                        String name=rs.getString(columnName);
+                        result.add(name);
                     }
-
+                    cn.close();
+                    rs.close();
+                    stm.close();
                 }catch (Exception e){
                     e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
-        });
-        fil.start();
-        fil.join();
-        return paisos;
-    }
-    public ArrayList<String> BuscarCiutats(Context context,int pais) throws SQLException, InterruptedException {
-        ArrayList<String>paisos=new ArrayList<>();
+        }).start();
 
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                int idXat,idUser1,idUser2;
-                boolean actiu;
-                try {
-                    String sql= "SELECT * from `ciutat` WHERE IdPais='"+pais+"';";
-                    conexio.execute();
-                    cn=conexio.get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    while(rs.next()){
-                        String pais=rs.getString(1);
-                        paisos.add(pais);
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-        return paisos;
+        return result;
     }
-    public ArrayList<String> BuscarCP(Context context,int ciutat) throws SQLException, InterruptedException {
-        ArrayList<String>codisPostals=new ArrayList<>();
 
         Thread fil = new Thread(new Runnable() {
             @Override
@@ -521,35 +386,21 @@ public class Usser {
                         codisPostals.add(cp);
                     }
 
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-        return codisPostals;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(IdUser);
+        dest.writeString(nom);
+        dest.writeString(cognom1);
+        dest.writeString(cognom2);
+        dest.writeString(login);
+        dest.writeString(contrasenya);
+        dest.writeString(correuElectronic);
+        dest.writeByte((byte) (actiu == null ? 0 : actiu ? 1 : 2));
     }
 }

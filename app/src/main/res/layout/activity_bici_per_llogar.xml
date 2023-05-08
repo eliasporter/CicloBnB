@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/LinkLoginUser"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Usuari :"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -35,9 +35,9 @@
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="368dp"
-        android:layout_height="576dp"
+        android:layout_height="680dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="190dp"
             android:text="Descripcio :" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="Dades de la bicicleta :"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:text="Tipus :" />
 
         <TextView
@@ -86,24 +86,66 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:text="Muntanya"
             app:layout_constraintStart_toEndOf="@+id/textView26" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="90dp"
+            android:text="Marca:"/>
+
+        <TextView
+            android:id="@+id/TextMarca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="90dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="120dp"
+            android:text="Modelo:"/>
+
+        <TextView
+            android:id="@+id/TextModelo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="120dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="150dp"
+            android:text="Suspensió:"/>
+
+        <TextView
+            android:id="@+id/TextSuspension"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="150dp" />
 
         <TextView
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="110dp"
-            android:text="Preu :" />
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="330dp"
+            android:text="Preu:" />
 
         <TextView
-            android:id="@+id/DescripcioBiciLlogar"
+            android:id="@+id/preuBici"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="110dp"
+            android:layout_marginStart="290dp"
+            android:layout_marginTop="330dp"
             android:text="15€"
             app:layout_constraintStart_toEndOf="@+id/textView26" />
 
@@ -112,17 +154,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="330dp"
             android:text="Disponibilitat :" />
 
         <com.google.android.material.navigation.NavigationView
-            android:layout_width="286dp"
+            android:layout_width="320dp"
             android:layout_height="102dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="210dp">
+            android:layout_marginTop="220dp">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/descripcioText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -136,31 +178,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Llogar"
-            android:layout_marginTop="500dp"
-            android:layout_marginStart="60dp"/>
+            android:layout_marginTop="630dp"
+            android:layout_marginStart="80dp"/>
 
         <Button
             android:id="@+id/iniciarXatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="500dp"
-            android:layout_marginStart="200dp"
+            android:layout_marginTop="630dp"
+            android:layout_marginStart="220dp"
             app:layout_constraintStart_toEndOf="@+id/LlogarBici"
             android:text="Xat" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:layout_marginTop="380dp"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/iniciarXatButton"
-            tools:listitem="@layout/disponibilitats_text"
-            />
-
+                    <CalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="367dp"
+                        android:layout_height="290dp"
+                        android:layout_marginTop="350dp"
+                        android:layout_marginStart="0dp"/>
+<!--
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/dispoRecycler"
+                                            android:layout_width="match_parent"
+                                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                            android:layout_height="200dp"
+                                            android:layout_marginTop="380dp"
+                                            android:layout_marginBottom="20dp"
+                                            app:layout_constraintBottom_toTopOf="@+id/iniciarXatButton"
+                                            tools:listitem="@layout/disponibilitats_text"
+                                            />
+                        <DatePicker
+                            android:id="@+id/datePicker"
+                            android:layout_width="350dp"
+                            android:layout_height="280dp"
+                            android:layout_marginTop="350dp"
+                            android:layout_marginStart="8dp"/> -->
 
     </com.google.android.material.navigation.NavigationView>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

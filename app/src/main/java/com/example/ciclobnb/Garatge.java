@@ -27,7 +27,7 @@ public class Garatge extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cercarBicis();
+        //cercarBicis();
         setContentView(R.layout.activity_garatge);
         afegir=findViewById(R.id.AfegirBiciBoto);
         bicis=findViewById(R.id.ReciclerBicis);
@@ -70,11 +70,5 @@ public class Garatge extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    private void cercarBicis(){
-        this.bicisUser.add(new Bici("Orbea",1, 1, "Bicicleta de montaña que va molt bé", "Montaña", 1));
-        this.bicisUser.add(new Bici("Giant",2, 1, "Bicicleta de carretera li falla una mica el ferno de davant ", "Carretera", 1));
-        this.bicisUser.add(new Bici("Orbea",3, 2, "Bicicleta híbrida", "Híbrida", 1));
-        this.bicisUser.add(new Bici("Giant",4, 3, "Bicicleta eléctrica", "Eléctrica", 1));
     }
 }

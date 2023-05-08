@@ -36,6 +36,9 @@ android {
 
 dependencies {
 
+    // https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
+    implementation 'com.android.tools:desugar_jdk_libs:2.0.3'
+
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
 
     // Dependencies for working with Architecture components
