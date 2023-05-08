@@ -2,6 +2,7 @@ package com.example.ciclobnb;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,34 +23,15 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
     Button edita, garatge,xatButton;
     TextView loginText,nomCognomsText,direccioLlogerText;
     RatingBar qualiRatingBar;
-    Usser usuari;
+    Usser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuari);
         Bundle b =getIntent().getExtras();
+        user = b.getParcelable("User");
 
-        try {
-            int id=b.getInt("id");
-            Usser temp=new Usser();
-            usuari=temp.getUserPerId(id);
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-        }
         iniciarTextView();
-        xatButton=findViewById(R.id.xatsButton);
-        xatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PerfilUsuari.this, XatsAmbPersones.class);
-                intent.putExtra("id",usuari.getIdUser());
-                startActivity(intent);
-            }
-        });
-        edita=(Button) findViewById(R.id.edit);
-        edita.setOnClickListener(this);
-        garatge=findViewById(R.id.botoGaratge);
-        garatge.setOnClickListener(this);
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho
                 80 // altura en píxeles
@@ -57,19 +39,27 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         edita.setLayoutParams(params);*/
     }
 
+    private void findComponents(){
+        loginText = findViewById(R.id.nomLogin);
+        nomCognomsText = findViewById(R.id.nomCognoms);
+        direccioLlogerText = findViewById(R.id.direccioLloger);
+        qualiRatingBar = findViewById(R.id.cualificacio);
+        xatButton=findViewById(R.id.xatsButton);
+        edita=findViewById(R.id.edit);
+        garatge=findViewById(R.id.botoGaratge);
+    }
+
+    @SuppressLint("SetTextI18n")
     private void iniciarTextView() {
-        loginText=findViewById(R.id.nomLogin);
-        loginText.setText(usuari.getLogin());
+        loginText.setText(user.getLogin());
+        nomCognomsText.setText(user.getNom()+" "+user.getCognom1()+" "+user.getCognom2());
+        direccioLlogerText.setText(user.direccio.tipusVia + " " + user.direccio.nomCarrer + " " + user.direccio.numero + "-" + user.direccio.pis);
 
-        nomCognomsText=findViewById(R.id.nomCognoms);
-        nomCognomsText.setText(usuari.getNom()+" "+usuari.getCognom1()+" "+usuari.getCognom2());
-
-        direccioLlogerText=findViewById(R.id.direccioLloger);
-        direccioLlogerText.setText("C/unic Num23");
-
-        qualiRatingBar=findViewById(R.id.cualificacio);
         qualiRatingBar.setIsIndicator(true);
         qualiRatingBar.setRating(3.7f);
+        xatButton.setOnClickListener(this);
+        edita.setOnClickListener(this);
+        garatge.setOnClickListener(this);
     }
 
     @Override
@@ -84,7 +74,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.home :
                 Intent i=new Intent(this,PrimeraPantalla.class);
-                i.putExtra("id",usuari.getIdUser());
+                i.putExtra("id",user.getIdUser());
                 startActivity(i);
                 return true;
             default:
@@ -95,14 +85,17 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.equals(edita)){
-            Intent i= new Intent(PerfilUsuari.this,EditarPerfilUser.class);
-            i.putExtra("id",usuari.getIdUser());
+            Intent i= new Intent(PerfilUsuari.this,CrearCompte.class);
+            i.putExtra("User",user);
             startActivity(i);
         }else if(v.equals(garatge)){
             Intent i= new Intent(PerfilUsuari.this,Garatge.class);
-            i.putExtra("id",usuari.getIdUser());
-
+            i.putExtra("id",user.getIdUser());
             startActivity(i);
+        }else if(v==xatButton){
+            Intent intent = new Intent(PerfilUsuari.this, XatsAmbPersones.class);
+            intent.putExtra("User",user);
+            startActivity(intent);
         }
 
     }
