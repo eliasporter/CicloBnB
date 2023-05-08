@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 
 import android.view.LayoutInflater;
@@ -150,7 +151,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-        this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        this.ciutats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
@@ -162,12 +163,13 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 ArrayAdapter<String> postalAdapter = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, fillSpinners.cp);
                 CrearCompte.this.codiPostal.setAdapter(postalAdapter);
             }
-            @Override
+              @Override
 
             public void onNothingSelected(AdapterView<?> parent) {
                 //todo
                 // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
             }
+    });
     }
 
     @Override
@@ -321,7 +323,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
         LocalDate fechaNacimiento = null;
         try {
-            fechaNacimiento = LocalDate.parse(textEdat.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            fechaNacimiento = LocalDate.parse(""+textEdat.getYear()+"-"+textEdat.getMonth()+"-"+textEdat.getDayOfMonth(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (DateTimeParseException e) {
 
             e.printStackTrace();
@@ -338,14 +340,14 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         } else {
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
-            textEdat.setText("");
+
             return false;
         }
 
 
     }
     private Boolean comprovaMail(){
-        if(textEmail.getText().toString().equals("")||!textEmail.getText().toString().contains("@")){
+        if(textEmail.getText().toString().equals("")||!textEmail.getText().toString().contains("@")){//todo
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEmail.setBackgroundTintList(color);
             return false;

@@ -11,6 +11,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
 import com.example.ciclobnb.BBDD.ConnectBBdd;
+import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
 
@@ -254,7 +255,7 @@ public class Usser implements Parcelable {
                 try {
                     String sql = "INSERT INTO `usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
-                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
+                            "VALUES ('"+login+"', '"+Hash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
 
                     cn= conexio.execute().get();
                     stm = cn.createStatement();
@@ -367,24 +368,40 @@ public class Usser implements Parcelable {
 
         return result;
     }
-
+    public ArrayList<String> getCiutat(int ciutat){
+        ArrayList<String>codisPostals = new ArrayList<>();
         Thread fil = new Thread(new Runnable() {
             @Override
             public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
-                int idXat,idUser1,idUser2;
+                int idXat, idUser1, idUser2;
                 boolean actiu;
                 try {
-                    String sql= "SELECT * from `pcciutat` WHERE IdCiutat='"+ciutat+"';";
+                    String sql = "SELECT * from `pcciutat` WHERE IdCiutat='" + ciutat + "';";
                     conexio.execute();
-                    cn=conexio.get();
+                    cn = conexio.get();
                     stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    while(rs.next()){
-                        String cp=new ConnexioDireccio().buscarCP(rs.getString(2));
+                    rs = stm.executeQuery(sql);
+                    while (rs.next()) {
+                        String cp = new ConnexioDireccio().buscarCP(rs.getString(2));
                         codisPostals.add(cp);
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        cn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        Log.d("XatError", e.getMessage());
+                    }
+                }
+            }
+        });
+        return codisPostals;
+    }
+
 
     @Override
     public int describeContents() {
