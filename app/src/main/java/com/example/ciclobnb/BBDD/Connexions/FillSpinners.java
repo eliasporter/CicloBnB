@@ -34,7 +34,7 @@ public class FillSpinners {
         cp = command.Buscador("SELECT codipostal.idCodiPostal, codipostal.codiPostal FROM codipostal " +
                 "INNER JOIN pcciutat ON pcciutat.IdCodiPostal = codipostal.idCodiPostal " +
                 "INNER JOIN ciutat ON ciutat.IdCiutat = pcciutat.IdCiutat " +
-                "WHERE ciutat.Nom = '"+ciutat+"';",  1);
+                "WHERE ciutat.Nom = '"+ciutat+"';",  2);
     }
 
 
@@ -45,28 +45,4 @@ public class FillSpinners {
         command = new Usser();
     }
 
-    public ArrayList<String> getCountries() {
-
-        return countries;
-    }
-
-    public void setCountries(ArrayList<String> countries) {
-        this.countries = countries;
-    }
-
-    public ArrayList<String> getCities() {
-        return cities;
-    }
-
-    public void setCities(ArrayList<String> cities) {
-        this.cities = cities;
-    }
-
-    public ArrayList<String> getCp() {
-        return cp;
-    }
-
-    public void setCp(ArrayList<String> cp) {
-        this.cp = cp;
-    }
 }

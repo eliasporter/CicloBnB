@@ -66,6 +66,7 @@ public class ConnexioDireccio {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 stm = null;
                 rs = null;
                 try {
