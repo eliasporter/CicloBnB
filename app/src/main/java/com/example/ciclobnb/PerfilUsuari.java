@@ -32,12 +32,6 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         user = b.getParcelable("User");
 
         iniciarTextView();
-        xatButton=findViewById(R.id.xatsButton);
-        xatButton.setOnClickListener(this);
-        edita=(Button) findViewById(R.id.edit);
-        edita.setOnClickListener(this);
-        garatge=findViewById(R.id.botoGaratge);
-        garatge.setOnClickListener(this);
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho
                 80 // altura en píxeles
@@ -50,6 +44,9 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         nomCognomsText = findViewById(R.id.nomCognoms);
         direccioLlogerText = findViewById(R.id.direccioLloger);
         qualiRatingBar = findViewById(R.id.cualificacio);
+        xatButton=findViewById(R.id.xatsButton);
+        edita=findViewById(R.id.edit);
+        garatge=findViewById(R.id.botoGaratge);
     }
 
     @SuppressLint("SetTextI18n")
@@ -60,6 +57,9 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
 
         qualiRatingBar.setIsIndicator(true);
         qualiRatingBar.setRating(3.7f);
+        xatButton.setOnClickListener(this);
+        edita.setOnClickListener(this);
+        garatge.setOnClickListener(this);
     }
 
     @Override
@@ -85,8 +85,8 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.equals(edita)){
-            Intent i= new Intent(PerfilUsuari.this,EditarPerfilUser.class);
-            i.putExtra("id",user.getIdUser());
+            Intent i= new Intent(PerfilUsuari.this,CrearCompte.class);
+            i.putExtra("User",user);
             startActivity(i);
         }else if(v.equals(garatge)){
             Intent i= new Intent(PerfilUsuari.this,Garatge.class);
