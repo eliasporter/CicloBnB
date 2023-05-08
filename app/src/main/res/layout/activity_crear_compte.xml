@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
-                    android:text="Nom :" />
+                    android:text="Nom:" />
 
                 <EditText
                     android:id="@+id/nom"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:ems="10"
-                    android:hint="1r Cognom"
+                    android:hint="1r Cognom:"
                     android:inputType="textPersonName" />
 
             </LinearLayout>
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
-                    android:text="2n cognom" />
+                    android:text="2n cognom:" />
 
                 <EditText
                     android:id="@+id/cognom2"
@@ -201,20 +201,19 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:gravity="right">
+                android:gravity="right"
+                android:layout_marginRight="20dp">
 
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
                     android:text="Data de naixement:" />
 
                 <DatePicker
                     android:id="@+id/Edat"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
-                    android:layout_marginEnd="20dp"
                     android:ems="10"
                     android:inputType="date"
                     android:datePickerMode="spinner"
