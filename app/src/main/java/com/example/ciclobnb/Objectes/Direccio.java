@@ -1,14 +1,6 @@
 package com.example.ciclobnb.Objectes;
 
-import android.content.Context;
-
-import com.example.ciclobnb.BBDD.ConnectBBdd;
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Direccio {
     public int idDireccion;
@@ -40,6 +32,7 @@ public class Direccio {
 
     public String AgafaUltima() throws InterruptedException {
         return connexioDireccio.agafaUltima();
+    }
 
     public String getTipusVia() {
         return tipusVia;
@@ -71,5 +64,15 @@ public class Direccio {
     public void setIdCP(int idCP) {
         this.idCP = idCP;
 
+    }
+
+
+    public void InsertarNuevo(Direccio temp) {
+        try {
+            new ConnexioDireccio().SubirDireccion(temp);
+
+        }catch (InterruptedException e){
+
+        }
     }
 }

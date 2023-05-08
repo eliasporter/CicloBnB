@@ -37,10 +37,36 @@ public class FillSpinners {
                 "WHERE ciutat.Nom = '"+ciutat+"';",  1);
     }
 
+
     public FillSpinners(){
         countries = new ArrayList<>();
         cities = new ArrayList<>();
         cp = new ArrayList<>();
         command = new Usser();
+    }
+
+    public ArrayList<String> getCountries() {
+
+        return countries;
+    }
+
+    public void setCountries(ArrayList<String> countries) {
+        this.countries = countries;
+    }
+
+    public ArrayList<String> getCities() {
+        return cities;
+    }
+
+    public void setCities(ArrayList<String> cities) {
+        this.cities = cities;
+    }
+
+    public ArrayList<String> getCp() {
+        return cp;
+    }
+
+    public void setCp(ArrayList<String> cp) {
+        this.cp = cp;
     }
 }
