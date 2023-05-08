@@ -62,9 +62,7 @@ public class Login extends AppCompatActivity {
         //Cridem la funcio que te Usser per a buscar l'usuari
         try {
             user =new Usser().Login(nom.getText().toString(),contra.getText().toString());
-        }catch (SQLException | InterruptedException e){
-            e.printStackTrace();
-        }
+        }catch (SQLException | InterruptedException e){e.printStackTrace();}
         return user != null;
     }
 }
