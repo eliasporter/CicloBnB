@@ -208,15 +208,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
-                    android:text="Edat :" />
+                    android:text="Data de naixement:" />
 
                 <DatePicker
                     android:id="@+id/Edat"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:layout_marginEnd="20dp"
                     android:ems="10"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"/> />
             </LinearLayout>
 
             <LinearLayout
