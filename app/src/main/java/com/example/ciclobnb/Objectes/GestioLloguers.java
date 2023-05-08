@@ -16,6 +16,11 @@ public class GestioLloguers {
         this.IdUsuari = IdUsuari;
         this.DataPagament = DataPagament;
     }
+    public GestioLloguers(double Total, int IdUsuari, Date DataPagament){
+        this.Total = Total;
+        this.IdUsuari = IdUsuari;
+        this.DataPagament = DataPagament;
+    }
     public int getIdLloguer() {
         return IdLloguer;
     }
