@@ -8,12 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.TypedValue;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +39,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -50,6 +54,11 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
     String tipusVia,nomCarrer,numero, pis;
     Button cancela,crea;
     Context c=this;
+    EditText textCarrer;
+    EditText textTipusVia;
+    EditText textnumero;
+    EditText textPis;
+    AlertDialog dialeg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +88,13 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
             public void onClick(View v) {
                 Intent i = new Intent(c,PrimeraPantalla.class);
                 if(comprovar()) {
-                    Direccio tempD=new Direccio();
+                    try {
+                        guardarDir(textCarrer, textTipusVia,textPis,textnumero);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    //String tipus, String nomCarrer, String numero, String pis, int idCP
                     Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
                             textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
                             textEmail.getText().toString(),true);
@@ -148,8 +163,11 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 CrearCompte.this.codiPostal.setAdapter(postalAdapter);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                //todo
+                // Nada fue seleccionado. Por cierto, no he visto que este método se desencadene
+            }
     }
 
     @Override
@@ -170,56 +188,75 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textEmail=(EditText) findViewById(R.id.mail);
         textIban = (EditText) findViewById(R.id.iban);
         textDireccio = findViewById(R.id.Direccio);
-        EditText textCarrer;
-        EditText textTipusVia ;
-        EditText textnumero ;
-        EditText textPis;
+
         LayoutInflater inflater = LayoutInflater.from(this);
-        View ompleDir = inflater.inflate(R.layout.emplena_direccio, null);
+        final View ompleDir = inflater.inflate(R.layout.emplena_direccio, null);
         textDireccio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final boolean[] be = {false};
+                if (ompleDir.getParent() != null) {
+                    ((ViewGroup) ompleDir.getParent()).removeView(ompleDir);
+                }
                 AlertDialog.Builder dir = new AlertDialog.Builder(c);
                 dir.setTitle("Emplena els camps");
                 dir.setView(ompleDir);
-                /*dir.setMessage("Nom del carrer:");
-                dir.setView(textCarrer);
-                dir.setMessage("Tipus de via:");
-                dir.setView(textTipusVia);
-                dir.setMessage("Numero:");
-                dir.setView(textnumero);
-                dir.setMessage("Pis:");
-                dir.setView(textPis);*/
+                emplenarDialeg();
                 dir.setPositiveButton("Desar", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //guardarDir(textCarrer,textTipusVia,textPis,textnumero);
+                        //guardem la direcció a la base de dades
+                        String text = textCarrer.getText().toString();
+                        be[0] = comprovaDireccio(textCarrer, textTipusVia, textPis, textnumero);
+                        //dir.setCancelable(be[0]);
+                        tipusVia=textTipusVia.getText().toString();
+                        nomCarrer=textCarrer.getText().toString();
+                        pis=textPis.getText().toString();
+                        numero=textnumero.getText().toString();
 
                     }
                 });
+                dir.setCancelable(be[0]);
                 dir.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 });
-                AlertDialog dialeg=dir.create();
+
+                AlertDialog dialeg = dir.create();
                 dialeg.show();
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                lp.copyFrom(dialeg.getWindow().getAttributes());
-
-// Establecer el ancho y alto del diálogo
-                lp.width = 900;
-                lp.height = 1200;
-
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                float dp = 10f;
+                float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+                lp.horizontalMargin = px;
+                lp.verticalMargin = px;
                 dialeg.getWindow().setAttributes(lp);
-            }
 
+                textCarrer = dialeg.findViewById(R.id.editTextTextNomCarrer);
+                textTipusVia = dialeg.findViewById(R.id.editTextTextTipusVia);
+                textnumero = dialeg.findViewById(R.id.editTextTextNumeroPis);
+                textPis = dialeg.findViewById(R.id.editTextTextPis);
+            }
         });
     }
-    private void guardarDir(EditText textCarrer, EditText textTipus,EditText textPis,EditText textNumero){
+    private void emplenarDialeg(){
+        if(nomCarrer!=null)//&&!nomCarrer.equals(""))
+            textCarrer.setText(nomCarrer);
+        if(pis!=null)//&&!pis.equals(""))
+            textPis.setText(pis);
+        if(numero!=null)//&&!numero.equals(""))
+            textnumero.setText(numero);
+        if(tipusVia!=null)//&&!tipusVia.equals(""))
+            textTipusVia.setText(tipusVia);
+    }
+    private void guardarDir(EditText textCarrer, EditText textTipus,EditText textPis,EditText textNumero) throws InterruptedException {
+        //agafel l'id del CP
+        int cp= new Direccio().BuscarID(codiPostal.getSelectedItem().toString());
+        Direccio temp=new Direccio(textTipus.getText().toString(),textCarrer.getText().toString(),textNumero.getText().toString(),textPis.getText().toString(),cp);
+        new Direccio().InsertarNuevo(temp);
 
     }
     private Boolean comprovar(){//comprovem que els camps del formulari estan ben escrits
@@ -281,23 +318,31 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         return true ;
     }
     private Boolean comprovaEdat(){
-        Date data=null;
-        try{
-            data= new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth());
 
-        }catch (Exception e){
+        LocalDate fechaNacimiento = null;
+        try {
+            fechaNacimiento = LocalDate.parse(textEdat.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+
             e.printStackTrace();
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
             return false;
         }
-        Period edat= Period.between(LocalDate.ofEpochDay(data.getTime()), LocalDate.now());
-        if(edat.getYears()<18){
+
+        LocalDate fechaActual = LocalDate.now();
+        int edad = Period.between(fechaNacimiento, fechaActual).getYears();
+
+        if (edad >= 18) {
+            return true;
+        } else {
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
+            textEdat.setText("");
             return false;
         }
-        return true;
+
+
     }
     private Boolean comprovaMail(){
         if(textEmail.getText().toString().equals("")||!textEmail.getText().toString().contains("@")){

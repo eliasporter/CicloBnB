@@ -252,9 +252,10 @@ public class Usser implements Parcelable {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    String sql = "INSERT INTO `ciclobnbDB`.`usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
+                    String sql = "INSERT INTO `usuaris` (`Login`, `Contrasenya`, `Nom`, `Cognom1`, " +
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
-                            "VALUES ('"+login+"', '"+Hash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, 1);";
+                            "VALUES ('"+login+"', '"+creaHash(contrasenya)+"', '"+nom+"', '"+cognom1+"', '"+cognom2+"', '"+"2023-04-17"+"', '"+correuElectronic+"', 1, "+new Direccio().AgafaUltima()+");";
+
                     cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);
@@ -367,10 +368,29 @@ public class Usser implements Parcelable {
         return result;
     }
 
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                int idXat,idUser1,idUser2;
+                boolean actiu;
+                try {
+                    String sql= "SELECT * from `pcciutat` WHERE IdCiutat='"+ciutat+"';";
+                    conexio.execute();
+                    cn=conexio.get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    while(rs.next()){
+                        String cp=new ConnexioDireccio().buscarCP(rs.getString(2));
+                        codisPostals.add(cp);
+                    }
+
     @Override
     public int describeContents() {
         return 0;
     }
+
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
