@@ -95,6 +95,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textEdat.updateDate(Integer.parseInt(usser.getDataNaixement().split("-")[0]), Integer.parseInt(usser.getDataNaixement().split("-")[1]) - 1, Integer.parseInt(usser.getDataNaixement().split("-")[2]));
     }
 
+
     @Override
     public void onClick(View v) {
         if(v==cancela){
@@ -109,6 +110,7 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
 
                 //String tipus, String nomCarrer, String numero, String pis, int idCP
                 Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
@@ -309,7 +311,8 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
         LocalDate fechaNacimiento = null;
         try {
-            fechaNacimiento = LocalDate.parse(""+textEdat.getYear()+"-"+textEdat.getMonth()+"-"+textEdat.getDayOfMonth(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            fechaNacimiento = LocalDate.parse(String.format("%04d-%02d-%02d", textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         } catch (DateTimeParseException e) {
 
             e.printStackTrace();
