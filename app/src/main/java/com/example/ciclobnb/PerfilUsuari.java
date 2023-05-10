@@ -30,7 +30,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_perfil_usuari);
         Bundle b =getIntent().getExtras();
         user = b.getParcelable("User");
-
+        findComponents();
         iniciarTextView();
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho

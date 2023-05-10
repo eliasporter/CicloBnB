@@ -108,7 +108,8 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
                                 e.printStackTrace();
                             }
                             //iniciem sessió
-                            i.putExtra("id",temp.getIdUser());
+                            //i.putExtra("id",temp.getIdUser());
+                            i.putExtra("User", temp);
                             startActivity(i);
                         }else
                             Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
@@ -323,7 +324,8 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
         LocalDate fechaNacimiento = null;
         try {
-            fechaNacimiento = LocalDate.parse(""+textEdat.getYear()+"-"+textEdat.getMonth()+"-"+textEdat.getDayOfMonth(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            fechaNacimiento = LocalDate.parse(String.format("%04d-%02d-%02d", textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         } catch (DateTimeParseException e) {
 
             e.printStackTrace();
