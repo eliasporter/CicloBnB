@@ -120,46 +120,7 @@ public class UserConnection {
 
         return be[0];
     }
-    public ArrayList<Xat> getXats(Usser u) throws SQLException, InterruptedException {
 
-        ArrayList<Xat>xats=new ArrayList<>();
-
-        Thread fil=new Thread(new Runnable() {
-            java.sql.Statement stm = null;
-            ResultSet rs = null;
-            int idXat,idUser1,idUser2;
-            boolean actiu;
-            @Override
-            public void run() {
-                try {
-
-                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+u.getIdUser()+"' OR 'IdUsuariLlogador'='"+u.getIdUser()+"';";
-                    cn=conexio.execute().get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    while(rs.next()){
-                        idXat=rs.getInt(0);
-                        idUser1=rs.getInt(1);
-                        idUser2=rs.getInt(2);
-                        xats.add(new Xat(idXat,idUser1,idUser2));
-                    }
-                    Log.d("userLlegit", ""+xats.size());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Log.d("XatError", e.getMessage());
-                    }
-                }
-            }
-        });
-        fil.start();
-        fil.join();
-        return xats;
-    }
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         ArrayList<String> result = new ArrayList<>();
 
