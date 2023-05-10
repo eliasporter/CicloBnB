@@ -14,6 +14,7 @@ import androidx.room.PrimaryKey;
 import com.example.ciclobnb.BBDD.ConnectBBdd;
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.BBDD.Connexions.UserConnection;
+import com.example.ciclobnb.BBDD.Connexions.XatsConexio;
 import com.example.ciclobnb.BBDD.UsserBBDD;
 import com.example.ciclobnb.CrearCompte;
 import com.example.ciclobnb.Objectes.Xat.Xat;
@@ -213,7 +214,7 @@ public class Usser implements Parcelable {
     }
 
     public ArrayList<Xat> getXats() throws SQLException, InterruptedException {
-        return new UserConnection().getXats(this);
+        return new XatsConexio().getXatsPerUser(this);
     }
 
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
