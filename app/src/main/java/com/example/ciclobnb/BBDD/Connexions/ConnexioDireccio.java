@@ -25,8 +25,8 @@ public class ConnexioDireccio {
                 try {
                     String sql= "UPDATE direccio SET TipusVia = '"+direccio.getTipusVia()+"', " +
                             "NomCarrer = '"+direccio.getNomCarrer()+"', Numero = '"+direccio.getNumero()+"', " +
-                            "Pis = '" + direccio.getPis()+"', IdCP = '"+direccio.getIdCP()+"' WHERE IdDireccio = " +
-                            ""+direccio.getIdDireccion()+";";
+                            "Pis = '" +direccio.getPis()+"', IdCP = "+direccio.getIdCP()+" WHERE IdDireccio = " +
+                            direccio.getIdDireccion()+";";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;
