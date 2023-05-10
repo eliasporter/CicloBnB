@@ -120,6 +120,58 @@ public class UserConnection {
 
         return be[0];
     }
+
+    public boolean UpdateUser(Usser usser) {
+        boolean[] hecho = {false};
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                try {
+                    String sql= "UPDATE usuaris SET Nom = '"+usser.getNom()+"', " +
+                            "Cognom1 = '"+usser.getCognom1()+"', Cognom2 = '"+usser.getCognom2()+"', " +
+                            "DataNaixement = '" +usser.getDataNaixement()+"', CorreuElectronic = '"+usser.getCorreuElectronic()+"' WHERE IdUsuari = " +
+                            usser.getIdUser()+";";
+                    cn=conexio.execute().get();
+                    stm = cn.createStatement();
+                    if (stm.executeUpdate(sql) > 0) hecho[0] = true;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {e.printStackTrace();}
+
+        return hecho[0];
+    }
+
     public ArrayList<Xat> getXats(Usser u) throws SQLException, InterruptedException {
 
         ArrayList<Xat>xats=new ArrayList<>();

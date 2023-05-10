@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 import com.example.ciclobnb.BBDD.Connexions.FillSpinners;
+import com.example.ciclobnb.BBDD.Connexions.UserConnection;
 import com.example.ciclobnb.Objectes.Direccio;
 import com.example.ciclobnb.Objectes.HashMapAdapter;
 import com.example.ciclobnb.Objectes.Usser;
@@ -46,11 +47,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CrearCompte extends AppCompatActivity implements View.OnClickListener {
     EditText textLogin,textPass,textNom,textCognom1,textCognom2,textEmail,textCarrer,textTipusVia,textnumero,textPis;
     DatePicker textEdat;
-    String login,password,nom,cognom1,cognom2,edat,email,iban,direccio;
     Spinner paisos,ciutats,codiPostal;
     String pais, ciutat,cp;
     String tipusVia,nomCarrer,numero, pis;
@@ -71,11 +73,13 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         Bundle b = getIntent().getExtras();
         nueva = b.getBoolean("Nueva");
 
-
         if (!nueva){
             usser = b.getParcelable("User");
+            crea.setText("Guardar");
             FillUser();
-        }
+            textLogin.setEnabled(false);
+            textPass.setEnabled(false);
+        } else usser = new Usser();
 
         //iniciem Spinners
         try {
@@ -95,41 +99,77 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textEdat.updateDate(Integer.parseInt(usser.getDataNaixement().split("-")[0]), Integer.parseInt(usser.getDataNaixement().split("-")[1]) - 1, Integer.parseInt(usser.getDataNaixement().split("-")[2]));
     }
 
+    private void TurnBack(){
+        Intent i = null;
+        if (nueva) i = new Intent(c,Login.class);
+        else {
+            i = new Intent(c, PerfilUsuari.class);
+            i.putExtra("User", usser);
+        }
+        startActivity(i);
+    }
+
+    private void TestAndFill(){
+        usser.setNom(String.valueOf(textNom.getText()));
+        usser.setCognom1(textCognom1.getText().toString());
+        usser.setCognom2(textCognom2.getText().toString());
+        usser.setLogin(textLogin.getText().toString());
+        usser.setContrasenya(textPass.getText().toString());
+        usser.setDataNaixement(textEdat.getYear() + "-" + (textEdat.getMonth() + 1) + "-" + textEdat.getDayOfMonth());
+        usser.setCorreuElectronic(textEmail.getText().toString());
+        usser.setActiu(true);
+    }
+
+    private void UsuarioNuevo(){
+        Intent i = new Intent(c,PrimeraPantalla.class);
+        try {
+            guardarDir(textCarrer, textTipusVia,textPis,textnumero);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        TestAndFill();
+        try {
+            if(usser.insertUser()){//si retorna true anem a la seguent sinó ens quedem
+                i.putExtra("User", usser);
+                startActivity(i);
+            }else
+                Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void ActualizarUsuario() {
+        if (textCarrer != null) {
+            usser.getDireccio().setNomCarrer(textCarrer.getText().toString());
+            usser.getDireccio().setNumero(textnumero.getText().toString());
+            usser.getDireccio().setPis(textPis.getText().toString());
+            usser.getDireccio().setTipusVia(textTipusVia.getText().toString());
+        }
+        try {
+            usser.getDireccio().setIdCP(new Direccio().BuscarID(codiPostal.getSelectedItem().toString()));
+            TestAndFill();
+            Toast.makeText(getApplicationContext(), "Guardant les teves dades...", Toast.LENGTH_SHORT).show();
+            ConnexioDireccio connexioDireccio = new ConnexioDireccio();
+            connexioDireccio.Actualizar(usser.getDireccio());
+            UserConnection userConnection = new UserConnection();
+            userConnection.UpdateUser(usser);
+        } catch (InterruptedException e) {e.printStackTrace();}
+        Intent i =  new Intent(c, PerfilUsuari.class);
+        i.putExtra("User", usser);
+        startActivity(i);
+    }
+
     @Override
     public void onClick(View v) {
         if(v==cancela){
-            Intent i =new Intent(c,Login.class);
-            startActivity(i);
+            TurnBack();
         }
         else if (v==crea){
-            Intent i = new Intent(c,PrimeraPantalla.class);
+
             if(comprovar()) {
-                try {
-                    guardarDir(textCarrer, textTipusVia,textPis,textnumero);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                //String tipus, String nomCarrer, String numero, String pis, int idCP
-                Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
-                        textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
-                        textEmail.getText().toString(),true);
-
-                try {
-                    if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
-                        try {
-                            temp=temp.Login(textLogin.getText().toString(),textPass.getText().toString());
-                        } catch (SQLException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //iniciem sessió
-                        i.putExtra("id",temp.getIdUser());
-                        startActivity(i);
-                    }else
-                        Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                if (nueva) UsuarioNuevo();
+                else ActualizarUsuario();
             }else Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
         }
         else if(v==textDireccio){
@@ -306,34 +346,23 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         return true ;
     }
     private Boolean comprovaEdat(){
-
-        LocalDate fechaNacimiento = null;
-        try {
-            fechaNacimiento = LocalDate.parse(""+textEdat.getYear()+"-"+textEdat.getMonth()+"-"+textEdat.getDayOfMonth(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-
-            e.printStackTrace();
-            ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
-            textEdat.setBackgroundTintList(color);
-            return false;
-        }
-
-        LocalDate fechaActual = LocalDate.now();
-        int edad = Period.between(fechaNacimiento, fechaActual).getYears();
-
+        LocalDate localDate = LocalDate.now();
+        LocalDate birth = LocalDate.of(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth());
+        int edad = Period.between(birth, localDate).getYears();
         if (edad >= 18) {
             return true;
         } else {
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEdat.setBackgroundTintList(color);
-
             return false;
         }
-
-
     }
+
     private Boolean comprovaMail(){
-        if(textEmail.getText().toString().equals("")||!textEmail.getText().toString().contains("@")){//todo
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(textEmail.getText().toString());
+        if(!matcher.matches()){//todo
             ColorStateList color = ColorStateList.valueOf(getResources().getColor(R.color.bermell));
             textEmail.setBackgroundTintList(color);
             return false;
