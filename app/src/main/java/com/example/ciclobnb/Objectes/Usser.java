@@ -1,5 +1,6 @@
 package com.example.ciclobnb.Objectes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,6 +26,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -42,9 +45,11 @@ public class Usser implements Parcelable {
     private Date dataNaixement;
     private String correuElectronic;
     private Boolean actiu;
-    public Direccio direccio;
+    private Direccio direccio;
     private final ConnectBBdd conexio = new ConnectBBdd();
     private Connection cn =null;
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public Usser(){}
     //Per a crear un nou usu no caldrà ficar cap id
@@ -75,7 +80,6 @@ public class Usser implements Parcelable {
         }
     }
 
-
     protected Usser(Parcel in) {
         IdUser = in.readInt();
         nom = in.readString();
@@ -86,6 +90,10 @@ public class Usser implements Parcelable {
         correuElectronic = in.readString();
         byte tmpActiu = in.readByte();
         actiu = tmpActiu == 0 ? null : tmpActiu == 1;
+        direccio = in.readParcelable(Direccio.class.getClassLoader());
+        try{
+            dataNaixement = dateFormat.parse(in.readString());
+        } catch (ParseException e) {e.printStackTrace();}
     }
 
     public static final Creator<Usser> CREATOR = new Creator<Usser>() {
@@ -152,8 +160,9 @@ public class Usser implements Parcelable {
         this.contrasenya = contrasenya;
     }
 
-    public Date getDataNaixement() {
-        return dataNaixement;
+    public String getDataNaixement() {
+        dateFormat.applyPattern("yyyy-MM-dd");
+        return dateFormat.format(dataNaixement);
     }
 
     public void setDataNaixement(Date dataNaixement) {
@@ -176,6 +185,9 @@ public class Usser implements Parcelable {
         this.actiu = actiu;
     }
 
+    public Direccio getDireccio(){return direccio;}
+    public void setDireccio(Direccio direccio){this.direccio = direccio;}
+
     public Usser getUserPerId(int id) throws SQLException, InterruptedException {
         return new UserConnection().getUserPerId(id);
     }
@@ -197,21 +209,6 @@ public class Usser implements Parcelable {
     public boolean insertUser() throws InterruptedException {
         return new UserConnection().insertUser(this);
     }
-    public boolean comprovarExisteixXat(){
-        return true;
-    }
-    public void crearXat(){
-
-    }
-    public int getUserPerBici(int idBici){
-        Thread fil=new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-        return 0;
-    }
 
     public ArrayList<Xat> getXats() throws SQLException, InterruptedException {
         return new XatsConexio().getXatsPerUser(this);
@@ -220,47 +217,11 @@ public class Usser implements Parcelable {
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         return new UserConnection().Buscador(query,columnName);
     }
-    /*
-    public ArrayList<String> getCiutat(int ciutat){
-        ArrayList<String>codisPostals = new ArrayList<>();
-        Thread fil = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                java.sql.Statement stm = null;
-                ResultSet rs = null;
-                int idXat, idUser1, idUser2;
-                boolean actiu;
-                try {
-                    String sql = "SELECT * from `pcciutat` WHERE IdCiutat='" + ciutat + "';";
-                    conexio.execute();
-                    cn = conexio.get();
-                    stm = cn.createStatement();
-                    rs = stm.executeQuery(sql);
-                    while (rs.next()) {
-                        String cp = new ConnexioDireccio().buscarCP(rs.getString(2));
-                        codisPostals.add(cp);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Log.d("XatError", e.getMessage());
-                    }
-                }
-            }
-        });
-        return codisPostals;
-    }*/
-
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
@@ -272,5 +233,7 @@ public class Usser implements Parcelable {
         dest.writeString(contrasenya);
         dest.writeString(correuElectronic);
         dest.writeByte((byte) (actiu == null ? 0 : actiu ? 1 : 2));
+        dest.writeParcelable(direccio, flags);
+        dest.writeString(dateFormat.format(dataNaixement));
     }
 }

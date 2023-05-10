@@ -1,14 +1,19 @@
 package com.example.ciclobnb.Objectes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.ciclobnb.BBDD.Connexions.ConnexioDireccio;
 
-public class Direccio {
-    public int idDireccion;
-    public String tipusVia;
-    public String nomCarrer;
-    public String numero;
-    public String pis;
-    public int idCP;
+public class Direccio implements Parcelable {
+    private int idDireccion;
+    private String tipusVia;
+    private String nomCarrer;
+    private String numero;
+    private String pis;
+    private int idCP;
     private ConnexioDireccio connexioDireccio=new ConnexioDireccio();
     public Direccio(int idDireccion, String tipus, String nomCarrer, String numero, String pis, int idCP){
         this.idDireccion = idDireccion; this.tipusVia = tipus; this.nomCarrer = nomCarrer; this.numero = numero; this.pis = pis; this.idCP = idCP;
@@ -19,6 +24,28 @@ public class Direccio {
         connexioDireccio = new ConnexioDireccio();
     }
     public Direccio() { }
+
+    protected Direccio(Parcel in) {
+        idDireccion = in.readInt();
+        tipusVia = in.readString();
+        nomCarrer = in.readString();
+        numero = in.readString();
+        pis = in.readString();
+        idCP = in.readInt();
+    }
+
+    public static final Creator<Direccio> CREATOR = new Creator<Direccio>() {
+        @Override
+        public Direccio createFromParcel(Parcel in) {
+            return new Direccio(in);
+        }
+
+        @Override
+        public Direccio[] newArray(int size) {
+            return new Direccio[size];
+        }
+    };
+
     public int getIdDireccion() {
         return idDireccion;
     }
@@ -74,5 +101,20 @@ public class Direccio {
         }catch (InterruptedException e){
 
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(idDireccion);
+        dest.writeString(tipusVia);
+        dest.writeString(nomCarrer);
+        dest.writeString(numero);
+        dest.writeString(pis);
+        dest.writeInt(idCP);
     }
 }
