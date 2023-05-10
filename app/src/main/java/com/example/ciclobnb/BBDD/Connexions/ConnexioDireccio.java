@@ -23,10 +23,10 @@ public class ConnexioDireccio {
                 stm = null;
                 rs = null;
                 try {
-                    String sql= "UPDATE direccio SET TipusVia = '"+direccio.tipusVia+"', " +
-                            "NomCarrer = '"+direccio.nomCarrer+"', Numero = '"+direccio.numero+"', " +
-                            "Pis = '" + direccio.pis+"', IdCP = '"+direccio.idCP+"' WHERE IdDireccio = " +
-                            ""+direccio.idDireccion+";";
+                    String sql= "UPDATE direccio SET TipusVia = '"+direccio.getTipusVia()+"', " +
+                            "NomCarrer = '"+direccio.getNomCarrer()+"', Numero = '"+direccio.getNumero()+"', " +
+                            "Pis = '" + direccio.getPis()+"', IdCP = '"+direccio.getIdCP()+"' WHERE IdDireccio = " +
+                            ""+direccio.getIdDireccion()+";";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;
@@ -71,8 +71,8 @@ public class ConnexioDireccio {
                 rs = null;
                 try {
                     String sql= "INSERT INTO direccio (TipusVia, NomCarrer, Numero, Pis, IdCP) VALUES (" +
-                            "'"+direccio.tipusVia+"', '"+direccio.nomCarrer+"', '"+direccio.numero+"', '" +
-                            direccio.pis+"', '"+direccio.idCP+"');";
+                            "'"+direccio.getTipusVia()+"', '"+direccio.getNomCarrer()+"', '"+direccio.getNumero()+"', '" +
+                            direccio.getPis()+"', '"+direccio.getIdCP()+"');";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;

@@ -31,6 +31,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         Bundle b =getIntent().getExtras();
         user = b.getParcelable("User");
 
+        findComponents();
         iniciarTextView();
        /* LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, // ancho
@@ -53,7 +54,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
     private void iniciarTextView() {
         loginText.setText(user.getLogin());
         nomCognomsText.setText(user.getNom()+" "+user.getCognom1()+" "+user.getCognom2());
-        direccioLlogerText.setText(user.direccio.tipusVia + " " + user.direccio.nomCarrer + " " + user.direccio.numero + "-" + user.direccio.pis);
+        direccioLlogerText.setText(user.getDireccio().getTipusVia() + " " + user.getDireccio().getNomCarrer() + " " + user.getDireccio().getNumero() + "-" + user.getDireccio().getPis());
 
         qualiRatingBar.setIsIndicator(true);
         qualiRatingBar.setRating(3.7f);
@@ -84,8 +85,9 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.equals(edita)){
+        if(v==edita){
             Intent i= new Intent(PerfilUsuari.this,CrearCompte.class);
+            i.putExtra("Nueva", false);
             i.putExtra("User",user);
             startActivity(i);
         }else if(v.equals(garatge)){

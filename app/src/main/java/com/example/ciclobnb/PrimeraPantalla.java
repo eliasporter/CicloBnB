@@ -35,7 +35,7 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         setContentView(R.layout.activity_primera_pantalla);
 
         //Recibir usuario
-        Bundle b =getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
         user = b.getParcelable("User");
 
         OpenTextView();
