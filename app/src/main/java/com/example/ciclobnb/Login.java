@@ -53,6 +53,7 @@ public class Login extends AppCompatActivity {
                    }
                } else if (v == newUser){
                    Intent intent =new Intent(c,CrearCompte.class);
+                   intent.putExtra("Nueva", true);
                    startActivity(intent);
                }
             }

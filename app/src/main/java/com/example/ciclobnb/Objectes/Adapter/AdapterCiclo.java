@@ -56,7 +56,7 @@ public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> 
             tUserLogin.setText(ofereixes.get(position).ussers.get(0).getLogin());
             tTipusBici.setText(ofereixes.get(position).bicis.get(0).getTipus());
             tDescripcio.setText(ofereixes.get(position).bicis.get(0).getDescripcio());
-            tDireccio.setText(ofereixes.get(position).bicis.get(0).direccio.tipusVia + " " + ofereixes.get(position).bicis.get(0).direccio.nomCarrer);
+            tDireccio.setText(ofereixes.get(position).bicis.get(0).direccio.getTipusVia() + " " + ofereixes.get(position).bicis.get(0).direccio.getNomCarrer());
 
             Log.d("LOGOfereix", "BiciEncontrada");
             /*if (mostrarImatge) {
