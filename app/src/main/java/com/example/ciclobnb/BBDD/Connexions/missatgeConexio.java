@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class missatgeConexio {
+    java.sql.Statement stm;
+    ResultSet rs;
     private Connection cn=null;
     private final ConnectBBdd conexio = new ConnectBBdd();
     public ArrayList<Missatge> getAllMisatges(Xat xat) throws InterruptedException {
@@ -55,4 +57,52 @@ public class missatgeConexio {
         fil.join();
         return missatges;
     }
+    public boolean insertMissatge(Missatge m) throws InterruptedException {
+        final boolean[] hecho = {false};
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                stm = null;
+                rs = null;
+                try {
+                    String sql= "INSERT INTO `ciclobnbDB`.`missatges` (`IdXat`, `IdUsuari`, `Missatge`, `Hora`) VALUES ("+m.idXat+", "+m.getEmisor()+", '"+m.getMissatge()+"', '"+m.getTimeStamp()+"');";
+                    cn=conexio.execute().get();
+                    stm = cn.createStatement();
+                    if (stm.executeUpdate(sql) > 0) hecho[0] = true;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (stm != null) {
+                        try {
+                            stm.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (cn != null) {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        thread.start();
+        thread.join();
+        return hecho[0];
+
+    }
+
+
 }

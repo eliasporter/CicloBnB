@@ -57,12 +57,13 @@ public class ConnexioDireccio {
                 }
             }
         });
-        thread.run();
+        thread.start();
         thread.join();
         return hecho[0];
     }
     public boolean SubirDireccion(Direccio direccio) throws InterruptedException {
         final boolean[] hecho = {false};
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

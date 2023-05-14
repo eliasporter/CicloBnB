@@ -102,6 +102,14 @@ public class Direccio implements Parcelable {
 
         }
     }
+    public void actualitzarDir(Direccio temp) {
+        try {
+            new ConnexioDireccio().Actualizar(temp);
+
+        }catch (InterruptedException e){
+
+        }
+    }
 
     @Override
     public int describeContents() {

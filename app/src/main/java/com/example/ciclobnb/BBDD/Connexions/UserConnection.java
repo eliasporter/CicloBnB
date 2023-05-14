@@ -121,97 +121,48 @@ public class UserConnection {
         return be[0];
     }
 
-    public boolean UpdateUser(Usser usser) {
-        boolean[] hecho = {false};
-
-        Thread thread = new Thread(new Runnable() {
+    public boolean updateUser(Usser user) throws InterruptedException {
+        final boolean[] be = {false};
+        Thread fil = new Thread(new Runnable() {
             @Override
             public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    String sql= "UPDATE usuaris SET Nom = '"+usser.getNom()+"', " +
-                            "Cognom1 = '"+usser.getCognom1()+"', Cognom2 = '"+usser.getCognom2()+"', " +
-                            "DataNaixement = '" +usser.getDataNaixement()+"', CorreuElectronic = '"+usser.getCorreuElectronic()+"' WHERE IdUsuari = " +
-                            usser.getIdUser()+";";
-                    cn=conexio.execute().get();
+                    /*String sql = "UPDATE `usuaris` (`Nom`, `Cognom1`, " +
+                            "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
+                            "SET ('"+user.getNom()+"', '"+user.getCognom1()+"', '"+user.getCognom2()+"', '"+user.getDataNaixement()+"', '"+user.getCorreuElectronic()+"', 1, "+new Direccio().AgafaUltima()+")" +
+                            "WHERE login = '"+user.getLogin()+"' AND Contrasenya = '"+user.getContrasenya()+"';";*/
+                    String sql = "UPDATE `usuaris` " +
+                            "SET `Nom`='"+user.getNom()+"', `Cognom1`='"+user.getCognom1()+"', `Cognom2`='"+user.getCognom2()+"', `DataNaixement`='"+user.getDataNaixement()+"', `CorreuElectronic`='"+user.getCorreuElectronic()+"', `CompteActiu`= 1, `IdDireccio` = "+new Direccio().AgafaUltima()+
+                            " WHERE login = '"+user.getLogin()+"' AND Contrasenya = '"+user.getContrasenya()+"';";
+
+                    cn= conexio.execute().get();
                     stm = cn.createStatement();
-                    if (stm.executeUpdate(sql) > 0) hecho[0] = true;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (stm != null) {
-                        try {
-                            stm.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (cn != null) {
-                        try {
-                            cn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {e.printStackTrace();}
+                    int i = stm.executeUpdate(sql);
+                    if (i > 0) {
+                        be[0] =true;
+                        Log.d("SsQL", "insertat ");
 
-        return hecho[0];
-    }
+                    } else {
 
-    public ArrayList<Xat> getXats(Usser u) throws SQLException, InterruptedException {
-
-        ArrayList<Xat>xats=new ArrayList<>();
-
-        Thread fil=new Thread(new Runnable() {
-            java.sql.Statement stm = null;
-            ResultSet rs = null;
-            int idXat,idUser1,idUser2;
-            boolean actiu;
-            @Override
-            public void run() {
-                try {
-
-                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+u.getIdUser()+"' OR 'IdUsuariLlogador'='"+u.getIdUser()+"';";
-                    cn=conexio.execute().get();
-                    stm = cn.createStatement();
-                    rs=stm.executeQuery(sql);
-                    while(rs.next()){
-                        idXat=rs.getInt(0);
-                        idUser1=rs.getInt(1);
-                        idUser2=rs.getInt(2);
-                        xats.add(new Xat(idXat,idUser1,idUser2));
-                    }
-                    Log.d("userLlegit", ""+xats.size());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    try {
+                        Log.d("SsQL", "No insertat ");
+                        rs.close();
+                        stm.close();
                         cn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Log.d("XatError", e.getMessage());
                     }
+
+                } catch (SQLException | ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
         fil.start();
         fil.join();
-        return xats;
+
+        return be[0];
     }
+
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         ArrayList<String> result = new ArrayList<>();
 
