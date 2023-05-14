@@ -1,8 +1,12 @@
 package com.example.ciclobnb;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,15 +19,22 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ciclobnb.BBDD.Connexions.OfereixConnection;
+import com.example.ciclobnb.Objectes.Adapter.AdapterCiclo;
+import com.example.ciclobnb.Objectes.Adapter.AdapterMeuCiclo;
+import com.example.ciclobnb.Objectes.Ofereix;
 import com.example.ciclobnb.Objectes.Usser;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PerfilUsuari extends AppCompatActivity implements View.OnClickListener {
+    ArrayList<Ofereix> ofereixes =  new ArrayList<>();
     Button edita, garatge,xatButton;
     TextView loginText,nomCognomsText,direccioLlogerText;
     RatingBar qualiRatingBar;
     Usser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,11 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
                 80 // altura en píxeles
         );
         edita.setLayoutParams(params);*/
+        OfereixConnection ofereixConnection = new OfereixConnection();
+        ofereixes = ofereixConnection.SearchMeues(user.getIdUser());
+        RecyclerView vista = findViewById(R.id.recyclerView);
+        vista.setAdapter(new AdapterMeuCiclo(ofereixes,this,user));
+        vista.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void findComponents(){
@@ -90,9 +106,21 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
             i.putExtra("User",user);
             startActivity(i);
         }else if(v.equals(garatge)){
+            /*
             Intent i= new Intent(PerfilUsuari.this,Garatge.class);
             i.putExtra("User",user);
-            startActivity(i);
+            startActivity(i);*/
+            String missatge="Actualment sols es podrà afegir bicicletes des de un ordenador";
+            AlertDialog.Builder build=new AlertDialog.Builder(this);
+            build.setTitle(R.string.atencio);
+            build.setMessage(missatge);
+            build.setPositiveButton("Dacord", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            build.show();
         }else if(v==xatButton){
             Intent intent = new Intent(PerfilUsuari.this, XatsAmbPersones.class);
             intent.putExtra("User",user);

@@ -15,14 +15,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ciclobnb.BBDD.Connexions.OfereixConnection;
 import com.example.ciclobnb.Objectes.Adapter.AdapterGaratge;
 import com.example.ciclobnb.Objectes.Bici;
+import com.example.ciclobnb.Objectes.Ofereix;
+import com.example.ciclobnb.Objectes.Usser;
 
 import java.util.ArrayList;
 
 public class Garatge extends AppCompatActivity {
+    ArrayList<Ofereix> ofereixes =  new ArrayList<>();
     Button afegir;
     RecyclerView bicis;
+    Usser user;
+
     ArrayList<Bici>bicisUser=new ArrayList<Bici>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,11 @@ public class Garatge extends AppCompatActivity {
         setContentView(R.layout.activity_garatge);
         afegir=findViewById(R.id.AfegirBiciBoto);
         bicis=findViewById(R.id.ReciclerBicis);
-        bicis.setAdapter(new AdapterGaratge(bicisUser,this));
+        Bundle b = getIntent().getExtras();
+        user=b.getParcelable("User");
+        OfereixConnection ofereixConnection = new OfereixConnection();
+        ofereixes = ofereixConnection.SearchMeues(user.getIdUser());
+        bicis.setAdapter(new AdapterGaratge(ofereixes,this,user));
         bicis.setLayoutManager(new LinearLayoutManager(this));
         afegir.setOnClickListener(new View.OnClickListener() {
             @Override
