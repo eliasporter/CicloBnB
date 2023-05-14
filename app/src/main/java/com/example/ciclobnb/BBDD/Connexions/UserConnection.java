@@ -121,6 +121,48 @@ public class UserConnection {
         return be[0];
     }
 
+    public boolean updateUser(Usser user) throws InterruptedException {
+        final boolean[] be = {false};
+        Thread fil = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.sql.Statement stm = null;
+                ResultSet rs = null;
+                try {
+                    /*String sql = "UPDATE `usuaris` (`Nom`, `Cognom1`, " +
+                            "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
+                            "SET ('"+user.getNom()+"', '"+user.getCognom1()+"', '"+user.getCognom2()+"', '"+user.getDataNaixement()+"', '"+user.getCorreuElectronic()+"', 1, "+new Direccio().AgafaUltima()+")" +
+                            "WHERE login = '"+user.getLogin()+"' AND Contrasenya = '"+user.getContrasenya()+"';";*/
+                    String sql = "UPDATE `usuaris` " +
+                            "SET `Nom`='"+user.getNom()+"', `Cognom1`='"+user.getCognom1()+"', `Cognom2`='"+user.getCognom2()+"', `DataNaixement`='"+user.getDataNaixement()+"', `CorreuElectronic`='"+user.getCorreuElectronic()+"', `CompteActiu`= 1, `IdDireccio` = "+new Direccio().AgafaUltima()+
+                            " WHERE login = '"+user.getLogin()+"' AND Contrasenya = '"+user.getContrasenya()+"';";
+
+                    cn= conexio.execute().get();
+                    stm = cn.createStatement();
+                    int i = stm.executeUpdate(sql);
+                    if (i > 0) {
+                        be[0] =true;
+                        Log.d("SsQL", "insertat ");
+
+                    } else {
+
+                        Log.d("SsQL", "No insertat ");
+                        rs.close();
+                        stm.close();
+                        cn.close();
+                    }
+
+                } catch (SQLException | ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+
+        return be[0];
+    }
+
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         ArrayList<String> result = new ArrayList<>();
 

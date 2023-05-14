@@ -95,7 +95,70 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         textEdat.updateDate(Integer.parseInt(usser.getDataNaixement().split("-")[0]), Integer.parseInt(usser.getDataNaixement().split("-")[1]) - 1, Integer.parseInt(usser.getDataNaixement().split("-")[2]));
     }
 
+public void crearNouUser(){
+    Intent i = new Intent(c,PrimeraPantalla.class);
+    if(comprovar()) {
+        try {
+            guardarDir(textCarrer, textTipusVia,textPis,textnumero);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
+
+        //String tipus, String nomCarrer, String numero, String pis, int idCP
+        Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
+                textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
+                textEmail.getText().toString(),true);
+
+        try {
+            if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
+                try {
+                    temp=temp.Login(textLogin.getText().toString(),textPass.getText().toString());
+                } catch (SQLException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //iniciem sessió
+                i.putExtra("id",temp.getIdUser());
+                startActivity(i);
+            }else
+                Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }else Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
+}
+    public void ActualitzarUser(){
+        Intent i = new Intent(c,PrimeraPantalla.class);
+        if(comprovar()) {
+            try {
+                actualitzarDir(usser);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            //String tipus, String nomCarrer, String numero, String pis, int idCP
+            Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
+                    textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
+                    textEmail.getText().toString(),true);
+
+            try {
+                if(temp.updateUser()){//si retorna true anem a la seguent sinó ens quedem
+                    try {
+                        temp=temp.Login(textLogin.getText().toString(),textPass.getText().toString());
+                    } catch (SQLException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //iniciem sessió
+                    i.putExtra("id",temp.getIdUser());
+                    startActivity(i);
+                }else
+                    Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void onClick(View v) {
         if(v==cancela){
@@ -103,36 +166,12 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
             startActivity(i);
         }
         else if (v==crea){
-            Intent i = new Intent(c,PrimeraPantalla.class);
-            if(comprovar()) {
-                try {
-                    guardarDir(textCarrer, textTipusVia,textPis,textnumero);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if(nueva){
+                crearNouUser();
+            }else{
+                ActualitzarUser();
+            }
 
-
-                //String tipus, String nomCarrer, String numero, String pis, int idCP
-                Usser temp = new Usser(textNom.getText().toString(),textCognom1.getText().toString(),textCognom2.getText().toString(),
-                        textLogin.getText().toString(),textPass.getText().toString(),new Date(textEdat.getYear(), textEdat.getMonth(), textEdat.getDayOfMonth()),
-                        textEmail.getText().toString(),true);
-
-                try {
-                    if(temp.insertUser()){//si retorna true anem a la seguent sinó ens quedem
-                        try {
-                            temp=temp.Login(textLogin.getText().toString(),textPass.getText().toString());
-                        } catch (SQLException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //iniciem sessió
-                        i.putExtra("id",temp.getIdUser());
-                        startActivity(i);
-                    }else
-                        Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }else Toast.makeText(getApplicationContext(), "S'ha emplenat malament algún dels camps, reemplena", Toast.LENGTH_SHORT).show();
         }
         else if(v==textDireccio){
             final boolean[] be = {false};
@@ -265,6 +304,11 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
         int cp= new Direccio().BuscarID(codiPostal.getSelectedItem().toString());
         Direccio temp=new Direccio(textTipus.getText().toString(),textCarrer.getText().toString(),textNumero.getText().toString(),textPis.getText().toString(),cp);
         new Direccio().InsertarNuevo(temp);
+    }
+    private void actualitzarDir(Usser user) throws InterruptedException {
+        //agafel l'id del CP
+        Direccio temp= user.getDireccio();
+        new Direccio().actualitzarDir(temp);
     }
     private Boolean comprovar(){//comprovem que els camps del formulari estan ben escrits
         if(!comprovaNom()) return false;

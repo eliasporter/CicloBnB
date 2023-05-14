@@ -209,6 +209,9 @@ public class Usser implements Parcelable {
     public boolean insertUser() throws InterruptedException {
         return new UserConnection().insertUser(this);
     }
+    public boolean updateUser() throws InterruptedException {
+        return new UserConnection().updateUser(this);
+    }
 
     public ArrayList<Xat> getXats() throws SQLException, InterruptedException {
         return new XatsConexio().getXatsPerUser(this);
