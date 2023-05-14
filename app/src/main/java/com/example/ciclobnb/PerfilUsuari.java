@@ -91,7 +91,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }else if(v.equals(garatge)){
             Intent i= new Intent(PerfilUsuari.this,Garatge.class);
-            i.putExtra("id",user.getIdUser());
+            i.putExtra("User",user);
             startActivity(i);
         }else if(v==xatButton){
             Intent intent = new Intent(PerfilUsuari.this, XatsAmbPersones.class);

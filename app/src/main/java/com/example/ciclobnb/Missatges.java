@@ -26,21 +26,26 @@ public class Missatges extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missatges);
         Bundle b = getIntent().getExtras();
-        try {
-            user=new Usser().getUserPerId(b.getInt("id"));
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        xat=new Xat().getXAtPerId(b.getInt("idXat"));
+            user=b.getParcelable("User");
+
+
+            xat=b.getParcelable("Xat");
+
         missatges=xat.getMissatges();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true){
                     missatges=xat.getMissatges();
+                    //recareguem cada 0,5 s
+                    try {
+                        Thread.currentThread().sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        });
+        }).start();
         llista =findViewById(R.id.recyclerMissatges);
         llista.setAdapter(new AdapterMissatges(missatges,this,user));
         llista.setLayoutManager(new LinearLayoutManager(this));

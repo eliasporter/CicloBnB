@@ -23,7 +23,7 @@ public class XatsAmbPersones extends AppCompatActivity {
         setContentView(R.layout.activity_xats_amb_persones);
         Bundle b =getIntent().getExtras();
         try {
-            usuari=new Usser().getUserPerId(b.getInt("id"));
+            usuari=b.getParcelable("User");
             xats=usuari.getXats();
         }catch (SQLException | InterruptedException e){
             e.printStackTrace();

@@ -24,13 +24,15 @@ import java.util.TreeSet;
 
 public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> {
     ArrayList<Ofereix> ofereixes;
+    Usser user;
     Context context;
     boolean mostrarImatge;
     boolean mostrarContrasenya;
 
-    public AdapterCiclo(ArrayList<Ofereix> ofereixes, Context context) {
+    public AdapterCiclo(ArrayList<Ofereix> ofereixes, Context context,Usser u) {
         this.ofereixes = ofereixes;
         this.context = context;
+        this.user = u;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +69,7 @@ public class AdapterCiclo extends RecyclerView.Adapter<AdapterCiclo.ViewHolder> 
                 public void onClick(View view) {
                     Intent intent=new Intent(context, Bici_per_llogar.class);
                     intent.putExtra("Bike", ofereixes.get(position));
+                    intent.putExtra("User",user);
                     context.startActivity(intent);
                 }
             });

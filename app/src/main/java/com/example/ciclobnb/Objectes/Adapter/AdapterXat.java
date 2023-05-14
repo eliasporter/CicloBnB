@@ -54,8 +54,8 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(context, Missatges.class);
-                        intent.putExtra("idXat",xat.get(position).getIdXat());
-                        intent.putExtra("id",usuari.getIdUser());
+                        intent.putExtra("Xat",xat.get(position));
+                        intent.putExtra("User",usuari);
                         context.startActivity(intent);
                     }
                 });
