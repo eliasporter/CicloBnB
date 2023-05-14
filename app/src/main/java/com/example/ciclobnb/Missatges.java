@@ -80,6 +80,7 @@ public class Missatges extends AppCompatActivity implements View.OnClickListener
         String data = formatoFecha.format(d);
         Missatge temp = new Missatge(textMiss.getText().toString(),user.getIdUser(),data,xat.getIdXat());
         temp.insertMissatge();
+        textMiss.setText("");
     }
     @Override
     public void onClick(View v) {
