@@ -14,6 +14,12 @@ public class Missatge {
         this.emisor=emisor;
         this.timeStamp=timeStamp;
     }
+    public  Missatge(int idMissatge, String missatge,int emisor,String timeStamp){
+        this.idMissatge=idMissatge;
+        this.missatge=missatge;
+        this.emisor=emisor;
+        this.timeStamp=timeStamp;
+    }
 
     public String getMissatge() {
         return missatge;

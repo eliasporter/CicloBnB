@@ -25,6 +25,8 @@ import com.example.ciclobnb.BBDD.Connexions.GestioLloguersConnection;
 import com.example.ciclobnb.Objectes.BicisLlogater;
 import com.example.ciclobnb.Objectes.GestioLloguers;
 import com.example.ciclobnb.Objectes.Ofereix;
+import com.example.ciclobnb.Objectes.Usser;
+import com.example.ciclobnb.Objectes.Xat.Xat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,11 +34,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.security.auth.x500.X500Principal;
+
 public class Bici_per_llogar extends AppCompatActivity implements View.OnClickListener{
     Button llogar, xat, btnDesde, btnFins;
     TextView login, tipusBici, preu, descripcio, marca, modelo, suspension, lblDesde, lblFins;
     CalendarView calendarView;
     Ofereix ofereix;
+    Usser user;
     ArrayList<BicisLlogater> bicisLlogaterArrayList;
     Context context = this;
     @SuppressLint("SimpleDateFormat") private final SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -47,6 +52,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
 
         Bundle b = getIntent().getExtras();
         ofereix = b.getParcelable("Bike");
+        user=b.getParcelable("User");
 
         OpenObjects();
         FillText();
@@ -98,6 +104,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         btnFins = findViewById(R.id.btnFins);
         lblDesde = findViewById(R.id.lblDesde);
         lblFins = findViewById(R.id.lblFins);
+        xat = findViewById(R.id.iniciarXatButton);
         calendarView = findViewById(R.id.calendarView);
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
         calendarView.setClickable(true);
@@ -180,7 +187,19 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         if(v==llogar){//dialeg a mostrar per a veurer si l'usuari està segur de si vol iniciar el lloguer
             AlquilarBici();
         }else if(v==xat){
+            Intent i = new Intent(this,Missatges.class);
+            try {
+                int idXat=new Xat().comprovaCreaXat(user,ofereix.ussers.get(0));
+                if (idXat!=0)
+                    i.putExtra("idXat",idXat);
+                else {
+                    Toast toast = Toast.makeText(this, "No s'ha pogut crear el Xat tornaho a provar", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }else if(v==btnDesde){
             btnFins.setEnabled(true);
             btnDesde.setEnabled(false);

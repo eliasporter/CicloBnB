@@ -43,7 +43,7 @@ public class PrimeraPantalla extends AppCompatActivity implements  View.OnClickL
         LoadBikes();
 
         RecyclerView vista = findViewById(R.id.cercaBicis);
-        vista.setAdapter(new AdapterCiclo(ofereixes,c));
+        vista.setAdapter(new AdapterCiclo(ofereixes,c,user));
         vista.setLayoutManager(new LinearLayoutManager(this));
     }
 

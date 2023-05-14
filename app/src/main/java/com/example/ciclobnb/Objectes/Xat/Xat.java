@@ -1,15 +1,23 @@
 package com.example.ciclobnb.Objectes.Xat;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.LocusIdCompat;
+
+import com.example.ciclobnb.BBDD.Connexions.XatsConexio;
+import com.example.ciclobnb.BBDD.Connexions.missatgeConexio;
 import com.example.ciclobnb.Objectes.Usser;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Xat {
-    int idXat;
-    int user1;
-    int user2;
+public class Xat implements Parcelable {
+    private int idXat;
+    private int user1;
+    private int user2;
 
 
     public Xat(int idXat, int user, int llogater) {
@@ -18,6 +26,24 @@ public class Xat {
         this.user2 = llogater;
     }
     public Xat(){}
+
+    protected Xat(Parcel in) {
+        idXat = in.readInt();
+        user1 = in.readInt();
+        user2 = in.readInt();
+    }
+
+    public static final Creator<Xat> CREATOR = new Creator<Xat>() {
+        @Override
+        public Xat createFromParcel(Parcel in) {
+            return new Xat(in);
+        }
+
+        @Override
+        public Xat[] newArray(int size) {
+            return new Xat[size];
+        }
+    };
 
     public int getIdXat() {
         return idXat;
@@ -41,32 +67,38 @@ public class Xat {
         this.user2 = user2;
     }
 
-    public String getUltimMissatge(){
-        return "Adeu";
+    public String getUltimMissatge() throws InterruptedException {
+        return new XatsConexio().getUltimMissatge(this);
     }
-    public Xat getXAtPerId(int idXat){
-        Xat xat=null;
-        if(idXat==1){
-            xat =new Xat(1,1,2);
-        }else if(idXat==2){
-            xat=(new Xat(2,1,3));}
-        else if(idXat==3){
-            xat=(new Xat(3,2,1));
-        }else if(idXat==4){
-            xat=(new Xat(4,2,3));
-        }else {
+    public Xat getXAtPerId(int idXat) throws InterruptedException {
+       return new XatsConexio().BuscaXatPerId(idXat);
+    }
+    public int comprovaCreaXat(Usser cli,Usser prop) throws InterruptedException {
+        int idXat=0;
+        idXat= new XatsConexio().BuscaXat(cli,prop);
 
+        return idXat;
+
+    }
+    public ArrayList<Missatge> getMissatges ()  {
+
+        try {
+            return new missatgeConexio().getAllMisatges(this);
+        }catch ( InterruptedException e){
+            e.printStackTrace();
         }
-
-        return xat;
+        return null;
     }
-    public ArrayList<Missatge> getMissatges (){
-        ArrayList<Missatge> missatges=new ArrayList<>();
-        Date date = new Date();
-        Timestamp temps = new Timestamp(date.getTime());
-        missatges.add(new Missatge("Hola",getUser1(),temps.toString()));
-        missatges.add(new Missatge("Hola!",getUser2(),temps.toString()));
 
-        return missatges;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(idXat);
+        dest.writeInt(user1);
+        dest.writeInt(user2);
     }
 }
