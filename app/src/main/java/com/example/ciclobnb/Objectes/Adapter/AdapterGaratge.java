@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ciclobnb.Bici_per_llogar;
 import com.example.ciclobnb.Garatge;
 import com.example.ciclobnb.Objectes.Bici;
+import com.example.ciclobnb.Objectes.Ofereix;
 import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.R;
 
@@ -26,19 +27,20 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHolder> {
-
+    ArrayList<Ofereix> ofereixes;
     /*TreeSet<Bici> bicis = new TreeSet<>();
     TreeSet<Usser> users = new TreeSet<>();*/
     ArrayList<Usser> users=new ArrayList<>();
     ArrayList <Bici> bicis =new ArrayList<>();
     Context context;
+    Usser user;
     boolean mostrarImatge;
     boolean mostrarContrasenya;
 
-    public AdapterGaratge( ArrayList<Bici> bicis, Context context) {
-        this.users = users;
-        this.bicis = bicis;
+    public AdapterGaratge( ArrayList<Ofereix> ofereixes, Context context,Usser u) {
+        this.ofereixes = ofereixes;
         this.context = context;
+        this.user = u;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +64,7 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
 
         public void bind(Integer position) throws ParseException {
 
-            marca.setText(bicis.get(position).getMarca());
+            marca.setText(ofereixes.get(position).bicis.get(0).getMarca());
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,8 +82,8 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
             });
             //per cada una de les bicis mostrem una ReciclerView amb les seves disponibilitats
             //dispo.setAdapter(new AdapterDisponibilitats(bicis.get(position).getDisponibilitats(),context));
-            dispo.setLayoutManager(new LinearLayoutManager(context));
-            itemView.setOnClickListener(new View.OnClickListener() {
+            //dispo.setLayoutManager(new LinearLayoutManager(context));
+            /*itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, Bici_per_llogar.class);
@@ -89,7 +91,7 @@ public class AdapterGaratge extends RecyclerView.Adapter<AdapterGaratge.ViewHold
 
                     context.startActivity(intent);
                 }
-            });
+            });*/
 
         }
     }
