@@ -165,8 +165,11 @@ public class Usser implements Parcelable {
         return dateFormat.format(dataNaixement);
     }
 
-    public void setDataNaixement(Date dataNaixement) {
-        this.dataNaixement = dataNaixement;
+    public void setDataNaixement(String dataNaixement) {
+        dateFormat.applyPattern("yyyy-MM-dd");
+        try {
+            this.dataNaixement = dateFormat.parse(dataNaixement);
+        } catch (ParseException e){e.printStackTrace();}
     }
 
     public String getCorreuElectronic() {
