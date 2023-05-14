@@ -220,7 +220,6 @@ public class XatsConexio {
             @Override
             public void run() {
                 try {
-
                     String sql= "SELECT  Missatge,  `Hora` FROM `ciclobnbDB`.`missatges` " +
                             "where IdXat = "+ xat.getIdXat() +
                             " ORDER BY `IdMissatge` DESC LIMIT 1;";
