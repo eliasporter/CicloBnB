@@ -74,7 +74,7 @@ public class PerfilUsuari extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.home :
                 Intent i=new Intent(this,PrimeraPantalla.class);
-                i.putExtra("id",user.getIdUser());
+                i.putExtra("User",user);
                 startActivity(i);
                 return true;
             default:

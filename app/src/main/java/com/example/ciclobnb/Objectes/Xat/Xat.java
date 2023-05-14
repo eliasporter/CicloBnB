@@ -81,6 +81,7 @@ public class Xat implements Parcelable {
         return idXat;
 
     }
+
     public int creaXat(Usser cli,Usser prop) throws InterruptedException {
         int idXat=0;
         new XatsConexio().crearXat(cli,prop);

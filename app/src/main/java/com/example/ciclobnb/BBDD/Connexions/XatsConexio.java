@@ -66,16 +66,20 @@ public class XatsConexio {
                 try {
 
                     String sql= "SELECT * from `xat` WHERE " +
-                            "(`IdUsuariPropietari` ='"+clie.getIdUser()+"' OR 'IdUsuariLlogador'='"+clie.getIdUser()+"') " +
-                            "OR (`IdUsuariPropietari` ='"+clie.getIdUser()+"' OR 'IdUsuariLlogador'='"+clie.getIdUser()+"');";
+                            "(`IdUsuariPropietari` ='"+clie.getIdUser()+"' OR `IdUsuariLlogador`='"+clie.getIdUser()+"') " +
+                            "AND (`IdUsuariPropietari` ='"+prop.getIdUser()+"' OR `IdUsuariLlogador`='"+prop.getIdUser()+"');";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
-                    if(rs.getRow()==0)
+                    if(rs.getRow()==0){
+                        rs.next();
                         existeis[0] =0;
-                    else
+                    }
+                    else {
                         rs.next();
                         existeis[0] =rs.getInt(1);
+                    }
+
                    // Log.d("userLlegit", ""+xats.size());
                 }catch (Exception e){
                     e.printStackTrace();
@@ -93,16 +97,14 @@ public class XatsConexio {
         fil.join();
         return existeis[0];
     }
-    public int agafarUltim(){
-        return 0;//todo
-    }
+
     public Xat BuscaXatPerId(int idXat) throws InterruptedException {
         final Xat[] xat = new Xat[1];
 
         Thread fil=new Thread(new Runnable() {
             java.sql.Statement stm = null;
             ResultSet rs = null;
-            int idXat,idUser1,idUser2;
+            int idUser1,idUser2;
             @Override
             public void run() {
                 try {
@@ -112,10 +114,10 @@ public class XatsConexio {
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
-                    idXat=rs.getInt(1);
+                    //idXat=rs.getInt(1);
                     idUser1=rs.getInt(2);
                     idUser2=rs.getInt(3);
-                    xat[1]= new Xat(idXat,idUser1,idUser2);
+                    xat[0]= new Xat(idXat,idUser1,idUser2);
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -171,7 +173,7 @@ public class XatsConexio {
         fil.start();
         fil.join();
         if(creat[0]=true)
-            return agafarUltim();
+            return 0;
         else
             return 0;
     }
@@ -179,7 +181,7 @@ public class XatsConexio {
         //SELECT * FROM `ciclobnbDB`.`xat` ORDER BY `IdXat` DESC LIMIT 1000;
         final int[] xat = new int[1];
 
-        Thread fil=new Thread(new Runnable() {
+        Thread thread=new Thread(new Runnable() {
             java.sql.Statement stm = null;
             ResultSet rs = null;
             @Override
@@ -205,8 +207,8 @@ public class XatsConexio {
                 }
             }
         });
-        fil.start();
-        fil.join();
+        thread.start();
+        thread.join();
         return xat[0];
 
     }

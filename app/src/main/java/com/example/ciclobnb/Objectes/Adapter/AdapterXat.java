@@ -60,6 +60,18 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
                         Intent intent=new Intent(context, Missatges.class);
                         intent.putExtra("Xat",xat.get(position));
                         intent.putExtra("User",usuari);
+
+                            try {
+                                if(usuari.getIdUser()==xat.get(position).getUser1())
+                                    intent.putExtra("User2", new Usser().getUserPerId(xat.get(position).getUser2()));
+                                else
+                                    intent.putExtra("User2", new Usser().getUserPerId(xat.get(position).getUser1()));
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
                         context.startActivity(intent);
                     }
                 });

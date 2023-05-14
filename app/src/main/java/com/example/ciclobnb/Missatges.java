@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.ciclobnb.Objectes.Adapter.AdapterMissatges;
 import com.example.ciclobnb.Objectes.Usser;
@@ -23,21 +26,23 @@ public class Missatges extends AppCompatActivity implements View.OnClickListener
     RecyclerView llista;
     ArrayList<Missatge> missatges = new ArrayList<>();
     Button enviar;
-    Usser user;
+    Usser user,user2;
     EditText textMiss;
+    TextView textUser2;
     Xat xat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missatges);
+        textUser2=findViewById(R.id.TextLoginUser);
         enviar= findViewById(R.id.EnviarMissatge);
         enviar.setOnClickListener(this);
         textMiss=findViewById(R.id.message_edit_text);
         Bundle b = getIntent().getExtras();
-            user=b.getParcelable("User");
-
-            xat=b.getParcelable("Xat");
-
+        user=b.getParcelable("User");
+        user2=b.getParcelable("User2");
+        xat=b.getParcelable("Xat");
+        textUser2.setText(user2.getLogin());
         missatges=xat.getMissatges();
         llista =findViewById(R.id.recyclerMissatges);
         llista.setAdapter(new AdapterMissatges(missatges,this,user));
@@ -59,6 +64,18 @@ public class Missatges extends AppCompatActivity implements View.OnClickListener
         }).start();
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home :
+                Intent i=new Intent(this,PrimeraPantalla.class);
+                i.putExtra("User",user);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void ficarAdapter() {

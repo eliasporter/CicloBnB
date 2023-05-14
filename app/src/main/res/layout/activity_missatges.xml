@@ -29,12 +29,22 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMissatges"
-        android:layout_width="409dp"
-        android:layout_height="663dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="418dp"
+        android:layout_height="580dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/missatge_sol" />
+        app:layout_constraintTop_toBottomOf="@+id/TextLoginUser" />
+
+    <TextView
+        android:id="@+id/TextLoginUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:text="TextLoginUser"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

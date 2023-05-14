@@ -135,7 +135,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         switch (item.getItemId()) {
             case R.id.home :
                 Intent i=new Intent(this,PrimeraPantalla.class);
-                //i.putExtra("id",usuari.getIdUser());
+                i.putExtra("User",user);
                 startActivity(i);
                 return true;
             default:
@@ -188,8 +188,12 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
             Intent i = new Intent(this,Missatges.class);
             try {
                 int idXat=new Xat().comprovaCreaXat(user,ofereix.ussers.get(0));
-                if (idXat!=0)
+                if (idXat!=0){
+                    i.putExtra("User",user);
                     i.putExtra("Xat",new Xat().getXAtPerId(idXat));
+                    i.putExtra("User2",ofereix.ussers.get(0));
+                    startActivity(i);
+                }
                 else {
                     Toast toast = Toast.makeText(this, "No s'ha pogut crear el Xat tornaho a provar", Toast.LENGTH_SHORT);
                     toast.show();

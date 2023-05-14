@@ -162,7 +162,14 @@ public void crearNouUser(){
     @Override
     public void onClick(View v) {
         if(v==cancela){
-            Intent i =new Intent(c,Login.class);
+            Intent i;
+            if(nueva){
+                i = new Intent(c, Login.class);
+            }else{
+                i = new Intent(c, PrimeraPantalla.class);
+                i.putExtra("User",usser);
+            }
+
             startActivity(i);
         }
         else if (v==crea){
