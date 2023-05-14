@@ -75,6 +75,7 @@ public class XatsConexio {
                         rs.next();
                         existeis[0] =0;
                     }
+
                     else {
                         rs.next();
                         existeis[0] =rs.getInt(1);
