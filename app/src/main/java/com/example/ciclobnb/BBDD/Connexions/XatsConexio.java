@@ -27,7 +27,7 @@ public class XatsConexio {
             public void run() {
                 try {
 
-                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+u.getIdUser()+"' OR 'IdUsuariLlogador'='"+u.getIdUser()+"';";
+                    String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+u.getIdUser()+"' OR `IdUsuariLlogador`='"+u.getIdUser()+"';";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
@@ -143,7 +143,7 @@ public class XatsConexio {
             public void run() {
                 try {
 
-                    String sql= "INSERT INTO `ciclobnbDB`.`xat` (`IdUsuariPropietari`, `IdUsuariLlogador`) VALUES ("+clie.getIdUser()+" , "+prop.getIdUser()+" ;";
+                    String sql= "INSERT INTO `ciclobnbDB`.`xat` (`IdUsuariPropietari`, `IdUsuariLlogador`) VALUES ("+clie.getIdUser()+" , "+prop.getIdUser()+") ;";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeUpdate(sql);
@@ -175,6 +175,41 @@ public class XatsConexio {
         else
             return 0;
     }
+    public int getUltim() throws InterruptedException {
+        //SELECT * FROM `ciclobnbDB`.`xat` ORDER BY `IdXat` DESC LIMIT 1000;
+        final int[] xat = new int[1];
+
+        Thread fil=new Thread(new Runnable() {
+            java.sql.Statement stm = null;
+            ResultSet rs = null;
+            @Override
+            public void run() {
+                try {
+
+                    String sql= "SELECT * FROM `ciclobnbDB`.`xat` ORDER BY `IdXat` DESC LIMIT 1;";
+                    cn=conexio.execute().get();
+                    stm = cn.createStatement();
+                    rs=stm.executeQuery(sql);
+                    rs.next();
+                    xat[0]=rs.getInt(1);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        cn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        Log.d("XatError", e.getMessage());
+                    }
+                }
+            }
+        });
+        fil.start();
+        fil.join();
+        return xat[0];
+
+    }
     public String getUltimMissatge(Xat xat) throws InterruptedException {
         final String[] missatge = {""};
         Thread fil=new Thread(new Runnable() {
@@ -185,10 +220,9 @@ public class XatsConexio {
             @Override
             public void run() {
                 try {
-
                     String sql= "SELECT  Missatge,  `Hora` FROM `ciclobnbDB`.`missatges` " +
-                            "INNER JOIN xat ON xat.IdXat = "+ xat.getIdXat() +
-                            " ORDER BY `Missatge` DESC LIMIT 1;";
+                            "where IdXat = "+ xat.getIdXat() +
+                            " ORDER BY `IdMissatge` DESC LIMIT 1;";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);

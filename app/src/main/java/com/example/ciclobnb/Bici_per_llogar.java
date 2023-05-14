@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.security.auth.x500.X500Principal;
-
 public class Bici_per_llogar extends AppCompatActivity implements View.OnClickListener{
     Button llogar, xat, btnDesde, btnFins;
     TextView login, tipusBici, preu, descripcio, marca, modelo, suspension, lblDesde, lblFins;
@@ -58,6 +55,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         FillText();
         OnDateChange();
         llogar.setOnClickListener(this);
+        xat.setOnClickListener(this);
         btnDesde.setOnClickListener(this);
         btnFins.setOnClickListener(this);
     }
@@ -104,7 +102,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
         btnFins = findViewById(R.id.btnFins);
         lblDesde = findViewById(R.id.lblDesde);
         lblFins = findViewById(R.id.lblFins);
-        xat = findViewById(R.id.iniciarXatButton);
+        xat = findViewById(R.id.iniciarXatboto);
         calendarView = findViewById(R.id.calendarView);
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
         calendarView.setClickable(true);
@@ -191,7 +189,7 @@ public class Bici_per_llogar extends AppCompatActivity implements View.OnClickLi
             try {
                 int idXat=new Xat().comprovaCreaXat(user,ofereix.ussers.get(0));
                 if (idXat!=0)
-                    i.putExtra("idXat",idXat);
+                    i.putExtra("Xat",new Xat().getXAtPerId(idXat));
                 else {
                     Toast toast = Toast.makeText(this, "No s'ha pogut crear el Xat tornaho a provar", Toast.LENGTH_SHORT);
                     toast.show();

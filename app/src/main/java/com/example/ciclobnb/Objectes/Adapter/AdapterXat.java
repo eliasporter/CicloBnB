@@ -47,7 +47,11 @@ public class AdapterXat extends RecyclerView.Adapter<AdapterXat.ViewHolder> {
             }
 
             public void bind(Integer position) throws SQLException, InterruptedException {
-                Usser u=new Usser().getUserPerId(xat.get(position).getUser2());
+                Usser u;
+                if(xat.get(position).getUser2()!=usuari.getIdUser())
+                    u=new Usser().getUserPerId(xat.get(position).getUser2());
+                else
+                    u=new Usser().getUserPerId(xat.get(position).getUser1());
                 user2.setText(u.getLogin());
                 ultimMissatge.setText(xat.get(position).getUltimMissatge());
                 itemView.setOnClickListener(new View.OnClickListener() {
