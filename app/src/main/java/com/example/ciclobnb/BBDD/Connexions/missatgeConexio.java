@@ -26,8 +26,7 @@ public class missatgeConexio {
             public void run() {
                 try {
 
-                    String sql= "SELECT  Missatge, IdUsuari ,Hora, idMissatge FROM `ciclobnbDB`.`missatges` " +
-                            "INNER JOIN xat ON xat.IdXat = '"+xat.getIdXat()+"'" +
+                    String sql= "SELECT  Missatge, IdUsuari ,Hora, idMissatge FROM `ciclobnbDB`.`missatges` where idXat='"+xat.getIdXat()+"' "+
                             "ORDER BY `idMissatge`;";
                     cn=conexio.execute().get();
                     stm = cn.createStatement();
