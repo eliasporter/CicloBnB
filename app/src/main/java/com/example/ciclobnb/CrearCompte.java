@@ -87,7 +87,9 @@ public class CrearCompte extends AppCompatActivity implements View.OnClickListen
 
     private void FillUser(){
         textLogin.setText(usser.getLogin());
+        textLogin.setEnabled(false);
         textPass.setText(usser.getContrasenya());
+        textPass.setEnabled(false);
         textNom.setText(usser.getNom());
         textCognom1.setText(usser.getCognom1());
         textCognom2.setText(usser.getCognom2());
@@ -150,7 +152,7 @@ public void crearNouUser(){
                         e.printStackTrace();
                     }
                     //iniciem sessió
-                    i.putExtra("id",temp.getIdUser());
+                    i.putExtra("User",temp);
                     startActivity(i);
                 }else
                     Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
