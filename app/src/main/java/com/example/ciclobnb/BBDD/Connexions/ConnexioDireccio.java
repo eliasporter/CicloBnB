@@ -6,14 +6,22 @@ import com.example.ciclobnb.Objectes.Direccio;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 public class ConnexioDireccio {
 
     java.sql.Statement stm;
     ResultSet rs;
     private final ConnectBBdd conexio = new ConnectBBdd();
-    public ConnexioDireccio(){}
     private Connection cn =null;
+    public ConnexioDireccio()  {
+        try {
+            cn=conexio.execute().get();
+        }catch (ExecutionException | InterruptedException e){
+
+        }
+    }
+
 
     public boolean Actualizar(Direccio direccio) throws InterruptedException {
         final boolean[] hecho = {false};
@@ -27,7 +35,7 @@ public class ConnexioDireccio {
                             "NomCarrer = '"+direccio.getNomCarrer()+"', Numero = '"+direccio.getNumero()+"', " +
                             "Pis = '" +direccio.getPis()+"', IdCP = "+direccio.getIdCP()+" WHERE IdDireccio = " +
                             direccio.getIdDireccion()+";";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;
                 }catch (Exception e){
@@ -74,7 +82,7 @@ public class ConnexioDireccio {
                     String sql= "INSERT INTO direccio (TipusVia, NomCarrer, Numero, Pis, IdCP) VALUES (" +
                             "'"+direccio.getTipusVia()+"', '"+direccio.getNomCarrer()+"', '"+direccio.getNumero()+"', '" +
                             direccio.getPis()+"', '"+direccio.getIdCP()+"');";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;
                 }catch (Exception e){
@@ -121,7 +129,7 @@ public class ConnexioDireccio {
                 try {
                     String sql= "SELECT * FROM `ciclobnbDB`.`codipostal` WHERE codipostal= '"+id+"';";
 
-                    cn=conexio.execute().get();;
+                    //cn=conexio.execute().get();;
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
@@ -168,8 +176,8 @@ public class ConnexioDireccio {
                 ResultSet rs = null;
                 try {
                     String sql= "SELECT * FROM `direccio` ORDER BY `IdDireccio` DESC LIMIT 1;";
-                    conexio.execute();
-                    cn=conexio.get();
+                    /*conexio.execute();
+                    cn=conexio.get();*/
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
