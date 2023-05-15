@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        xmlns:tools="http://schemas.android.com/tools"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CicloBnB"
         tools:targetApi="33">
+        <meta-data android:name="android.os.Handler.defaultBufferDelay" android:value="5000"/>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
         <activity
             android:name=".Missatges"
             android:exported="false"
