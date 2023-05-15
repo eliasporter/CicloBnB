@@ -118,7 +118,7 @@ public void crearNouUser(){
                     e.printStackTrace();
                 }
                 //iniciem sessió
-                i.putExtra("id",temp.getIdUser());
+                i.putExtra("User",temp);
                 startActivity(i);
             }else
                 Toast.makeText(getApplicationContext(), "Ha agut un error, torna-ho a provar", Toast.LENGTH_SHORT).show();
