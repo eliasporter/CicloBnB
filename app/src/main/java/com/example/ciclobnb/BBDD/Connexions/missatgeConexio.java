@@ -20,6 +20,7 @@ public class missatgeConexio {
     private final ConnectBBdd conexio = new ConnectBBdd();
     public missatgeConexio()  {
         try {
+
             if(cn!=null)
                 cn=null;
             this.cn=conexio.execute().get();
