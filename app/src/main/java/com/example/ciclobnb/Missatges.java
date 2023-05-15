@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.ciclobnb.Objectes.Adapter.AdapterMissatges;
+import com.example.ciclobnb.Objectes.Adapter.ReverseLayout;
 import com.example.ciclobnb.Objectes.Usser;
 import com.example.ciclobnb.Objectes.Xat.Missatge;
 import com.example.ciclobnb.Objectes.Xat.Xat;
@@ -20,6 +21,8 @@ import com.example.ciclobnb.Objectes.Xat.Xat;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 public class Missatges extends AppCompatActivity implements View.OnClickListener{
@@ -45,8 +48,12 @@ public class Missatges extends AppCompatActivity implements View.OnClickListener
         textUser2.setText(user2.getLogin());
         missatges=xat.getMissatges();
         llista =findViewById(R.id.recyclerMissatges);
+        //Collections.reverse(missatges);
         llista.setAdapter(new AdapterMissatges(missatges,this,user));
+        //llista.setLayoutManager(new ReverseLayout(this));
+
         llista.setLayoutManager(new LinearLayoutManager(this));
+        //llista.reve
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -80,6 +87,7 @@ public class Missatges extends AppCompatActivity implements View.OnClickListener
 
     private void ficarAdapter() {
         missatges=xat.getMissatges();
+        //Collections.reverse(missatges);
         //tot i que estiguem en un altre fil ho executarem en el principal
         runOnUiThread(new Runnable() {
             @Override
