@@ -36,8 +36,8 @@ public class GestioLloguersConnection {
                 Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    connectBBdd.execute();
-                    connection = connectBBdd.get();
+                    /*connectBBdd.execute();
+                    connection = connectBBdd.get();*/
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT Total FROM gestiolloguers WHERE IdLloguer = " + IDUser + ";");
                     while(rs.next()){
@@ -66,8 +66,8 @@ public class GestioLloguersConnection {
             public void run() {
                 Statement stm = null;
                 try {
-                    connectBBdd.execute();
-                    connection = connectBBdd.get();
+                    /*connectBBdd.execute();
+                    connection = connectBBdd.get();*/
                     stm = connection.createStatement();
                     if (stm.executeUpdate("INSERT INTO gestiolloguers(Total, IdUsuari, DataPagament) VALUES ("+gestioLloguers.getTotal()+","+gestioLloguers.getIdUsuari()+", '"+date.format(System.currentTimeMillis())+"');") > 0) hecho[0]=true;
                     connection.close();

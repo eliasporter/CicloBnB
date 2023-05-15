@@ -53,6 +53,7 @@ public class XatsConexio {
                     e.printStackTrace();
                 }finally {
                     try {
+                        if(cn!=null)
                         cn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();

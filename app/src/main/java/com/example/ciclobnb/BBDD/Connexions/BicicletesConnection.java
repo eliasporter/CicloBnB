@@ -33,8 +33,8 @@ public class BicicletesConnection {
                 Statement stm = null;
                 ResultSet rs = null;
                 try{
-                    connectBBdd.execute();
-                    Connection connection = connectBBdd.get();
+                    /*connectBBdd.execute();
+                    Connection connection = connectBBdd.get();*/
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT b.IdBicicleta, b.marca, b.Descripcio, b.Tipus, d.Preu, b.IdDireccio, b.modelo, b.suspension " +
                             "FROM bicicletes b " +
