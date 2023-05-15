@@ -19,6 +19,8 @@ public class UserConnection {
     private final ConnectBBdd conexio = new ConnectBBdd();
     public UserConnection() throws InterruptedException {
         try {
+            if(cn!=null)
+                cn=null;
             this.cn=conexio.execute().get();
         }catch (ExecutionException e){
 
@@ -173,14 +175,15 @@ public class UserConnection {
 
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         ArrayList<String> result = new ArrayList<>();
-        if(cn!=null)
-            cn=null;
-        try {
-            this.cn = conexio.execute().get();
+
+       /* try {
+            if(cn!=null)
+                cn=null;
+            cn = conexio.execute().get();
 
         }catch (ExecutionException e){
 
-        }
+        }*/
         Thread fil =new Thread(new Runnable() {
             @Override
             public void run() {
