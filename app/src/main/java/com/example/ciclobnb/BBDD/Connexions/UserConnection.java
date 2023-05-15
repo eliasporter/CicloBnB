@@ -17,6 +17,14 @@ import java.util.concurrent.ExecutionException;
 public class UserConnection {
     private Connection cn=null;
     private final ConnectBBdd conexio = new ConnectBBdd();
+    public UserConnection() throws InterruptedException {
+        try {
+            this.cn=conexio.execute().get();
+        }catch (ExecutionException e){
+
+        }
+
+    }
     public Usser getUserPerId(int id) throws SQLException, InterruptedException {
         final Usser[] u = {null};
         Thread fil = new Thread(new Runnable() {
@@ -30,7 +38,7 @@ public class UserConnection {
 
                 try {
                     String sql= "SELECT * from `usuaris` WHERE idUsuari='"+id+"';";
-                    cn=conexio.execute().get();
+
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
@@ -66,7 +74,7 @@ public class UserConnection {
                 try {
                     java.sql.Statement stm = null;
                     ResultSet rs = null;
-                    cn= new ConnectBBdd().execute().get();
+                    //cn= new ConnectBBdd().execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery("SELECT * FROM usuaris u " +
                             "INNER JOIN direccio d ON d.IdDireccio = u.IdDireccio " +
@@ -95,7 +103,7 @@ public class UserConnection {
                             "`Cognom2`, `DataNaixement`, `CorreuElectronic`, `CompteActiu`, `IdDireccio`) " +
                             "VALUES ('"+user.getLogin()+"', '"+user.Hash(user.getContrasenya())+"', '"+user.getNom()+"', '"+user.getCognom1()+"', '"+user.getCognom2()+"', '"+"2023-04-17"+"', '"+user.getCorreuElectronic()+"', 1, "+new Direccio().AgafaUltima()+");";
 
-                    cn= conexio.execute().get();
+                    //cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);
                     if (i > 0) {
@@ -110,7 +118,7 @@ public class UserConnection {
                         cn.close();
                     }
 
-                } catch (SQLException | ExecutionException | InterruptedException e) {
+                } catch (SQLException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -137,7 +145,7 @@ public class UserConnection {
                             "SET `Nom`='"+user.getNom()+"', `Cognom1`='"+user.getCognom1()+"', `Cognom2`='"+user.getCognom2()+"', `DataNaixement`='"+user.getDataNaixement()+"', `CorreuElectronic`='"+user.getCorreuElectronic()+"', `CompteActiu`= 1, `IdDireccio` = "+new Direccio().AgafaUltima()+
                             " WHERE login = '"+user.getLogin()+"' AND Contrasenya = '"+user.getContrasenya()+"';";
 
-                    cn= conexio.execute().get();
+                    //cn= conexio.execute().get();
                     stm = cn.createStatement();
                     int i = stm.executeUpdate(sql);
                     if (i > 0) {
@@ -152,7 +160,7 @@ public class UserConnection {
                         cn.close();
                     }
 
-                } catch (SQLException | ExecutionException | InterruptedException e) {
+                } catch (SQLException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -165,16 +173,21 @@ public class UserConnection {
 
     public ArrayList<String> Buscador(String query, Integer columnName) throws InterruptedException {
         ArrayList<String> result = new ArrayList<>();
+        if(cn!=null)
+            cn=null;
+        try {
+            this.cn = conexio.execute().get();
 
+        }catch (ExecutionException e){
+
+        }
         Thread fil =new Thread(new Runnable() {
             @Override
             public void run() {
                 java.sql.Statement stm = null;
                 ResultSet rs = null;
                 try {
-                    if(cn!=null)
-                        cn=null;
-                    cn = conexio.execute().get();
+
                     stm = cn.createStatement();
                     rs=stm.executeQuery(query);
                     while(rs.next()) {

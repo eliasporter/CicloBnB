@@ -11,11 +11,22 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class BicisLlogaterConnection {
     private final ConnectBBdd connectBBdd;
+    private Connection connection;
     @SuppressLint("SimpleDateFormat") private final SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-    public BicisLlogaterConnection(){connectBBdd = new ConnectBBdd();}
+    public BicisLlogaterConnection(){
+        connectBBdd = new ConnectBBdd();
+        try{
+            connection=connectBBdd.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     public ArrayList<BicisLlogater> SearchFor(int idBici){
         ArrayList<BicisLlogater> bicisLlogaters = new ArrayList<>();
         Thread thread = new Thread(new Runnable() {
@@ -25,8 +36,7 @@ public class BicisLlogaterConnection {
                 ResultSet rs = null;
                 try{
                     Log.d("LOGOfereix", "Comenzando busqueda bicisllogater");
-                    connectBBdd.execute();
-                    Connection connection = connectBBdd.get();
+
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT * FROM bicisllogater " +
                             "WHERE IdBici = " + idBici + ";");
@@ -55,8 +65,8 @@ public class BicisLlogaterConnection {
                 Statement stm = null;
                 ResultSet rs = null;
                 try{
-                    connectBBdd.execute();
-                    Connection connection = connectBBdd.get();
+                   /* connectBBdd.execute();
+                    Connection connection = connectBBdd.get();*/
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT MAX(IdLloguer) FROM gestiolloguers " +
                             "WHERE IdUsuari = " + idUser + ";");

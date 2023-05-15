@@ -11,12 +11,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class XatsConexio {
     private Connection cn=null;
     private final ConnectBBdd conexio = new ConnectBBdd();
+    public XatsConexio() throws  InterruptedException {
+        try {
+            this.cn=conexio.execute().get();
+
+        }catch (ExecutionException e){
+
+        }
+
+    }
     public ArrayList<Xat> getXatsPerUser(Usser u) throws InterruptedException {
         ArrayList<Xat>xats=new ArrayList<>();
+
 
         Thread fil=new Thread(new Runnable() {
             java.sql.Statement stm = null;
@@ -28,7 +39,7 @@ public class XatsConexio {
                 try {
 
                     String sql= "SELECT * from `xat` WHERE `IdUsuariPropietari` ='"+u.getIdUser()+"' OR `IdUsuariLlogador`='"+u.getIdUser()+"';";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     while(rs.next()){
@@ -68,7 +79,6 @@ public class XatsConexio {
                     String sql= "SELECT * from `xat` WHERE " +
                             "(`IdUsuariPropietari` ='"+clie.getIdUser()+"' OR `IdUsuariLlogador`='"+clie.getIdUser()+"') " +
                             "AND (`IdUsuariPropietari` ='"+prop.getIdUser()+"' OR `IdUsuariLlogador`='"+prop.getIdUser()+"');";
-                    cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     if(rs.getRow()==0){
@@ -111,7 +121,7 @@ public class XatsConexio {
                 try {
 
                     String sql= "SELECT * from `xat` WHERE IdXat = "+idXat+";";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
@@ -147,7 +157,7 @@ public class XatsConexio {
                 try {
 
                     String sql= "INSERT INTO `ciclobnbDB`.`xat` (`IdUsuariPropietari`, `IdUsuariLlogador`) VALUES ("+clie.getIdUser()+" , "+prop.getIdUser()+") ;";
-                    cn=conexio.execute().get();
+                   // cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeUpdate(sql);
                     if (rs > 0) {
@@ -190,7 +200,7 @@ public class XatsConexio {
                 try {
 
                     String sql= "SELECT * FROM `ciclobnbDB`.`xat` ORDER BY `IdXat` DESC LIMIT 1;";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();
@@ -226,7 +236,7 @@ public class XatsConexio {
                     String sql= "SELECT  Missatge,  `Hora` FROM `ciclobnbDB`.`missatges` " +
                             "where IdXat = "+ xat.getIdXat() +
                             " ORDER BY `IdMissatge` DESC LIMIT 1;";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     rs.next();

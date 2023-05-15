@@ -7,12 +7,22 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class BicicletesConnection {
     private final ConnectBBdd connectBBdd;
-
+    private Connection connection;
     public BicicletesConnection(){
+
         connectBBdd = new ConnectBBdd();
+        try {
+            this.connection=connectBBdd.execute().get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Bici> SearchForBike(Integer Id) {

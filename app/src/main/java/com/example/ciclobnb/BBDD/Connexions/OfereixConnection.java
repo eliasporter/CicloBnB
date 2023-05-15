@@ -13,10 +13,21 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class OfereixConnection {
     private final ConnectBBdd connectBBdd;
-    public OfereixConnection(){connectBBdd = new ConnectBBdd();}
+    private Connection connection;
+    public OfereixConnection()  {
+        connectBBdd = new ConnectBBdd();
+        try {
+            this.connection=connectBBdd.execute().get();
+        }catch (ExecutionException | InterruptedException e){
+
+        }
+
+
+    }
 
     public ArrayList<Ofereix> SearchFor(Integer id){
         ArrayList<Ofereix> ofereixes = new ArrayList<>();
@@ -27,8 +38,7 @@ public class OfereixConnection {
                 ResultSet rs = null;
                 try{
                     Log.d("LOGOfereix", "Siu");
-                    connectBBdd.execute();
-                    Connection connection = connectBBdd.get();
+
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT * " +
                             "FROM bicicletes b " +
@@ -67,8 +77,8 @@ public class OfereixConnection {
                 ResultSet rs = null;
                 try{
                     Log.d("LOGOfereix", "Siu");
-                    connectBBdd.execute();
-                    Connection connection = connectBBdd.get();
+                    //connectBBdd.execute();
+                    //Connection connection = connectBBdd.get();
                     stm = connection.createStatement();
                     rs=stm.executeQuery("SELECT * " +
                             "FROM bicicletes b " +

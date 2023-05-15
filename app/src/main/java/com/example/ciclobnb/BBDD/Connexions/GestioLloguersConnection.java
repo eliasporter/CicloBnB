@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class GestioLloguersConnection {
     private Connection connection;
@@ -20,6 +21,11 @@ public class GestioLloguersConnection {
 
     public GestioLloguersConnection(){
         connectBBdd = new ConnectBBdd();
+        try {
+            this.connection=connectBBdd.execute().get();
+        }catch (ExecutionException | InterruptedException e){
+
+        }
     }
 
     public double GetByUserID(int IDUser) {

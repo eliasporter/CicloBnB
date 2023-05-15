@@ -11,12 +11,21 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class missatgeConexio {
     java.sql.Statement stm;
     ResultSet rs;
     private Connection cn=null;
     private final ConnectBBdd conexio = new ConnectBBdd();
+    public missatgeConexio()  {
+        try {
+            this.cn=conexio.execute().get();
+
+        }catch (ExecutionException | InterruptedException e) {
+
+        }
+    }
     public ArrayList<Missatge> getAllMisatges(Xat xat) throws InterruptedException {
         ArrayList<Missatge> missatges = new ArrayList<>();
         Thread fil=new Thread(new Runnable() {
@@ -30,7 +39,7 @@ public class missatgeConexio {
 
                     String sql= "SELECT  Missatge, IdUsuari ,Hora, idMissatge FROM `ciclobnbDB`.`missatges` where idXat='"+xat.getIdXat()+"' "+
                             "ORDER BY `idMissatge`;";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     rs=stm.executeQuery(sql);
                     while(rs.next()){
@@ -68,7 +77,7 @@ public class missatgeConexio {
                 rs = null;
                 try {
                     String sql= "INSERT INTO `ciclobnbDB`.`missatges` (`IdXat`, `IdUsuari`, `Missatge`, `Hora`) VALUES ("+m.idXat+", "+m.getEmisor()+", '"+m.getMissatge()+"', '"+m.getTimeStamp()+"');";
-                    cn=conexio.execute().get();
+                    //cn=conexio.execute().get();
                     stm = cn.createStatement();
                     if (stm.executeUpdate(sql) > 0) hecho[0] = true;
                 }catch (Exception e){
