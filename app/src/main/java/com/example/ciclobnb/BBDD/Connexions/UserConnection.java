@@ -29,6 +29,14 @@ public class UserConnection {
     }
     public Usser getUserPerId(int id) throws SQLException, InterruptedException {
         final Usser[] u = {null};
+        if(cn==null){
+            try {
+                cn=conexio.execute().get();
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         Thread fil = new Thread(new Runnable() {
             @Override
             public void run() {

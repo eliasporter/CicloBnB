@@ -20,14 +20,17 @@ public class missatgeConexio {
     private final ConnectBBdd conexio = new ConnectBBdd();
     public missatgeConexio()  {
         try {
+            if(cn!=null)
+                cn=null;
             this.cn=conexio.execute().get();
 
         }catch (ExecutionException | InterruptedException e) {
 
         }
     }
-    public ArrayList<Missatge> getAllMisatges(Xat xat) throws InterruptedException {
+    public ArrayList<Missatge> getAllMisatges(Xat xat) throws InterruptedException  {
         ArrayList<Missatge> missatges = new ArrayList<>();
+
         Thread fil=new Thread(new Runnable() {
             java.sql.Statement stm = null;
             ResultSet rs = null;
@@ -54,6 +57,7 @@ public class missatgeConexio {
                     e.printStackTrace();
                 }finally {
                     try {
+                        if(cn!=null)
                         cn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -68,7 +72,14 @@ public class missatgeConexio {
     }
     public boolean insertMissatge(Missatge m) throws InterruptedException {
         final boolean[] hecho = {false};
+        if(cn==null){
+            try {
+                cn=conexio.execute().get();
 
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
